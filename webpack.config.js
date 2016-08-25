@@ -2,19 +2,15 @@ var path = require('path');
 var webpack = require('webpack');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HTMLWebpackPluginConfig = new HtmlWebpackPlugin({
-	template: __dirname + '/src/index.html',
-	filename: 'index.html',
-	inject: 'body'
-});
 
 module.exports = {
-	entry: [
-		path.join(__dirname, 'src/index')
-	],
+	entry: {
+		'bundle': path.join(__dirname, 'src/index'),
+		'small-demo-bundle': path.join(__dirname, 'src/small-demo')
+	},
 	output: {
 		path: path.join(__dirname, 'dist'),
-		filename: 'bundle.js'
+		filename: '[name].js'
 	},
 	module: {
 		loaders: [
@@ -31,6 +27,17 @@ module.exports = {
 				}
 			}
 		]
-	},
-	plugins: [HTMLWebpackPluginConfig]
+	}
+	// plugins: [
+	// 	new HtmlWebpackPlugin({
+	// 		template: __dirname + '/src/index.html',
+	// 		filename: 'index.html',
+	// 		inject: 'body'
+	// 	}),
+	// 	new HtmlWebpackPlugin({
+	// 		template: __dirname + '/src/small-demo.html',
+	// 		filename: 'small-demo.html',
+	// 		inject: 'body'
+	// 	})
+	// ]
 };
