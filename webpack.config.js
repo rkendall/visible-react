@@ -6,6 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	entry: {
 		'bundle': path.join(__dirname, 'src/index'),
+		'demo-bundle': path.join(__dirname, 'src/demo/index'),
 		'small-demo-bundle': path.join(__dirname, 'src/small-demo')
 	},
 	output: {

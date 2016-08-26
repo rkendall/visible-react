@@ -5,6 +5,7 @@ import clone from 'deep-copy';
 import deepEqual from 'deep-equal';
 
 import log from '../log';
+import updateConsole from '../updateConsole';
 
 function Monitor(WrappedComponent) {
 
@@ -18,17 +19,22 @@ function Monitor(WrappedComponent) {
 
 		constructor(props) {
 			super(...arguments);
-			if (this.consoleWindow === null || this.consoleWindow.closed) {
-				this.consoleWindow = window.open(
-					'index.html',
-					'console',
-					"width=1000,height=800,resizable,scrollbars=yes,status=1"
-				);
-			}
+			this.consoleWindow = updateConsole.getWindow();
+			// if (this.consoleWindow === null || this.consoleWindow.closed) {
+			// 	this.consoleWindow = window.open(
+			// 		'index.html',
+			// 		'insure',
+			// 		"width=1000,height=800,resizable,scrollbars=yes,status=1"
+			// 	);
+			// 	if (!this.consoleWindow) {
+			// 		alert('You must disable your popup blocker to use the Life Insurance Console.');
+			// 	}
+			// 	this.consoleWindow.focus();
+			// }
 			this.consoleWindow.log = clone(this.log);
-			window.onbeforeunload = () => {
-				this.consoleWindow.close();
-			};
+			// window.onbeforeunload = () => {
+			// 	this.consoleWindow.close();
+			// };
 			//this.consoleWindow.document.write(JSON.stringify(log, null, 2));
 			//this.state = {};
 			this.isRenderingComplete = false;
