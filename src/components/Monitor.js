@@ -5,13 +5,13 @@ import clone from 'deep-copy';
 import deepEqual from 'deep-equal';
 
 import log from '../log';
-import updateConsole from '../updateConsole';
+//import updateConsole from '../updateConsole';
 
 function Monitor(WrappedComponent) {
 
 	return class ComponentWrapper extends WrappedComponent {
 
-		log = log.init();
+		logEntryId = null;
 		autoRenderCount = 0;
 		isInfiniteLoop = false;
 		isRenderingComplete = true;
@@ -19,27 +19,12 @@ function Monitor(WrappedComponent) {
 
 		constructor(props) {
 			super(...arguments);
-			this.consoleWindow = updateConsole.getWindow();
-			// if (this.consoleWindow === null || this.consoleWindow.closed) {
-			// 	this.consoleWindow = window.open(
-			// 		'index.html',
-			// 		'insure',
-			// 		"width=1000,height=800,resizable,scrollbars=yes,status=1"
-			// 	);
-			// 	if (!this.consoleWindow) {
-			// 		alert('You must disable your popup blocker to use the Life Insurance Console.');
-			// 	}
-			// 	this.consoleWindow.focus();
-			// }
-			this.consoleWindow.log = clone(this.log);
-			// window.onbeforeunload = () => {
-			// 	this.consoleWindow.close();
-			// };
-			//this.consoleWindow.document.write(JSON.stringify(log, null, 2));
-			//this.state = {};
+			this.logEntryId = log.add(this.getComponentName(), this.key || this.props.id);
+			this.consoleWindow = log.getWindow();
+			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
 			this.handleLifecycleEvent('constructor', clone(this.props), clone(this.state), arguments);
-			this.updateState('constructor', props);
+			//this.updateState('constructor', props);
 		}
 
 		componentWillMount() {
@@ -47,7 +32,7 @@ function Monitor(WrappedComponent) {
 				super.componentWillMount();
 			}
 			this.handleLifecycleEvent('componentWillMount', clone(this.props), clone(this.state));
-			this.updateState('componentWillMount', this.props);
+			//this.updateState('componentWillMount', this.props);
 		}
 
 		componentDidMount() {
@@ -56,7 +41,7 @@ function Monitor(WrappedComponent) {
 			}
 			this.isRenderingComplete = true;
 			this.handleLifecycleEvent('componentDidMount', clone(this.props), clone(this.state));
-			this.updateState('componentDidMount', this.props);
+			//this.updateState('componentDidMount', this.props);
 			this.updateStore();
 		}
 
@@ -67,7 +52,7 @@ function Monitor(WrappedComponent) {
 			this.isRenderingComplete = false;
 			this.clearCalled();
 			this.handleLifecycleEvent('componentWillReceiveProps', clone(this.props), clone(this.state), arguments);
-			this.updateState('componentWillReceiveProps', nextProps);
+			//this.updateState('componentWillReceiveProps', nextProps);
 		}
 
 		shouldComponentUpdate(nextProps, nextState) {
@@ -82,7 +67,7 @@ function Monitor(WrappedComponent) {
 			if (isWrappedComponentGoingToUpdate === false) {
 				isUpdateNecessary = false;
 			} else {
-				const areValuesEqual = deepEqual(nextProps, this.props) && deepEqual(nextState, this.state);
+				const areValuesEqual = deepEqual(nextProps, this.props) && deepEqual(nextState, this.state, {strict: true});
 				isUpdateNecessary = !areValuesEqual;
 			}
 			const isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
@@ -120,7 +105,7 @@ function Monitor(WrappedComponent) {
 			}
 			this.isRenderingComplete = true;
 			this.handleLifecycleEvent('componentDidUpdate', clone(this.props), clone(this.state), arguments);
-			this.updateState('componentDidUpdate', this.props);
+			//this.updateState('componentDidUpdate', this.props);
 			this.updateStore();
 		}
 
@@ -134,56 +119,67 @@ function Monitor(WrappedComponent) {
 			this.updateStore();
 		}
 
-		updateState = (name, props) => {
-			const methodObj = log.config[name];
-			const setStateType = methodObj.setStateType;
-			const value = methodObj.value;
-			if (setStateType === 'none') {
-				return;
-			}
-			let text = '';
-			if (setStateType === 'set') {
-				text = value;
-			} else if (setStateType === 'add') {
-				text = (this.state.text || '') + value;
-			} else if (setStateType === 'props') {
-				text = props.parentText;
-			}
-			if (name === 'constructor') {
-				this.state = {
-					text
-				};
-			} else {
-				this.setState({
-					text
-				});
-			}
+		getComponentName = () => {
+			return WrappedComponent.displayName
+				|| WrappedComponent.name
+         		|| 'Component';
 		};
 
+		// updateState = (name, props) => {
+		// 	const methodObj = log.config[name];
+		// 	const setStateType = methodObj.setStateType;
+		// 	const value = methodObj.value;
+		// 	if (setStateType === 'none') {
+		// 		return;
+		// 	}
+		// 	let text = '';
+		// 	if (setStateType === 'set') {
+		// 		text = value;
+		// 	} else if (setStateType === 'add') {
+		// 		text = (this.state.text || '') + value;
+		// 	} else if (setStateType === 'props') {
+		// 		text = props.parentText;
+		// 	}
+		// 	if (name === 'constructor') {
+		// 		this.state = {
+		// 			text
+		// 		};
+		// 	} else {
+		// 		this.setState({
+		// 			text
+		// 		});
+		// 	}
+		// };
+
 		handleLifecycleEvent = (name, props, state, args, isUnnecessaryUpdatePrevented) => {
-			const methodObj = {
+			let logEntry = clone(log.get(this.logEntryId));
+			const methodObj = logEntry.methods[name];
+			const newMethodObj = {
 				called: true,
-				count: ++ this.log[name].count,
+				count: ++ methodObj.count,
 				props: props,
 				state: state,
 				args: args ? [...args] : [],
 				isInfiniteLoop: this.isInfiniteLoop,
 				isUnnecessaryUpdatePrevented
 			};
-			Object.assign(this.log[name], methodObj);
+			Object.assign(methodObj, newMethodObj);
+			log.update(this.logEntryId, logEntry);
 			console.log(`%c${name}`, 'color: blue');
 		};
 
 		clearCalled = () => {
+			let logEntry = clone(log.get(this.logEntryId));
 			this.autoRenderCount = 0;
-			for (var name in this.log) {
-				this.log[name].called = false;
+			for (var name in logEntry.methods) {
+				logEntry.methods[name].called = false;
 			}
+			log.update(this.logEntryId, logEntry);
 		};
 
 		updateStore = () => {
-			this.consoleWindow.log = clone(this.log);
-			console.debug(this.log);
+			this.consoleWindow.log.entries = clone(log.entries);
+			this.consoleWindow.postMessage(this.logEntryId, window.location.href);
 		};
 
 		incrementRenderCount = () => {

@@ -7,7 +7,7 @@ import Radium from 'radium';
 import Method from './Method';
 import styles from '../styles/styles';
 
-class Monitor extends Component {
+class LifeCycle extends Component {
 
 	styles = {
 		container: {
@@ -71,13 +71,13 @@ class Monitor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			log: clone(this.props.log)
+			logEntry: clone(this.props.logEntry)
 		};
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			log: clone(nextProps.log)
+			logEntry: clone(nextProps.logEntry)
 		});
 	}
 
@@ -102,10 +102,11 @@ class Monitor extends Component {
 
 	render() {
 
-		const logData = this.state.log;
+		const logData = this.state.logEntry;
 		if (!Object.keys(logData).length) {
 			return false;
 		}
+		const methods = logData.methods;
 
 		return (
 			<div style={this.styles.container}>
@@ -120,25 +121,25 @@ class Monitor extends Component {
 				</div>
 				{this.getArrows()}
 				<div style={this.styles.both}>
-					<Method methodObj={logData.constructor} />
-					<Method methodObj={logData.componentWillUnmount} />
+					<Method methodObj={methods.constructor} />
+					<Method methodObj={methods.componentWillUnmount} />
 				</div>
 				<div style={this.styles.center}>
-					<Method methodObj={logData.componentWillReceiveProps} />
+					<Method methodObj={methods.componentWillReceiveProps} />
 				</div>
 				<div style={this.styles.center}>
-					<Method methodObj={logData.shouldComponentUpdate} />
+					<Method methodObj={methods.shouldComponentUpdate} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={logData.componentWillMount} />
-					<Method methodObj={logData.componentWillUpdate} />
+					<Method methodObj={methods.componentWillMount} />
+					<Method methodObj={methods.componentWillUpdate} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={logData.render} />
+					<Method methodObj={methods.render} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={logData.componentDidMount} />
-					<Method methodObj={logData.componentDidUpdate} />
+					<Method methodObj={methods.componentDidMount} />
+					<Method methodObj={methods.componentDidUpdate} />
 				</div>
 			</div>
 		)
@@ -147,4 +148,4 @@ class Monitor extends Component {
 
 }
 
-export default Radium(Monitor);
+export default Radium(LifeCycle);
