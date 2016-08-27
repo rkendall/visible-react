@@ -1,6 +1,5 @@
 'use strict';
 
-import uuid from 'node-uuid';
 import clone from 'deep-copy';
 
 let consoleWindow = null;
@@ -27,7 +26,7 @@ const log = {
 		return log.entries[id];
 	},
 	makeId: (name, key) => {
-		return `${name}-${key || uuid.v1()}`;
+		return key ? `${name}-${key}` : name;
 	},
 	config: {
 		constructor: {
@@ -88,7 +87,7 @@ const log = {
 			consoleWindow = window.open(
 				'index.html',
 				'console',
-				"width=1000,height=800,resizable,scrollbars=yes,status=1"
+				"width=1200,height=800,resizable,scrollbars=yes,status=1"
 			);
 			if (!consoleWindow) {
 				alert('You must disable your popup blocker to use the Life Insurance Console.');
@@ -97,6 +96,7 @@ const log = {
 			consoleWindow.log = {
 				entries: clone(log.entries)
 			};
+			consoleWindow.postMessage('update', window.location.href);
 		}
 		window.onbeforeunload = () => {
 			consoleWindow.close();

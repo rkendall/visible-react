@@ -2,8 +2,9 @@
 
 import React, {Component, PropTypes} from 'react';
 import Time from 'react-time'
+import Monitor from '../../components/Monitor';
 
-export default class Byline extends Component {
+class Byline extends Component {
 
 	static propTypes = {
 		user: PropTypes.string.isRequired,
@@ -65,3 +66,5 @@ export default class Byline extends Component {
 	}
 
 }
+
+export default Monitor(Byline);

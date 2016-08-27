@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
-import clone from 'deep-copy';
+import {clone} from 'deep';
 import deepEqual from 'deep-equal';
+import filterObject from 'filter-object';
 
 import log from '../log';
 //import updateConsole from '../updateConsole';
@@ -23,7 +24,7 @@ function Monitor(WrappedComponent) {
 			this.consoleWindow = log.getWindow();
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
-			this.handleLifecycleEvent('constructor', clone(this.props), clone(this.state), arguments);
+			this.handleLifecycleEvent('constructor', this.props, this.state, arguments);
 			//this.updateState('constructor', props);
 		}
 
@@ -31,7 +32,7 @@ function Monitor(WrappedComponent) {
 			if (super.componentWillMount) {
 				super.componentWillMount();
 			}
-			this.handleLifecycleEvent('componentWillMount', clone(this.props), clone(this.state));
+			this.handleLifecycleEvent('componentWillMount', this.props, this.state);
 			//this.updateState('componentWillMount', this.props);
 		}
 
@@ -40,7 +41,7 @@ function Monitor(WrappedComponent) {
 				super.componentDidMount();
 			}
 			this.isRenderingComplete = true;
-			this.handleLifecycleEvent('componentDidMount', clone(this.props), clone(this.state));
+			this.handleLifecycleEvent('componentDidMount', this.props, this.state);
 			//this.updateState('componentDidMount', this.props);
 			this.updateStore();
 		}
@@ -51,7 +52,7 @@ function Monitor(WrappedComponent) {
 			}
 			this.isRenderingComplete = false;
 			this.clearCalled();
-			this.handleLifecycleEvent('componentWillReceiveProps', clone(this.props), clone(this.state), arguments);
+			this.handleLifecycleEvent('componentWillReceiveProps', this.props, this.state, arguments);
 			//this.updateState('componentWillReceiveProps', nextProps);
 		}
 
@@ -76,8 +77,8 @@ function Monitor(WrappedComponent) {
 			}
 			this.handleLifecycleEvent(
 				'shouldComponentUpdate',
-				clone(this.props),
-				clone(this.state),
+				this.props,
+				this.state,
 				arguments,
 				isUnnecessaryUpdatePrevented
 			);
@@ -96,7 +97,7 @@ function Monitor(WrappedComponent) {
 			if (super.componentWillUpdate) {
 				super.componentWillUpdate(nextProps, nextState);
 			}
-			this.handleLifecycleEvent('componentWillUpdate', clone(this.props), clone(this.state), arguments);
+			this.handleLifecycleEvent('componentWillUpdate', this.props, this.state, arguments);
 		}
 
 		componentDidUpdate(previousProps, previousState) {
@@ -104,7 +105,7 @@ function Monitor(WrappedComponent) {
 				super.componentDidUpdate(previousProps, previousState);
 			}
 			this.isRenderingComplete = true;
-			this.handleLifecycleEvent('componentDidUpdate', clone(this.props), clone(this.state), arguments);
+			this.handleLifecycleEvent('componentDidUpdate', this.props, this.state, arguments);
 			//this.updateState('componentDidUpdate', this.props);
 			this.updateStore();
 		}
@@ -115,7 +116,7 @@ function Monitor(WrappedComponent) {
 			}
 			this.isRenderingComplete = true;
 			this.clearCalled();
-			this.handleLifecycleEvent('componentWillUnmount', clone(this.props), clone(this.state));
+			this.handleLifecycleEvent('componentWillUnmount', this.props, this.state);
 			this.updateStore();
 		}
 
@@ -124,6 +125,25 @@ function Monitor(WrappedComponent) {
 				|| WrappedComponent.name
          		|| 'Component';
 		};
+
+		// cloneProps = (props) => {
+		// 	var newProps = Object.assign({}, props);
+		// 	var propsToIgnore = [
+		// 		'history',
+		// 		'routes',
+		// 		'route',
+		// 		'location',
+		// 		'children',
+		// 		'params',
+		// 		'routeParams'
+		// 	];
+		// 	propsToIgnore.forEach((name) => {
+		// 		if (newProps.hasOwnProperty(name)) {
+		// 			delete newProps[name];
+		// 		}
+		// 	});
+		// 	return newProps;
+		// };
 
 		// updateState = (name, props) => {
 		// 	const methodObj = log.config[name];
@@ -152,20 +172,36 @@ function Monitor(WrappedComponent) {
 		// };
 
 		handleLifecycleEvent = (name, props, state, args, isUnnecessaryUpdatePrevented) => {
-			let logEntry = clone(log.get(this.logEntryId));
-			const methodObj = logEntry.methods[name];
-			const newMethodObj = {
+			let logEntry = log.get(this.logEntryId);
+			let count = logEntry.methods[name].count;
+			let newArgs = args ? [...args].map((arg) => {
+				return clone(this.removeCircularReferences(arg));
+			}) : [];
+			logEntry.methods[name] = {
+				name,
 				called: true,
-				count: ++ methodObj.count,
-				props: props,
-				state: state,
-				args: args ? [...args] : [],
+				count: ++ count,
+				// props: {},
+				// state: {},
+				props: clone(this.removeCircularReferences(props)),
+				state: clone(state),
+				args: newArgs,
 				isInfiniteLoop: this.isInfiniteLoop,
 				isUnnecessaryUpdatePrevented
 			};
-			Object.assign(methodObj, newMethodObj);
 			log.update(this.logEntryId, logEntry);
 			console.log(`%c${name}`, 'color: blue');
+		};
+
+		// Remove children because they can contain
+		// circular references, which cause problems
+		// with cloning and stringifying
+		removeCircularReferences = (props) => {
+			let newProps = Object.assign({}, props);
+			if (newProps.hasOwnProperty('children')) {
+				delete newProps.children;
+			}
+			return newProps;
 		};
 
 		clearCalled = () => {
@@ -178,8 +214,9 @@ function Monitor(WrappedComponent) {
 		};
 
 		updateStore = () => {
-			this.consoleWindow.log.entries = clone(log.entries);
-			this.consoleWindow.postMessage(this.logEntryId, window.location.href);
+			//this.consoleWindow.log.entries = clone(log.entries);
+			this.consoleWindow.log.entries = log.entries;
+			this.consoleWindow.postMessage('update', window.location.href);
 		};
 
 		incrementRenderCount = () => {
@@ -189,7 +226,7 @@ function Monitor(WrappedComponent) {
 		render() {
 
 			this.incrementRenderCount();
-			this.handleLifecycleEvent('render', clone(this.props), clone(this.state));
+			this.handleLifecycleEvent('render', this.props, this.state);
 			return super.render();
 
 		}

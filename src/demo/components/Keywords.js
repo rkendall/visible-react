@@ -1,8 +1,9 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
+import Monitor from '../../components/Monitor';
 
-export default class Keywords extends Component {
+class Keywords extends Component {
 
 	static propTypes = {
 		keywords: PropTypes.array.isRequired
@@ -46,3 +47,5 @@ export default class Keywords extends Component {
 	}
 
 }
+
+export default Monitor(Keywords);

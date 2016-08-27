@@ -14,9 +14,7 @@ class LifeCycle extends Component {
 			width: '900px',
 			minWidth: '900px',
 			padding: '10px',
-			backgroundColor: 'lightblue',
-			fontFamily: 'Arial, Helvetica, sans-serif',
-			fontSize: '12px'
+			backgroundColor: 'lightblue'
 		},
 		title: {
 			display: 'flex',

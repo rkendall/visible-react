@@ -3,6 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {hashHistory} from 'react-router';
 import Radium from 'radium';
+import Monitor from '../../components/Monitor';
 
 import Keywords from './Keywords';
 import Byline from './Byline';
@@ -52,4 +53,4 @@ class Question extends Component {
 
 }
 
-export default Radium(Question);
+export default Monitor(Radium(Question));

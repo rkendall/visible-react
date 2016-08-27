@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Radium from 'radium';
+import Monitor from '../../components/Monitor';
 
 import * as questionActions from '../actions/actions';
 
@@ -64,7 +65,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(App);
+App = Radium(Monitor(App));
 
 export default connect(
 	mapStateToProps,

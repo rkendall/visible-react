@@ -1,11 +1,12 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
+import Monitor from '../../components/Monitor';
 
 import Byline from './Byline';
 import styles from '../styles/styles';
 
-export default class Answer extends Component {
+class Answer extends Component {
 	
 	static propTypes = {
 		user: PropTypes.string.isRequired,
@@ -31,3 +32,5 @@ export default class Answer extends Component {
 	}
 
 }
+
+export default Monitor(Answer);

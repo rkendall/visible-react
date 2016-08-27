@@ -1,9 +1,12 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import clone from 'deep-copy';
+import clone from 'clone';
+import deep from 'deep';
+import circular from 'smart-circular';
 import Radium from 'radium';
 import color from 'color';
+import diff from 'diff';
 
 import log from '../log';
 import styles from '../styles/styles';
@@ -152,6 +155,7 @@ class Method extends Component {
 
 	constructor(props) {
 		super(props);
+		console.debug('props', props);
 		const name = this.props.methodObj.name;
 		let setStateType = 'none';
 		let value = '';
@@ -166,13 +170,13 @@ class Method extends Component {
 		}
 	}
 
-	componentWillMount() {
-		log.set(clone(this.state));
-	}
-
-	componentWillUpdate(nextProps, nextState) {
-		log.set(clone(nextState));
-	}
+	// componentWillMount() {
+	// 	log.set(clone(this.state));
+	// }
+	//
+	// componentWillUpdate(nextProps, nextState) {
+	// 	log.set(clone(nextState));
+	// }
 
 	getArgNames = (methodObj) => {
 		const args = this.methodProperties[methodObj.name].args;
@@ -234,6 +238,7 @@ class Method extends Component {
 		if (!argName) {
 			return false;
 		}
+		console.debug('args', methodObj.args[ind]);
 		const argValue = methodObj.args[ind] ? JSON.stringify(methodObj.args[ind]) : '';
 		const arrow = isSecond ? '↳' : '';
 		return (
@@ -242,6 +247,21 @@ class Method extends Component {
 				<div style={[this.styles.value, styles[setStateType]]}>{argValue}</div>
 			</div>
 		);
+	};
+
+	diffText = (before, after) => {
+		const result = diff.diffChars(before, after);
+		let html = [];
+
+		result.forEach(function(part){
+			// green for additions, red for deletions
+			// grey for common parts
+			const color = part.added ? 'added' :
+				part.removed ? 'removed' : 'unchanged';
+			html.push(
+				<span style={this.styles[color]}>part.value</span>
+			)
+		});
 	};
 
 	getUnnecessaryUpdatePrevented = () => {

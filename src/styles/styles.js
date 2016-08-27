@@ -4,6 +4,10 @@ const hoverColor = color('lightblue').darken(0.1).hexString();
 const activeColor = color('lightblue').darken(0.2).hexString();
 
 const styles = {
+	base: {
+		fontFamily: 'Arial, Helvetica, sans-serif',
+		fontSize: '12px'
+	},
 	box: {
 		padding: '10px',
 		border: '1px solid lightgray',

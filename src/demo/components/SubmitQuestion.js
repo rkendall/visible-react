@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
+import Monitor from '../../components/Monitor';
 
 import {addQuestion} from '../actions/actions';
 import styles from '../styles/styles';
@@ -109,4 +110,4 @@ export class SubmitQuestion extends Component {
 
 }
 
-export default connect()(SubmitQuestion);
+export default Monitor(connect()(SubmitQuestion));
