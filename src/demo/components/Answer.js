@@ -9,9 +9,14 @@ import styles from '../styles/styles';
 class Answer extends Component {
 	
 	static propTypes = {
+		id: PropTypes.string,
 		user: PropTypes.string.isRequired,
 		date: PropTypes.number.isRequired,
 		text: PropTypes.string.isRequired
+	};
+
+	static defaultProps = {
+		id: ''
 	};
 
 	styles = {
@@ -25,7 +30,7 @@ class Answer extends Component {
 	render() {
 		return (
 			<div style={styles.answer} className='answer'>
-				<Byline user={this.props.user} date={this.props.date} />
+				<Byline id={'answer-' + this.props.id} user={this.props.user} date={this.props.date} />
 				<div className='answer-text' style={this.styles.text}>{this.props.text}</div>
 			</div>
 		);

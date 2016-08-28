@@ -12,6 +12,7 @@ import styles from '../styles/styles';
 class Question extends Component {
 
 	static propTypes = {
+		id: PropTypes.string.isRequired,
 		title: PropTypes.string.isRequired,
 		user: PropTypes.string.isRequired,
 		date: PropTypes.number.isRequired,
@@ -36,13 +37,15 @@ class Question extends Component {
 	};
 
 	render() {
+		const id = 'question-' + this.props.id;
 		return (
 			<div style={styles.question} className='question'>
 				<div onClick={this.handleQuestionClicked} style={this.styles.title}>
 					{this.props.title}
 				</div>
-				<Keywords keywords={this.props.keywords}/>
+				<Keywords id={id} keywords={this.props.keywords}/>
 				<Byline
+					id={id}
 					user={this.props.user}
 					date={this.props.date}
 					answerCount={this.props.answers.length}

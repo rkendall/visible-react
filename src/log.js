@@ -8,15 +8,21 @@ const log = {
 	entries: {},
 	add: (name, key) => {
 		const id = log.makeId(name, key);
-		const entry = {
-			id,
-			name,
-			key,
-			methods: {
-				...log.init()
-			}
-		};
-		log.entries[id] = entry;
+		if (!log.entries.hasOwnProperty(id)) {
+			const entry = {
+				id,
+				displayName: log.makeDisplayName(name, key),
+				name,
+				key,
+				renderCount: 0,
+				unnecessaryUpdatesPrevented: 0,
+				isMounted: false,
+				methods: {
+					...log.init()
+				}
+			};
+			log.entries[id] = entry;
+		}
 		return id;
 	},
 	update: (id, value) => {
@@ -27,6 +33,17 @@ const log = {
 	},
 	makeId: (name, key) => {
 		return key ? `${name}-${key}` : name;
+	},
+	makeDisplayName: (name, key) => {
+		const formattedName = log.removeComponentWrapperNames(name);
+		return key ? `${formattedName} (${key})` : formattedName;
+	},
+	removeComponentWrapperNames: (name) => {
+		const wrapperPattern = /[^\(]+\(([^\)]+)\)/;
+		while (wrapperPattern.test(name)) {
+			name = name.replace(/[^\(]+\(([^\)]+)\)/, '$1')
+		}
+		return name;
 	},
 	config: {
 		constructor: {

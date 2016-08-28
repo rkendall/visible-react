@@ -3,14 +3,15 @@
 import React from 'react';
 import {clone} from 'deep';
 import deepEqual from 'deep-equal';
-import filterObject from 'filter-object';
+import uuid from 'node-uuid';
 
 import log from '../log';
-//import updateConsole from '../updateConsole';
 
 function Monitor(WrappedComponent) {
 
 	return class ComponentWrapper extends WrappedComponent {
+
+		static displayName = `Insure(${getComponentName(WrappedComponent)})`;
 
 		logEntryId = null;
 		autoRenderCount = 0;
@@ -20,7 +21,10 @@ function Monitor(WrappedComponent) {
 
 		constructor(props) {
 			super(...arguments);
-			this.logEntryId = log.add(this.getComponentName(), this.key || this.props.id);
+			// if (!this.key) {
+			// 	this.key = uuid.v1();
+			// }
+			this.logEntryId = log.add(getComponentName(WrappedComponent), this.props.id);
 			this.consoleWindow = log.getWindow();
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
@@ -41,6 +45,7 @@ function Monitor(WrappedComponent) {
 				super.componentDidMount();
 			}
 			this.isRenderingComplete = true;
+			this.setIsMounted(true);
 			this.handleLifecycleEvent('componentDidMount', this.props, this.state);
 			//this.updateState('componentDidMount', this.props);
 			this.updateStore();
@@ -72,6 +77,9 @@ function Monitor(WrappedComponent) {
 				isUpdateNecessary = !areValuesEqual;
 			}
 			const isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
+			if (isUnnecessaryUpdatePrevented) {
+				this.incrementUnnecessaryUpdatesPrevented();
+			}
 			if (this.isRenderingComplete) {
 				this.clearCalled();
 			}
@@ -115,16 +123,11 @@ function Monitor(WrappedComponent) {
 				super.componentWillUnmount();
 			}
 			this.isRenderingComplete = true;
+			this.setIsMounted(false);
 			this.clearCalled();
 			this.handleLifecycleEvent('componentWillUnmount', this.props, this.state);
 			this.updateStore();
 		}
-
-		getComponentName = () => {
-			return WrappedComponent.displayName
-				|| WrappedComponent.name
-         		|| 'Component';
-		};
 
 		// cloneProps = (props) => {
 		// 	var newProps = Object.assign({}, props);
@@ -180,7 +183,7 @@ function Monitor(WrappedComponent) {
 			logEntry.methods[name] = {
 				name,
 				called: true,
-				count: ++ count,
+				count: ++count,
 				// props: {},
 				// state: {},
 				props: clone(this.removeCircularReferences(props)),
@@ -220,7 +223,22 @@ function Monitor(WrappedComponent) {
 		};
 
 		incrementRenderCount = () => {
-			this.autoRenderCount ++;
+			this.autoRenderCount++;
+			let logEntry = log.get(this.logEntryId);
+			logEntry.renderCount++;
+			log.update(this.logEntryId, logEntry);
+		};
+
+		setIsMounted = (isMounted) => {
+			let logEntry = log.get(this.logEntryId);
+			logEntry.isMounted = isMounted;
+			log.update(this.logEntryId, logEntry);
+		};
+
+		incrementUnnecessaryUpdatesPrevented = () => {
+			let logEntry = log.get(this.logEntryId);
+			logEntry.unnecessaryUpdatesPrevented ++;
+			log.update(this.logEntryId, logEntry);
 		};
 
 		render() {
@@ -233,5 +251,12 @@ function Monitor(WrappedComponent) {
 	};
 
 }
+
+const getComponentName = (component) => {
+	return component ? component.displayName
+	|| component.name
+	|| 'Component'
+		: ''
+};
 
 export default Monitor;

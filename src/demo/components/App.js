@@ -65,9 +65,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(Monitor(App));
+App = Radium(App);
 
-export default connect(
+export default Monitor(connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(App);
+)(App));

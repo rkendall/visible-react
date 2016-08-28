@@ -57,7 +57,8 @@ export class QuestionDetail extends Component {
 
 	getAnswers = (answers) => {
 		return answers.map((answer, ind) => {
-			return (<Answer {...answer} key={'answer' + ind} />);
+			const id = 'answer-' + ind;
+			return (<Answer {...answer} key={id} id={id}/>);
 		});
 	};
 
@@ -83,8 +84,8 @@ export class QuestionDetail extends Component {
 					<div id='title' style={this.styles.title}>
 						{question.title}
 					</div>
-					<Keywords keywords={question.keywords} />
-					<Byline user={question.user} date={question.date} />
+					<Keywords id={'question-details'} keywords={question.keywords} />
+					<Byline id={'question-details'} user={question.user} date={question.date} />
 					<div id='description' style={this.styles.description}>{question.description}</div>
 				</div>
 				{this.getAnswerHeading(question.answers.length)}

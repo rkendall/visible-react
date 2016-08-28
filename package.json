@@ -28,6 +28,7 @@
     "react-router": "^2.6.1",
     "react-tap-event-plugin": "^1.0.0",
     "react-time": "^4.2.0",
+    "react-tooltip": "^3.1.6",
     "redux": "^3.5.2",
     "script-loader": "^0.7.0",
     "smart-circular": "^1.0.2"
