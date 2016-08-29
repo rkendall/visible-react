@@ -2,7 +2,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import Time from 'react-time'
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 class Byline extends Component {
 
@@ -67,4 +67,4 @@ class Byline extends Component {
 
 }
 
-export default Monitor(Byline);
+export default Insure(Byline);

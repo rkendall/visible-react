@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import deepcopy from 'deepcopy';
 import RaisedButton from 'material-ui/RaisedButton';
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 import Question from './Question';
 import styles from '../styles/styles';
@@ -47,6 +47,6 @@ export class QuestionList extends Component {
 
 }
 
-export default Monitor(connect(
+export default Insure(connect(
 	(state) => deepcopy(state)
 )(QuestionList));

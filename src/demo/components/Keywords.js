@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 class Keywords extends Component {
 
@@ -48,4 +48,4 @@ class Keywords extends Component {
 
 }
 
-export default Monitor(Keywords);
+export default Insure(Keywords);

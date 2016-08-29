@@ -37,7 +37,6 @@ export default class Console extends Component {
 	}
 
 	updateLog = (event) => {
-		console.debug('message received', event.data);
 		if (!deepEqual(window.log.entries, this.state.log.entries, {strict: true})) {
 			this.setState({
 				log: {
@@ -52,8 +51,6 @@ export default class Console extends Component {
 	};
 
 	render() {
-		console.debug('id', this.state.selectedComponentId);
-		console.debug('entry', this.state.log.entries[this.state.selectedComponentId]);
 		return (
 			<div style={this.styles.container}>
 				<ComponentList

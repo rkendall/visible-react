@@ -28538,6 +28538,8 @@
 					renderCount: 0,
 					unnecessaryUpdatesPrevented: 0,
 					isMounted: false,
+					oldProps: null,
+					newProps: null,
 					methods: _extends({}, log.init())
 				};
 				log.entries[id] = entry;
@@ -28600,9 +28602,9 @@
 					name: name,
 					called: false,
 					count: 0,
-					props: null,
-					state: null,
-					args: [],
+					oldState: null,
+					newState: null,
+					updatedNewState: null,
 					isInfiniteLoop: false
 				};
 			});
@@ -28610,7 +28612,7 @@
 		},
 		getWindow: function getWindow() {
 			if (consoleWindow === null || consoleWindow.closed) {
-				consoleWindow = window.open('index.html', 'console', "width=1200,height=800,resizable,scrollbars=yes,status=1");
+				consoleWindow = window.open('index.html', 'console', "width=1200,height=900,resizable,scrollbars=yes,status=1");
 				if (!consoleWindow) {
 					alert('You must disable your popup blocker to use the Life Insurance Console.');
 				}
@@ -45411,9 +45413,9 @@
 	
 	var _radium2 = _interopRequireDefault(_radium);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _actions = __webpack_require__(/*! ../actions/actions */ 518);
 	
@@ -45510,7 +45512,7 @@
 	
 	App = (0, _radium2.default)(App);
 	
-	exports.default = (0, _Monitor2.default)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App));
+	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App));
 
 /***/ },
 /* 518 */
@@ -45573,9 +45575,9 @@
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _Question = __webpack_require__(/*! ./Question */ 546);
 	
@@ -45652,7 +45654,7 @@
 		return QuestionList;
 	}(_react.Component);
 	
-	exports.default = (0, _Monitor2.default)((0, _reactRedux.connect)(function (state) {
+	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(function (state) {
 		return (0, _deepcopy2.default)(state);
 	})(QuestionList));
 
@@ -48585,316 +48587,7 @@
 	};
 
 /***/ },
-/* 545 */
-/*!***********************************!*\
-  !*** ./src/components/Monitor.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _deep = __webpack_require__(/*! deep */ 711);
-	
-	var _deepEqual = __webpack_require__(/*! deep-equal */ 236);
-	
-	var _deepEqual2 = _interopRequireDefault(_deepEqual);
-	
-	var _nodeUuid = __webpack_require__(/*! node-uuid */ 498);
-	
-	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
-	
-	var _log = __webpack_require__(/*! ../log */ 255);
-	
-	var _log2 = _interopRequireDefault(_log);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	function Monitor(WrappedComponent) {
-		var _class, _temp, _initialiseProps;
-	
-		return _temp = _class = function (_WrappedComponent) {
-			_inherits(ComponentWrapper, _WrappedComponent);
-	
-			function ComponentWrapper(props) {
-				_classCallCheck(this, ComponentWrapper);
-	
-				// if (!this.key) {
-				// 	this.key = uuid.v1();
-				// }
-				var _this = _possibleConstructorReturn(this, (ComponentWrapper.__proto__ || Object.getPrototypeOf(ComponentWrapper)).apply(this, arguments));
-	
-				_initialiseProps.call(_this);
-	
-				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), _this.props.id);
-				_this.consoleWindow = _log2.default.getWindow();
-				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
-				_this.isRenderingComplete = false;
-				_this.handleLifecycleEvent('constructor', _this.props, _this.state, arguments);
-				//this.updateState('constructor', props);
-				return _this;
-			}
-	
-			_createClass(ComponentWrapper, [{
-				key: 'componentWillMount',
-				value: function componentWillMount() {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this).call(this);
-					}
-					this.handleLifecycleEvent('componentWillMount', this.props, this.state);
-					//this.updateState('componentWillMount', this.props);
-				}
-			}, {
-				key: 'componentDidMount',
-				value: function componentDidMount() {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this).call(this);
-					}
-					this.isRenderingComplete = true;
-					this.setIsMounted(true);
-					this.handleLifecycleEvent('componentDidMount', this.props, this.state);
-					//this.updateState('componentDidMount', this.props);
-					this.updateStore();
-				}
-			}, {
-				key: 'componentWillReceiveProps',
-				value: function componentWillReceiveProps(nextProps) {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-					}
-					this.isRenderingComplete = false;
-					this.clearCalled();
-					this.handleLifecycleEvent('componentWillReceiveProps', this.props, this.state, arguments);
-					//this.updateState('componentWillReceiveProps', nextProps);
-				}
-			}, {
-				key: 'shouldComponentUpdate',
-				value: function shouldComponentUpdate(nextProps, nextState) {
-					this.isInfiniteLoop = this.autoRenderCount >= 10;
-					var isWrappedComponentGoingToUpdate = null;
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
-						isWrappedComponentGoingToUpdate = _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState);
-					} else {
-						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
-					}
-					var isUpdateNecessary = void 0;
-					if (isWrappedComponentGoingToUpdate === false) {
-						isUpdateNecessary = false;
-					} else {
-						var areValuesEqual = (0, _deepEqual2.default)(nextProps, this.props) && (0, _deepEqual2.default)(nextState, this.state, { strict: true });
-						isUpdateNecessary = !areValuesEqual;
-					}
-					var isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
-					if (isUnnecessaryUpdatePrevented) {
-						this.incrementUnnecessaryUpdatesPrevented();
-					}
-					if (this.isRenderingComplete) {
-						this.clearCalled();
-					}
-					this.handleLifecycleEvent('shouldComponentUpdate', this.props, this.state, arguments, isUnnecessaryUpdatePrevented);
-					this.updateStore();
-					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
-					if (isUpdateNecessary && !this.isInfiniteLoop) {
-						this.isRenderingComplete = false;
-						return true;
-					} else {
-						this.isRenderingComplete = true;
-						return false;
-					}
-				}
-			}, {
-				key: 'componentWillUpdate',
-				value: function componentWillUpdate(nextProps, nextState) {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
-					}
-					this.handleLifecycleEvent('componentWillUpdate', this.props, this.state, arguments);
-				}
-			}, {
-				key: 'componentDidUpdate',
-				value: function componentDidUpdate(previousProps, previousState) {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this).call(this, previousProps, previousState);
-					}
-					this.isRenderingComplete = true;
-					this.handleLifecycleEvent('componentDidUpdate', this.props, this.state, arguments);
-					//this.updateState('componentDidUpdate', this.props);
-					this.updateStore();
-				}
-			}, {
-				key: 'componentWillUnmount',
-				value: function componentWillUnmount() {
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this).call(this);
-					}
-					this.isRenderingComplete = true;
-					this.setIsMounted(false);
-					this.clearCalled();
-					this.handleLifecycleEvent('componentWillUnmount', this.props, this.state);
-					this.updateStore();
-				}
-	
-				// cloneProps = (props) => {
-				// 	var newProps = Object.assign({}, props);
-				// 	var propsToIgnore = [
-				// 		'history',
-				// 		'routes',
-				// 		'route',
-				// 		'location',
-				// 		'children',
-				// 		'params',
-				// 		'routeParams'
-				// 	];
-				// 	propsToIgnore.forEach((name) => {
-				// 		if (newProps.hasOwnProperty(name)) {
-				// 			delete newProps[name];
-				// 		}
-				// 	});
-				// 	return newProps;
-				// };
-	
-				// updateState = (name, props) => {
-				// 	const methodObj = log.config[name];
-				// 	const setStateType = methodObj.setStateType;
-				// 	const value = methodObj.value;
-				// 	if (setStateType === 'none') {
-				// 		return;
-				// 	}
-				// 	let text = '';
-				// 	if (setStateType === 'set') {
-				// 		text = value;
-				// 	} else if (setStateType === 'add') {
-				// 		text = (this.state.text || '') + value;
-				// 	} else if (setStateType === 'props') {
-				// 		text = props.parentText;
-				// 	}
-				// 	if (name === 'constructor') {
-				// 		this.state = {
-				// 			text
-				// 		};
-				// 	} else {
-				// 		this.setState({
-				// 			text
-				// 		});
-				// 	}
-				// };
-	
-				// Remove children because they can contain
-				// circular references, which cause problems
-				// with cloning and stringifying
-	
-			}, {
-				key: 'render',
-				value: function render() {
-	
-					this.incrementRenderCount();
-					this.handleLifecycleEvent('render', this.props, this.state);
-					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
-				}
-			}]);
-	
-			return ComponentWrapper;
-		}(WrappedComponent), _class.displayName = 'Insure(' + getComponentName(WrappedComponent) + ')', _initialiseProps = function _initialiseProps() {
-			var _this2 = this;
-	
-			this.logEntryId = null;
-			this.autoRenderCount = 0;
-			this.isInfiniteLoop = false;
-			this.isRenderingComplete = true;
-			this.consoleWindow = null;
-	
-			this.handleLifecycleEvent = function (name, props, state, args, isUnnecessaryUpdatePrevented) {
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				var count = logEntry.methods[name].count;
-				var newArgs = args ? [].concat(_toConsumableArray(args)).map(function (arg) {
-					return (0, _deep.clone)(_this2.removeCircularReferences(arg));
-				}) : [];
-				logEntry.methods[name] = {
-					name: name,
-					called: true,
-					count: ++count,
-					// props: {},
-					// state: {},
-					props: (0, _deep.clone)(_this2.removeCircularReferences(props)),
-					state: (0, _deep.clone)(state),
-					args: newArgs,
-					isInfiniteLoop: _this2.isInfiniteLoop,
-					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
-				};
-				_log2.default.update(_this2.logEntryId, logEntry);
-				console.log('%c' + name, 'color: blue');
-			};
-	
-			this.removeCircularReferences = function (props) {
-				var newProps = Object.assign({}, props);
-				if (newProps.hasOwnProperty('children')) {
-					delete newProps.children;
-				}
-				return newProps;
-			};
-	
-			this.clearCalled = function () {
-				var logEntry = (0, _deep.clone)(_log2.default.get(_this2.logEntryId));
-				_this2.autoRenderCount = 0;
-				for (var name in logEntry.methods) {
-					logEntry.methods[name].called = false;
-				}
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.updateStore = function () {
-				//this.consoleWindow.log.entries = clone(log.entries);
-				_this2.consoleWindow.log.entries = _log2.default.entries;
-				_this2.consoleWindow.postMessage('update', window.location.href);
-			};
-	
-			this.incrementRenderCount = function () {
-				_this2.autoRenderCount++;
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.renderCount++;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.setIsMounted = function (isMounted) {
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.isMounted = isMounted;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.incrementUnnecessaryUpdatesPrevented = function () {
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.unnecessaryUpdatesPrevented++;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-		}, _temp;
-	}
-	
-	var getComponentName = function getComponentName(component) {
-		return component ? component.displayName || component.name || 'Component' : '';
-	};
-	
-	exports.default = Monitor;
-
-/***/ },
+/* 545 */,
 /* 546 */
 /*!*****************************************!*\
   !*** ./src/demo/components/Question.js ***!
@@ -48919,9 +48612,9 @@
 	
 	var _radium2 = _interopRequireDefault(_radium);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _Keywords = __webpack_require__(/*! ./Keywords */ 547);
 	
@@ -49006,7 +48699,7 @@
 		keywords: _react.PropTypes.array.isRequired,
 		answers: _react.PropTypes.array.isRequired
 	};
-	exports.default = (0, _Monitor2.default)((0, _radium2.default)(Question));
+	exports.default = (0, _Insure2.default)((0, _radium2.default)(Question));
 
 /***/ },
 /* 547 */
@@ -49027,9 +48720,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -49097,7 +48790,7 @@
 	Keywords.propTypes = {
 		keywords: _react.PropTypes.array.isRequired
 	};
-	exports.default = (0, _Monitor2.default)(Keywords);
+	exports.default = (0, _Insure2.default)(Keywords);
 
 /***/ },
 /* 548 */
@@ -49122,9 +48815,9 @@
 	
 	var _reactTime2 = _interopRequireDefault(_reactTime);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -49215,7 +48908,7 @@
 	Byline.defaultProps = {
 		answerCount: null
 	};
-	exports.default = (0, _Monitor2.default)(Byline);
+	exports.default = (0, _Insure2.default)(Byline);
 
 /***/ },
 /* 549 */
@@ -63816,9 +63509,9 @@
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _Keywords = __webpack_require__(/*! ./Keywords */ 547);
 	
@@ -63955,7 +63648,7 @@
 		return QuestionDetail;
 	}(_react.Component);
 	
-	exports.default = (0, _Monitor2.default)((0, _reactRedux.connect)(function (state) {
+	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(function (state) {
 		return (0, _deepcopy2.default)(state);
 	})(QuestionDetail));
 
@@ -63978,9 +63671,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _Byline = __webpack_require__(/*! ./Byline */ 548);
 	
@@ -64049,7 +63742,7 @@
 	Answer.defaultProps = {
 		id: ''
 	};
-	exports.default = (0, _Monitor2.default)(Answer);
+	exports.default = (0, _Insure2.default)(Answer);
 
 /***/ },
 /* 657 */
@@ -64078,9 +63771,9 @@
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _actions = __webpack_require__(/*! ../actions/actions */ 518);
 	
@@ -64180,7 +63873,7 @@
 	SubmitAnswer.propTypes = {
 		questionId: _react.PropTypes.string.isRequired
 	};
-	exports.default = (0, _Monitor2.default)((0, _reactRedux.connect)()(SubmitAnswer));
+	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)()(SubmitAnswer));
 
 /***/ },
 /* 658 */
@@ -64210,9 +63903,9 @@
 	
 	var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
 	
-	var _Monitor = __webpack_require__(/*! ../../components/Monitor */ 545);
+	var _Insure = __webpack_require__(/*! ../../components/Insure */ 743);
 	
-	var _Monitor2 = _interopRequireDefault(_Monitor);
+	var _Insure2 = _interopRequireDefault(_Insure);
 	
 	var _actions = __webpack_require__(/*! ../actions/actions */ 518);
 	
@@ -64342,7 +64035,7 @@
 		return SubmitQuestion;
 	}(_react.Component);
 	
-	exports.default = (0, _Monitor2.default)((0, _reactRedux.connect)()(SubmitQuestion));
+	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)()(SubmitQuestion));
 
 /***/ },
 /* 659 */
@@ -65834,6 +65527,376 @@
 	
 	}).call(this);
 
+
+/***/ },
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */
+/*!**********************************!*\
+  !*** ./src/components/Insure.js ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _deep = __webpack_require__(/*! deep */ 711);
+	
+	var _deepEqual = __webpack_require__(/*! deep-equal */ 236);
+	
+	var _deepEqual2 = _interopRequireDefault(_deepEqual);
+	
+	var _nodeUuid = __webpack_require__(/*! node-uuid */ 498);
+	
+	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
+	
+	var _log = __webpack_require__(/*! ../log */ 255);
+	
+	var _log2 = _interopRequireDefault(_log);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	function Insure(WrappedComponent) {
+		var _class, _temp, _initialiseProps;
+	
+		return _temp = _class = function (_WrappedComponent) {
+			_inherits(ComponentWrapper, _WrappedComponent);
+	
+			function ComponentWrapper(props) {
+				_classCallCheck(this, ComponentWrapper);
+	
+				// if (!this.key) {
+				// 	this.key = uuid.v1();
+				// }
+				var _this = _possibleConstructorReturn(this, (ComponentWrapper.__proto__ || Object.getPrototypeOf(ComponentWrapper)).apply(this, arguments));
+	
+				_initialiseProps.call(_this);
+	
+				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), _this.props.id);
+				_this.consoleWindow = _log2.default.getWindow();
+				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
+				_this.isRenderingComplete = false;
+				_this.handleLifecycleEvent('constructor', { newProps: props });
+				//this.updateState('constructor', props);
+				return _this;
+			}
+	
+			_createClass(ComponentWrapper, [{
+				key: 'componentWillMount',
+				value: function componentWillMount() {
+					this.handleLifecycleEvent('componentWillMount', {
+						newProps: this.props,
+						newState: this.state
+					});
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this).call(this);
+					}
+					//this.updateState('componentWillMount', this.props);
+				}
+			}, {
+				key: 'componentDidMount',
+				value: function componentDidMount() {
+					var newState = this.state;
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this).call(this);
+					}
+					this.handleLifecycleEvent('componentDidMount', {
+						newProps: this.props,
+						newState: newState,
+						updatedNewState: this.state
+					});
+					this.isRenderingComplete = true;
+					this.setIsMounted(true);
+					//this.updateState('componentDidMount', this.props);
+					this.updateStore();
+				}
+			}, {
+				key: 'componentWillReceiveProps',
+				value: function componentWillReceiveProps(nextProps) {
+					this.handleLifecycleEvent('componentWillReceiveProps', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state
+					});
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
+					}
+					this.isRenderingComplete = false;
+					this.clearCalled();
+					//this.updateState('componentWillReceiveProps', nextProps);
+				}
+			}, {
+				key: 'shouldComponentUpdate',
+				value: function shouldComponentUpdate(nextProps, nextState) {
+					this.isInfiniteLoop = this.autoRenderCount >= 10;
+					var isWrappedComponentGoingToUpdate = null;
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
+						isWrappedComponentGoingToUpdate = _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState);
+					} else {
+						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
+					}
+					var isUpdateNecessary = void 0;
+					if (isWrappedComponentGoingToUpdate === false) {
+						isUpdateNecessary = false;
+					} else {
+						var areValuesEqual = (0, _deepEqual2.default)(nextProps, this.props) && (0, _deepEqual2.default)(nextState, this.state, { strict: true });
+						isUpdateNecessary = !areValuesEqual;
+					}
+					var isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
+					if (isUnnecessaryUpdatePrevented) {
+						this.incrementUnnecessaryUpdatesPrevented();
+					}
+					if (this.isRenderingComplete) {
+						this.clearCalled();
+					}
+					this.handleLifecycleEvent('shouldComponentUpdate', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state,
+						newState: nextState
+					}, isUnnecessaryUpdatePrevented);
+					this.updateStore();
+					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
+					if (isUpdateNecessary && !this.isInfiniteLoop) {
+						this.isRenderingComplete = false;
+						return true;
+					} else {
+						this.isRenderingComplete = true;
+						return false;
+					}
+				}
+			}, {
+				key: 'componentWillUpdate',
+				value: function componentWillUpdate(nextProps, nextState) {
+					this.handleLifecycleEvent('componentWillUpdate', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state,
+						newState: nextState
+					});
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
+					}
+				}
+			}, {
+				key: 'componentDidUpdate',
+				value: function componentDidUpdate(prevProps, prevState) {
+					var newState = (0, _deep.clone)(this.state);
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this).call(this, prevProps, prevState);
+					}
+					this.isRenderingComplete = true;
+					this.handleLifecycleEvent('componentDidUpdate', {
+						oldProps: prevProps,
+						newProps: this.props,
+						oldState: prevState,
+						newState: newState,
+						updatedNewState: this.state
+					});
+					//this.updateState('componentDidUpdate', this.props);
+					this.updateStore();
+				}
+			}, {
+				key: 'componentWillUnmount',
+				value: function componentWillUnmount() {
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this)) {
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this).call(this);
+					}
+					this.isRenderingComplete = true;
+					this.setIsMounted(false);
+					this.clearCalled();
+					this.handleLifecycleEvent('componentWillUnmount', {
+						newProps: this.props,
+						newState: this.state
+					});
+					this.updateStore();
+				}
+	
+				// updateState = (name, props) => {
+				// 	const methodObj = log.config[name];
+				// 	const setStateType = methodObj.setStateType;
+				// 	const value = methodObj.value;
+				// 	if (setStateType === 'none') {
+				// 		return;
+				// 	}
+				// 	let text = '';
+				// 	if (setStateType === 'set') {
+				// 		text = value;
+				// 	} else if (setStateType === 'add') {
+				// 		text = (this.state.text || '') + value;
+				// 	} else if (setStateType === 'props') {
+				// 		text = props.parentText;
+				// 	}
+				// 	if (name === 'constructor') {
+				// 		this.state = {
+				// 			text
+				// 		};
+				// 	} else {
+				// 		this.setState({
+				// 			text
+				// 		});
+				// 	}
+				// };
+	
+				// Remove children because they can contain
+				// circular references, which cause problems
+				// with cloning and stringifying
+	
+			}, {
+				key: 'render',
+				value: function render() {
+	
+					this.incrementRenderCount();
+					this.handleLifecycleEvent('render', {
+						newProps: this.props,
+						newState: this.state
+					});
+					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
+				}
+			}]);
+	
+			return ComponentWrapper;
+		}(WrappedComponent), _class.displayName = 'Insure(' + getComponentName(WrappedComponent) + ')', _initialiseProps = function _initialiseProps() {
+			var _this2 = this;
+	
+			this.logEntryId = null;
+			this.autoRenderCount = 0;
+			this.isInfiniteLoop = false;
+			this.isRenderingComplete = true;
+			this.consoleWindow = null;
+	
+			this.handleLifecycleEvent = function (name, propsAndStates) {
+				var isUnnecessaryUpdatePrevented = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				var count = logEntry.methods[name].count;
+				var clonedPropsAndStates = _this2.cloneValues(propsAndStates);
+				logEntry.methods[name] = _extends({
+					name: name,
+					called: true,
+					count: ++count
+				}, clonedPropsAndStates, {
+					isInfiniteLoop: _this2.isInfiniteLoop,
+					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
+				});
+				_log2.default.update(_this2.logEntryId, logEntry);
+				console.log('%c' + name, 'color: blue');
+			};
+	
+			this.cloneValues = function (propsAndStates) {
+				var newPropsAndStates = {};
+				for (var name in propsAndStates) {
+					var value = propsAndStates[name];
+					var newValue = {};
+					if (/Props/.test(name)) {
+						newValue = (0, _deep.clone)(_this2.removeCircularReferences(value));
+					} else {
+						newValue = (0, _deep.clone)(value);
+					}
+					newPropsAndStates[name] = newValue;
+				}
+				return newPropsAndStates;
+			};
+	
+			this.removeCircularReferences = function (props) {
+				if (!props) {
+					return null;
+				}
+				var newProps = Object.assign({}, props);
+				if (newProps.hasOwnProperty('children')) {
+					delete newProps.children;
+				}
+				return newProps;
+			};
+	
+			this.clearCalled = function () {
+				var logEntry = (0, _deep.clone)(_log2.default.get(_this2.logEntryId));
+				_this2.autoRenderCount = 0;
+				for (var name in logEntry.methods) {
+					logEntry.methods[name].called = false;
+				}
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+	
+			this.updateStore = function () {
+				//this.consoleWindow.log.entries = clone(log.entries);
+				_this2.consoleWindow.log.entries = _log2.default.entries;
+				_this2.consoleWindow.postMessage('update', window.location.href);
+			};
+	
+			this.incrementRenderCount = function () {
+				_this2.autoRenderCount++;
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.renderCount++;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+	
+			this.setIsMounted = function (isMounted) {
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.isMounted = isMounted;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+	
+			this.incrementUnnecessaryUpdatesPrevented = function () {
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.unnecessaryUpdatesPrevented++;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+		}, _temp;
+	}
+	
+	var getComponentName = function getComponentName(component) {
+		return component ? component.displayName || component.name || 'Component' : '';
+	};
+	
+	exports.default = Insure;
 
 /***/ }
 /******/ ]);

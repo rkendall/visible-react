@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 import Byline from './Byline';
 import styles from '../styles/styles';
@@ -38,4 +38,4 @@ class Answer extends Component {
 
 }
 
-export default Monitor(Answer);
+export default Insure(Answer);

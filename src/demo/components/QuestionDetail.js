@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import deepcopy from 'deepcopy';
 import RaisedButton from 'material-ui/RaisedButton';
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 import Keywords from './Keywords';
 import Byline from './Byline';
@@ -97,6 +97,6 @@ export class QuestionDetail extends Component {
 
 }
 
-export default Monitor(connect(
+export default Insure(connect(
 	(state) => deepcopy(state)
 )(QuestionDetail));

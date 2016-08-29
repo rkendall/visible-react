@@ -17,6 +17,8 @@ const log = {
 				renderCount: 0,
 				unnecessaryUpdatesPrevented: 0,
 				isMounted: false,
+				oldProps: null,
+				newProps: null,
 				methods: {
 					...log.init()
 				}
@@ -91,9 +93,9 @@ const log = {
 				name,
 				called: false,
 				count: 0,
-				props: null,
-				state: null,
-				args: [],
+				oldState: null,
+				newState: null,
+				updatedNewState: null,
 				isInfiniteLoop: false
 			}
 		});
@@ -104,7 +106,7 @@ const log = {
 			consoleWindow = window.open(
 				'index.html',
 				'console',
-				"width=1200,height=800,resizable,scrollbars=yes,status=1"
+				"width=1200,height=900,resizable,scrollbars=yes,status=1"
 			);
 			if (!consoleWindow) {
 				alert('You must disable your popup blocker to use the Life Insurance Console.');

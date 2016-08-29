@@ -19,6 +19,7 @@ class ComponentList extends Component {
 		row: {
 			display: 'flex',
 			minWidth: '150px',
+			cursor: 'pointer',
 			opacity: '1',
 			animation: 'x 1s ease-out',
 			animationName: Radium.keyframes({
@@ -31,9 +32,8 @@ class ComponentList extends Component {
 			flex: '1',
 			marginRight: '10px',
 			padding: '3px 5px',
-			cursor: 'pointer',
 			fontWeight: 'bold',
-			wordBreak: 'break-all'
+			wordBreak: 'break-word'
 		},
 		unmountedComponent: {
 			fontWeight: 'normal',
@@ -59,11 +59,12 @@ class ComponentList extends Component {
 		return sortedComponentIds.map((id, ind) => {
 			const entry = this.props.entries[id];
 			let componentStyle = [this.styles.component];
+			let rowStyle = [this.styles.row];
 			if (!entry.isMounted) {
 				componentStyle.push(this.styles.unmountedComponent);
 			}
 			if (this.props.selectedComponentId === id) {
-				componentStyle.push(this.styles.selectedComponent);
+				rowStyle.push(this.styles.selectedComponent);
 			}
 			let warningMessage = '';
 			if (entry.unnecessaryUpdatesPrevented) {
@@ -72,7 +73,7 @@ class ComponentList extends Component {
 			return (
 				<div
 					key={'component-name-' + ind}
-					style={this.styles.row}
+					style={rowStyle}
 					onClick={this.handleComponentSelected.bind(this, id)}
 				>
 					<div style={componentStyle}>{entry.displayName}</div>
@@ -82,7 +83,7 @@ class ComponentList extends Component {
 						place='right'
 						effect='solid'
 						type='error'
-						delayShow='100'
+						delayShow={100}
 					/>
 				</div>
 			);

@@ -4,7 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import Monitor from '../../components/Monitor';
+import Insure from '../../components/Insure';
 
 import {addAnswer} from '../actions/actions';
 import styles from '../styles/styles';
@@ -79,4 +79,4 @@ class SubmitAnswer extends Component {
 
 }
 
-export default Monitor(connect()(SubmitAnswer));
+export default Insure(connect()(SubmitAnswer));

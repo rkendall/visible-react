@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 
-import Monitor from './Monitor';
+import Insure from './Insure';
 import Input from './Input';
 
 class Child extends Component {
@@ -46,4 +46,4 @@ class Child extends Component {
 
 };
 
-export default Monitor(Child);
+export default Insure(Child);

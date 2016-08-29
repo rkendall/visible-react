@@ -7,7 +7,7 @@ import uuid from 'node-uuid';
 
 import log from '../log';
 
-function Monitor(WrappedComponent) {
+function Insure(WrappedComponent) {
 
 	return class ComponentWrapper extends WrappedComponent {
 
@@ -28,36 +28,60 @@ function Monitor(WrappedComponent) {
 			this.consoleWindow = log.getWindow();
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
-			this.handleLifecycleEvent('constructor', this.props, this.state, arguments);
+			this.handleLifecycleEvent(
+				'constructor',
+				{newProps: props}
+			);
 			//this.updateState('constructor', props);
 		}
 
 		componentWillMount() {
+			this.handleLifecycleEvent(
+				'componentWillMount',
+				{
+					newProps: this.props,
+					newState: this.state
+				}
+			);
 			if (super.componentWillMount) {
 				super.componentWillMount();
 			}
-			this.handleLifecycleEvent('componentWillMount', this.props, this.state);
 			//this.updateState('componentWillMount', this.props);
 		}
 
 		componentDidMount() {
+			const newState = this.state;
 			if (super.componentDidMount) {
 				super.componentDidMount();
 			}
+			this.handleLifecycleEvent(
+				'componentDidMount',
+				{
+					newProps: this.props,
+					newState: newState,
+					updatedNewState: this.state
+				}
+			);
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
-			this.handleLifecycleEvent('componentDidMount', this.props, this.state);
 			//this.updateState('componentDidMount', this.props);
 			this.updateStore();
 		}
 
 		componentWillReceiveProps(nextProps) {
+			this.handleLifecycleEvent(
+				'componentWillReceiveProps',
+				{
+					oldProps: this.props,
+					newProps: nextProps,
+					oldState: this.state
+				}
+			);
 			if (super.componentWillReceiveProps) {
 				super.componentWillReceiveProps(nextProps);
 			}
 			this.isRenderingComplete = false;
 			this.clearCalled();
-			this.handleLifecycleEvent('componentWillReceiveProps', this.props, this.state, arguments);
 			//this.updateState('componentWillReceiveProps', nextProps);
 		}
 
@@ -85,9 +109,12 @@ function Monitor(WrappedComponent) {
 			}
 			this.handleLifecycleEvent(
 				'shouldComponentUpdate',
-				this.props,
-				this.state,
-				arguments,
+				{
+					oldProps: this.props,
+					newProps: nextProps,
+					oldState: this.state,
+					newState: nextState
+				},
 				isUnnecessaryUpdatePrevented
 			);
 			this.updateStore();
@@ -102,18 +129,36 @@ function Monitor(WrappedComponent) {
 		}
 
 		componentWillUpdate(nextProps, nextState) {
+			this.handleLifecycleEvent(
+				'componentWillUpdate',
+				{
+					oldProps: this.props,
+					newProps: nextProps,
+					oldState: this.state,
+					newState: nextState
+				}
+			);
 			if (super.componentWillUpdate) {
 				super.componentWillUpdate(nextProps, nextState);
 			}
-			this.handleLifecycleEvent('componentWillUpdate', this.props, this.state, arguments);
 		}
 
-		componentDidUpdate(previousProps, previousState) {
+		componentDidUpdate(prevProps, prevState) {
+			const newState = clone(this.state);
 			if (super.componentDidUpdate) {
-				super.componentDidUpdate(previousProps, previousState);
+				super.componentDidUpdate(prevProps, prevState);
 			}
 			this.isRenderingComplete = true;
-			this.handleLifecycleEvent('componentDidUpdate', this.props, this.state, arguments);
+			this.handleLifecycleEvent(
+				'componentDidUpdate',
+				{
+					oldProps: prevProps,
+					newProps: this.props,
+					oldState: prevState,
+					newState: newState,
+					updatedNewState: this.state
+				}
+			);
 			//this.updateState('componentDidUpdate', this.props);
 			this.updateStore();
 		}
@@ -125,28 +170,15 @@ function Monitor(WrappedComponent) {
 			this.isRenderingComplete = true;
 			this.setIsMounted(false);
 			this.clearCalled();
-			this.handleLifecycleEvent('componentWillUnmount', this.props, this.state);
+			this.handleLifecycleEvent(
+				'componentWillUnmount',
+				{
+					newProps: this.props,
+					newState: this.state
+				}
+			);
 			this.updateStore();
 		}
-
-		// cloneProps = (props) => {
-		// 	var newProps = Object.assign({}, props);
-		// 	var propsToIgnore = [
-		// 		'history',
-		// 		'routes',
-		// 		'route',
-		// 		'location',
-		// 		'children',
-		// 		'params',
-		// 		'routeParams'
-		// 	];
-		// 	propsToIgnore.forEach((name) => {
-		// 		if (newProps.hasOwnProperty(name)) {
-		// 			delete newProps[name];
-		// 		}
-		// 	});
-		// 	return newProps;
-		// };
 
 		// updateState = (name, props) => {
 		// 	const methodObj = log.config[name];
@@ -174,21 +206,15 @@ function Monitor(WrappedComponent) {
 		// 	}
 		// };
 
-		handleLifecycleEvent = (name, props, state, args, isUnnecessaryUpdatePrevented) => {
+		handleLifecycleEvent = (name, propsAndStates, isUnnecessaryUpdatePrevented = false) => {
 			let logEntry = log.get(this.logEntryId);
 			let count = logEntry.methods[name].count;
-			let newArgs = args ? [...args].map((arg) => {
-				return clone(this.removeCircularReferences(arg));
-			}) : [];
+			const clonedPropsAndStates = this.cloneValues(propsAndStates);
 			logEntry.methods[name] = {
 				name,
 				called: true,
 				count: ++count,
-				// props: {},
-				// state: {},
-				props: clone(this.removeCircularReferences(props)),
-				state: clone(state),
-				args: newArgs,
+				...clonedPropsAndStates,
 				isInfiniteLoop: this.isInfiniteLoop,
 				isUnnecessaryUpdatePrevented
 			};
@@ -196,10 +222,28 @@ function Monitor(WrappedComponent) {
 			console.log(`%c${name}`, 'color: blue');
 		};
 
+		cloneValues = (propsAndStates) => {
+			let newPropsAndStates = {};
+			for (let name in propsAndStates) {
+				const value = propsAndStates[name];
+				let newValue = {};
+				if (/Props/.test(name)) {
+					newValue = clone(this.removeCircularReferences(value));
+				} else {
+					newValue = clone(value);
+				}
+				newPropsAndStates[name] = newValue;
+			}
+			return newPropsAndStates;
+		};
+
 		// Remove children because they can contain
 		// circular references, which cause problems
 		// with cloning and stringifying
 		removeCircularReferences = (props) => {
+			if (!props) {
+				return null;
+			}
 			let newProps = Object.assign({}, props);
 			if (newProps.hasOwnProperty('children')) {
 				delete newProps.children;
@@ -237,14 +281,20 @@ function Monitor(WrappedComponent) {
 
 		incrementUnnecessaryUpdatesPrevented = () => {
 			let logEntry = log.get(this.logEntryId);
-			logEntry.unnecessaryUpdatesPrevented ++;
+			logEntry.unnecessaryUpdatesPrevented++;
 			log.update(this.logEntryId, logEntry);
 		};
 
 		render() {
 
 			this.incrementRenderCount();
-			this.handleLifecycleEvent('render', this.props, this.state);
+			this.handleLifecycleEvent(
+				'render',
+				{
+					newProps: this.props,
+					newState: this.state
+				}
+			);
 			return super.render();
 
 		}
@@ -259,4 +309,4 @@ const getComponentName = (component) => {
 		: ''
 };
 
-export default Monitor;
+export default Insure;

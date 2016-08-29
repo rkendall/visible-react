@@ -1,12 +1,11 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import clone from 'clone';
-import deep from 'deep';
-import circular from 'smart-circular';
+import ReactDOM from 'react-dom';
 import Radium from 'radium';
 import color from 'color';
-import diff from 'diff';
+import {diffJson} from 'diff';
+import Draggable from 'react-draggable';
 
 import log from '../log';
 import styles from '../styles/styles';
@@ -24,10 +23,17 @@ class Method extends Component {
 		}).isRequired
 	};
 
+
+	draggableWindowDimensions = {
+		width: 800,
+		height: 600
+	};
+
 	styles = {
 		container: {
 			display: 'flex',
-			flexDirection: 'column'
+			flexDirection: 'column',
+			height: '100%'
 		},
 		section: {
 			display: 'flex',
@@ -58,7 +64,8 @@ class Method extends Component {
 			fontWeight: 'bold'
 		},
 		line: {
-			display: 'flex'
+			display: 'flex',
+			whiteSpace: 'nowrap'
 		},
 		value: {
 			display: 'inline-block',
@@ -66,7 +73,8 @@ class Method extends Component {
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
 			whiteSpace: 'nowrap',
-			fontWeight: 'normal'
+			fontWeight: 'normal',
+			cursor: 'pointer'
 		},
 		times: {
 			display: 'flex',
@@ -105,49 +113,238 @@ class Method extends Component {
 		input: {
 			width: '100%',
 			marginLeft: '5px'
+		},
+		draggableWindow: {
+			position: 'fixed',
+			top: '10',
+			left: '10',
+			resize: 'both',
+			width: this.draggableWindowDimensions.width + 'px',
+			height: this.draggableWindowDimensions.height + 'px',
+			overflow: 'auto',
+			backgroundColor: 'white',
+			border: '1px solid gray',
+			boxShadow: '5px 5px 6px rgba(0, 0, 0, .4)',
+			opacity: '1',
+			animation: 'x .3s ease-in',
+			animationName: Radium.keyframes({
+				'0%': {opacity: '0'},
+				'100%': {opacity: '1'}
+			}),
+			backfaceVisibility: 'hidden'
+		},
+		draggableWindowClosed: {
+			opacity: '0',
+			animation: 'x .3s ease-in',
+			animationName: Radium.keyframes({
+				'0%': {opacity: '1'},
+				'100%': {opacity: '0'}
+			}),
+			backfaceVisibility: 'hidden'
+		},
+		handle: {
+			display: 'flex',
+			justifyContent: 'flex-end',
+			alignItems: 'center',
+			height: '30px',
+			backgroundColor: 'lightgray',
+			cursor: 'move'
+		},
+		windowContent: {
+			margin: '0',
+			padding: '10px'
+		},
+		close: {
+			marginRight: '5px',
+			cursor: 'pointer'
+		},
+		added: {
+			backgroundColor: color('#4caf50').lighten(.5).hexString()
+		},
+		removed: {
+			backgroundColor: color('red').lighten(.5).hexString()
 		}
 	};
 
 	methodProperties = {
 		constructor: {
 			args: ['props'],
+			state: [],
+			props: [
+				{
+					name: 'props',
+					value: 'newProps'
+				}
+			],
 			terminal: false,
 			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
 		},
 		componentWillMount: {
 			args: [],
+			state: [
+				{
+					name: 'this.state',
+					value: 'newState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'newProps'
+				}
+			],
 			terminal: false,
 			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
 		},
 		componentDidMount: {
 			args: [],
+			state: [
+				{
+					name: 'this.state',
+					value: 'newState'
+				},
+				{
+					name: '(final state)',
+					value: 'updatedNewState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'newProps'
+				}
+			],
 			terminal: true,
 			description: 'Avoid calling setState here because it will trigger an extra render.'
 		},
 		componentWillReceiveProps: {
 			args: ['nextProps'],
+			state: [
+				{
+					name: 'this.state',
+					value: 'oldState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'oldProps'
+				},
+				{
+					name: 'nextProps',
+					value: 'newProps'
+				}
+			],
 			terminal: false
 		},
 		shouldComponentUpdate: {
 			args: ['nextProps', 'nextState'],
+			state: [
+				{
+					name: 'this.state',
+					value: 'oldState'
+				},
+				{
+					name: 'nextState',
+					value: 'newState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'oldProps'
+				},
+				{
+					name: 'nextProps',
+					value: 'newProps'
+				}
+			],
 			terminal: false
 		},
 		componentWillUpdate: {
 			args: ['nextProps', 'nextState'],
+			state: [
+				{
+					name: 'this.state',
+					value: 'oldState'
+				},
+				{
+					name: 'nextState',
+					value: 'newState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'oldProps'
+				},
+				{
+					name: 'nextProps',
+					value: 'newProps'
+				}
+			],
 			terminal: false
 		},
 		render: {
 			args: [],
+			state: [
+				{
+					name: 'this.state',
+					value: 'newState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'newProps'
+				}
+			],
 			terminal: false
 		},
 		componentDidUpdate: {
 			args: ['prevProps', 'prevState'],
+			state: [
+				{
+					name: 'prevState',
+					value: 'oldState'
+				},
+				{
+					name: 'this.state',
+					value: 'newState'
+				},
+				{
+					name: '(final state)',
+					value: 'updatedNewState'
+				}
+			],
+			props: [
+				{
+					name: 'prevProps',
+					value: 'oldProps'
+				},
+				{
+					name: 'this.props',
+					value: 'newProps'
+				}
+			],
 			terminal: true,
 			description: 'Avoid calling setState here because it will trigger an extra render. It can also initiate an infinite rendering loop ' +
 			'(use the "text +=" option below to see an example of this).'
 		},
 		componentWillUnmount: {
 			args: [],
+			state: [
+				{
+					name: 'this.state',
+					value: 'newState'
+				}
+			],
+			props: [
+				{
+					name: 'this.props',
+					value: 'newProps'
+				}
+			],
 			terminal: true
 		}
 
@@ -155,7 +352,6 @@ class Method extends Component {
 
 	constructor(props) {
 		super(props);
-		console.debug('props', props);
 		const name = this.props.methodObj.name;
 		let setStateType = 'none';
 		let value = '';
@@ -164,6 +360,8 @@ class Method extends Component {
 			value = 'This is my text';
 		}
 		this.state = {
+			showFullText: false,
+			fadeDraggableWindow: false,
 			name,
 			setStateType,
 			value
@@ -196,77 +394,93 @@ class Method extends Component {
 	};
 
 	getTimesCalled = (methodObj) => {
-		const loop = methodObj.isInfiniteLoop ? (<div style={this.styles.warning}>(infinite loop terminated)</div>) : false;
+		const loop = methodObj.isInfiniteLoop ? (
+			<div style={this.styles.warning}>(infinite loop terminated)</div>) : false;
 		return (
-			<div style={this.styles.times}><div>Times called: {methodObj.count}</div>{loop}</div>
+			<div style={this.styles.times}>
+				<div>Times called: {methodObj.count}</div>
+				{loop}</div>
 		);
 	};
 
-	getLines = (setStateType, methodObj) => {
-		const ind = setStateType === 'props' ? 0 : 1;
-		const argName = this.getArgNames(methodObj).arr[ind];
-		const isSecond = true;
-		if (!argName) {
-			return this.getText(setStateType, methodObj);
-		} else if (argName.indexOf('next') === 0) {
-			return [
-				this.getText(setStateType, methodObj),
-				this.getArgText(setStateType, methodObj, isSecond)
-			];
+	getPropsAndStates = () => {
+		const types = ['props', 'state'];
+		const methodObj = this.props.methodObj;
+		return types.map((type) => {
+			const itemNames = this.methodProperties[methodObj.name][type];
+			return itemNames.map((nameObj, ind) => {
+				const isSecond = ind > 0;
+				return this.getText(nameObj.name, this.props.methodObj[nameObj.value], type, isSecond);
+			});
+		});
+	};
+
+	getText = (name, value, type, isSecond) => {
+		const arrow = isSecond ? '↳' : '';
+		return (
+			<div key={`${this.props.methodObj.name}-${name}`} style={this.styles.line}>
+				<div>{arrow}{name}:</div>
+				<div
+					onClick={this.showFullText.bind(this, type, value)}
+					style={[this.styles.value, styles[type]]}
+				>
+					{value ? JSON.stringify(value) : ''}
+				</div>
+			</div>
+		);
+	};
+
+	// TODOD Clean this up
+	showFullText = (type, value) => {
+		let fullText = '';
+		const nameSuffix = type[0].toUpperCase() + type.substr(1);
+		if (this.props.methodObj.oldState && this.props.methodObj.newState) {
+			fullText = this.diffText(
+				JSON.stringify(this.props.methodObj['old' + nameSuffix], null, 2),
+				JSON.stringify(this.props.methodObj['new' + nameSuffix], null, 2)
+			);
 		} else {
-			const isSecond = true;
-			return [
-				this.getArgText(setStateType, methodObj),
-				this.getText(setStateType, methodObj, isSecond)
-			];
+			fullText = JSON.stringify(value, null, 2);
 		}
-	};
-
-	getText = (setStateType, methodObj, isSecond) => {
-		const arrow = isSecond ? '↳' : '';
-		return (
-			<div key={`${methodObj.name}-this-${setStateType}`} style={this.styles.line}>
-				<div>{arrow}this.{setStateType}:</div>
-				<div style={[this.styles.value, styles[setStateType]]}>{methodObj[setStateType] ? JSON.stringify(methodObj[setStateType]) : ''}</div>
-			</div>
-		);
-	};
-
-	getArgText = (setStateType, methodObj, isSecond) => {
-		const ind = setStateType === 'props' ? 0 : 1;
-		const argName = this.getArgNames(methodObj).arr[ind];
-		if (!argName) {
-			return false;
-		}
-		console.debug('args', methodObj.args[ind]);
-		const argValue = methodObj.args[ind] ? JSON.stringify(methodObj.args[ind]) : '';
-		const arrow = isSecond ? '↳' : '';
-		return (
-			<div key={methodObj.name + '-' + argName} style={this.styles.line}>
-				<div>{arrow}{argName}:</div>
-				<div style={[this.styles.value, styles[setStateType]]}>{argValue}</div>
-			</div>
-		);
+		this.setState({
+			showFullText: true,
+			fullText
+		});
 	};
 
 	diffText = (before, after) => {
-		const result = diff.diffChars(before, after);
+		const self = this;
+		const diff = diffJson(before, after);
 		let html = [];
-
-		result.forEach(function(part){
+		diff.forEach(function(part) {
 			// green for additions, red for deletions
 			// grey for common parts
 			const color = part.added ? 'added' :
 				part.removed ? 'removed' : 'unchanged';
 			html.push(
-				<span style={this.styles[color]}>part.value</span>
+				<span style={self.styles[color]}>{part.value}</span>
 			)
 		});
+		return html;
+	};
+
+	closeDraggableWindow = () => {
+		const draggableWindow = ReactDOM.findDOMNode(this.refs.draggableWindow);
+		this.setState({
+			fadeDraggableWindow: true
+		});
+		setTimeout(() => {
+			this.setState({
+				showFullText: false,
+				fadeDraggableWindow: false
+			});
+		}, 400);
 	};
 
 	getUnnecessaryUpdatePrevented = () => {
 		return this.props.methodObj.isUnnecessaryUpdatePrevented
-			? (<div style={this.styles.message}>Unnecessary rerender prevented (props and state values have not changed)</div>)
+			? (<div style={this.styles.message}>Unnecessary rerender prevented (props and state values have not
+			changed)</div>)
 			: false;
 	};
 
@@ -351,20 +565,46 @@ class Method extends Component {
 	render() {
 
 		const {methodObj} = this.props;
+		const bounds = {
+			top: 0,
+			right: window.innerWidth - this.draggableWindowDimensions.width - 20,
+			bottom: window.innerHeight - this.draggableWindowDimensions.height - 20,
+			left: 0
+		};
+		let draggableWindowStyle = [this.styles.draggableWindow];
+		if (this.state.fadeDraggableWindow) {
+			draggableWindowStyle.push(this.styles.draggableWindowClosed);
+		}
 
 		return (
-			<div style={this.styles.container}>
-				<div style={this.getActivityStyle(methodObj)}>
-					<div>
-						<div style={this.styles.methodName}>{methodObj.name}({this.getArgNames(methodObj).str})</div>
-						{this.getTimesCalled(methodObj)}
-						{this.getLines('props', methodObj)}
-						{this.getLines('state', methodObj)}
-						{this.getUnnecessaryUpdatePrevented()}
+			<div>
+				<div style={this.styles.container}>
+					<div style={this.getActivityStyle(methodObj)}>
+						<div>
+							<div style={this.styles.methodName}>{methodObj.name}({this.getArgNames(methodObj).str})
+							</div>
+							{this.getTimesCalled(methodObj)}
+							{this.getPropsAndStates()}
+							{this.getUnnecessaryUpdatePrevented()}
+						</div>
+						{/*this.getSetState(methodObj)*/}
 					</div>
-					{/*this.getSetState(methodObj)*/}
+					{this.getArrow()}
 				</div>
-				{this.getArrow()}
+				{this.state.showFullText ?
+					(<Draggable
+						handle=".handle"
+						bounds={bounds}
+						zIndex={100}
+					>
+						<div style={draggableWindowStyle}>
+							<div className="handle" style={this.styles.handle}>
+								<div onClick={this.closeDraggableWindow} style={this.styles.close}>close</div>
+							</div>
+							<pre style={this.styles.windowContent}>{this.state.fullText}</pre>
+						</div>
+					</Draggable>)
+					: false}
 			</div>
 		)
 

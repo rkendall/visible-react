@@ -105,6 +105,10 @@ class LifeCycle extends Component {
 			return false;
 		}
 		const methods = logData.methods;
+		const propsObj = {
+			oldProps: logData.oldProps,
+			newProps: logData.newProps
+		};
 
 		return (
 			<div style={this.styles.container}>
@@ -119,25 +123,25 @@ class LifeCycle extends Component {
 				</div>
 				{this.getArrows()}
 				<div style={this.styles.both}>
-					<Method methodObj={methods.constructor} />
-					<Method methodObj={methods.componentWillUnmount} />
+					<Method methodObj={methods.constructor} propsObj={propsObj} />
+					<Method methodObj={methods.componentWillUnmount} propsObj={propsObj} />
 				</div>
 				<div style={this.styles.center}>
-					<Method methodObj={methods.componentWillReceiveProps} />
+					<Method methodObj={methods.componentWillReceiveProps} propsObj={propsObj} />
 				</div>
 				<div style={this.styles.center}>
-					<Method methodObj={methods.shouldComponentUpdate} />
+					<Method methodObj={methods.shouldComponentUpdate} propsObj={propsObj} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={methods.componentWillMount} />
-					<Method methodObj={methods.componentWillUpdate} />
+					<Method methodObj={methods.componentWillMount} propsObj={propsObj} />
+					<Method methodObj={methods.componentWillUpdate} propsObj={propsObj} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={methods.render} />
+					<Method methodObj={methods.render} propsObj={propsObj} />
 				</div>
 				<div style={this.styles.left}>
-					<Method methodObj={methods.componentDidMount} />
-					<Method methodObj={methods.componentDidUpdate} />
+					<Method methodObj={methods.componentDidMount} propsObj={propsObj} />
+					<Method methodObj={methods.componentDidUpdate} propsObj={propsObj} />
 				</div>
 			</div>
 		)
