@@ -65,9 +65,9 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(App);
+App = Radium(Insure(App));
 
-export default Insure(connect(
+export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(App));
+)(App);

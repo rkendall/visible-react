@@ -28600,6 +28600,7 @@
 			methodNames.forEach(function (name) {
 				logObj[name] = {
 					name: name,
+					isMethodOverridden: false,
 					called: false,
 					count: 0,
 					oldState: null,
@@ -45510,9 +45511,9 @@
 		};
 	}
 	
-	App = (0, _radium2.default)(App);
+	App = (0, _radium2.default)((0, _Insure2.default)(App));
 	
-	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App));
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
 
 /***/ },
 /* 518 */
@@ -45654,9 +45655,9 @@
 		return QuestionList;
 	}(_react.Component);
 	
-	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(function (state) {
+	exports.default = (0, _reactRedux.connect)(function (state) {
 		return (0, _deepcopy2.default)(state);
-	})(QuestionList));
+	})((0, _Insure2.default)(QuestionList));
 
 /***/ },
 /* 520 */
@@ -48699,7 +48700,7 @@
 		keywords: _react.PropTypes.array.isRequired,
 		answers: _react.PropTypes.array.isRequired
 	};
-	exports.default = (0, _Insure2.default)((0, _radium2.default)(Question));
+	exports.default = (0, _radium2.default)((0, _Insure2.default)(Question));
 
 /***/ },
 /* 547 */
@@ -48805,8 +48806,6 @@
 		value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -48821,93 +48820,87 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var Byline = _react2.default.createClass({
+		displayName: 'Byline',
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+		propTypes: {
+			user: _react.PropTypes.string.isRequired,
+			date: _react.PropTypes.number.isRequired,
+			answerCount: _react.PropTypes.number
+		},
 	
-	var Byline = function (_Component) {
-		_inherits(Byline, _Component);
-	
-		function Byline() {
-			var _ref;
-	
-			var _temp, _this, _ret;
-	
-			_classCallCheck(this, Byline);
-	
-			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-				args[_key] = arguments[_key];
+		styles: {
+			container: {
+				display: 'flex',
+				marginBottom: '10px',
+				fontSize: '12px'
+			},
+			name: {
+				color: '#ff4081'
+			},
+			answerCount: {
+				marginLeft: '30px',
+				fontWeight: 'bold'
 			}
+		},
 	
-			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Byline.__proto__ || Object.getPrototypeOf(Byline)).call.apply(_ref, [this].concat(args))), _this), _this.styles = {
-				container: {
-					display: 'flex',
-					marginBottom: '10px',
-					fontSize: '12px'
-				},
-				name: {
-					color: '#ff4081'
-				},
-				answerCount: {
-					marginLeft: '30px',
-					fontWeight: 'bold'
-				}
-			}, _this.getAnswerCount = function () {
-				if (_this.props.answerCount === null) {
-					return false;
-				}
-				var label = 'answer';
-				if (_this.props.answerCount !== 1) {
-					label += 's';
-				}
-				return _react2.default.createElement(
+		getDefaultProps: function getDefaultProps() {
+			return {
+				answerCount: null
+			};
+		},
+	
+		// For Testing
+		getInitialState: function getInitialState() {
+			return {
+				user: this.props.user
+			};
+		},
+	
+		getAnswerCount: function getAnswerCount() {
+			if (this.props.answerCount === null) {
+				return false;
+			}
+			var label = 'answer';
+			if (this.props.answerCount !== 1) {
+				label += 's';
+			}
+			return _react2.default.createElement(
+				'div',
+				{ style: this.styles.answerCount },
+				this.props.answerCount,
+				' ',
+				label
+			);
+		},
+	
+		getName: function getName() {
+			return _react2.default.createElement(
+				'span',
+				{ style: this.styles.name },
+				this.props.user
+			);
+		},
+	
+		render: function render() {
+			return _react2.default.createElement(
+				'div',
+				{ style: this.styles.container },
+				_react2.default.createElement(
 					'div',
-					{ style: _this.styles.answerCount },
-					_this.props.answerCount,
-					' ',
-					label
-				);
-			}, _this.getName = function () {
-				return _react2.default.createElement(
-					'span',
-					{ style: _this.styles.name },
-					_this.props.user
-				);
-			}, _temp), _possibleConstructorReturn(_this, _ret);
+					{ style: this.styles.byline },
+					'Posted by ',
+					this.getName(),
+					', ',
+					_react2.default.createElement(_reactTime2.default, { value: this.props.date, format: 'YYYY/MM/DD', relative: true })
+				),
+				this.getAnswerCount()
+			);
 		}
 	
-		_createClass(Byline, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					{ style: this.styles.container },
-					_react2.default.createElement(
-						'div',
-						{ style: this.styles.byline },
-						'Posted by ',
-						this.getName(),
-						', ',
-						_react2.default.createElement(_reactTime2.default, { value: this.props.date, format: 'YYYY/MM/DD', relative: true })
-					),
-					this.getAnswerCount()
-				);
-			}
-		}]);
+	});
 	
-		return Byline;
-	}(_react.Component);
-	
-	Byline.propTypes = {
-		user: _react.PropTypes.string.isRequired,
-		date: _react.PropTypes.number.isRequired,
-		answerCount: _react.PropTypes.number
-	};
-	Byline.defaultProps = {
-		answerCount: null
-	};
 	exports.default = (0, _Insure2.default)(Byline);
 
 /***/ },
@@ -63648,9 +63641,9 @@
 		return QuestionDetail;
 	}(_react.Component);
 	
-	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)(function (state) {
+	exports.default = (0, _reactRedux.connect)(function (state) {
 		return (0, _deepcopy2.default)(state);
-	})(QuestionDetail));
+	})((0, _Insure2.default)(QuestionDetail));
 
 /***/ },
 /* 656 */
@@ -63834,7 +63827,25 @@
 			return _this;
 		}
 	
+		// FOR TESTING
+	
+	
 		_createClass(SubmitAnswer, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps() {}
+		}, {
+			key: 'shouldComponentUpdate',
+			value: function shouldComponentUpdate() {
+				return false;
+			}
+		}, {
+			key: 'componentDidUpate',
+			value: function componentDidUpate() {
+				this.setState({
+					foobar: 'foo'
+				});
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -63873,7 +63884,7 @@
 	SubmitAnswer.propTypes = {
 		questionId: _react.PropTypes.string.isRequired
 	};
-	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)()(SubmitAnswer));
+	exports.default = (0, _reactRedux.connect)()((0, _Insure2.default)(SubmitAnswer));
 
 /***/ },
 /* 658 */
@@ -64035,7 +64046,7 @@
 		return SubmitQuestion;
 	}(_react.Component);
 	
-	exports.default = (0, _Insure2.default)((0, _reactRedux.connect)()(SubmitQuestion));
+	exports.default = (0, _reactRedux.connect)()((0, _Insure2.default)(SubmitQuestion));
 
 /***/ },
 /* 659 */
@@ -65595,6 +65606,10 @@
 	
 	var _log2 = _interopRequireDefault(_log);
 	
+	var _methods = __webpack_require__(/*! ../constants/methods */ 745);
+	
+	var _methods2 = _interopRequireDefault(_methods);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65619,11 +65634,16 @@
 	
 				_initialiseProps.call(_this);
 	
-				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), _this.props.id);
+				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), props.id);
 				_this.consoleWindow = _log2.default.getWindow();
 				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 				_this.isRenderingComplete = false;
 				_this.handleLifecycleEvent('constructor', { newProps: props });
+				var logEntry = _log2.default.get(_this.logEntryId);
+				for (var name in _methods2.default) {
+					logEntry.methods[name].isMethodOverridden = Boolean(_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), name, _this));
+				}
+				_log2.default.update(_this.logEntryId, logEntry);
 				//this.updateState('constructor', props);
 				return _this;
 			}
@@ -65631,27 +65651,32 @@
 			_createClass(ComponentWrapper, [{
 				key: 'componentWillMount',
 				value: function componentWillMount() {
-					this.handleLifecycleEvent('componentWillMount', {
-						newProps: this.props,
-						newState: this.state
-					});
+					var isMethodOverridden = false;
+					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this).call(this);
 					}
+					this.handleLifecycleEvent('componentWillMount', {
+						newProps: this.props,
+						newState: newState
+					}, isMethodOverridden);
 					//this.updateState('componentWillMount', this.props);
 				}
 			}, {
 				key: 'componentDidMount',
 				value: function componentDidMount() {
-					var newState = this.state;
+					var isMethodOverridden = false;
+					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this).call(this);
 					}
 					this.handleLifecycleEvent('componentDidMount', {
 						newProps: this.props,
 						newState: newState,
 						updatedNewState: this.state
-					});
+					}, isMethodOverridden);
 					this.isRenderingComplete = true;
 					this.setIsMounted(true);
 					//this.updateState('componentDidMount', this.props);
@@ -65660,14 +65685,17 @@
 			}, {
 				key: 'componentWillReceiveProps',
 				value: function componentWillReceiveProps(nextProps) {
+					var isMethodOverridden = false;
+					var oldState = (0, _deep.clone)(this.state);
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
+						isMethodOverridden = true;
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
+					}
 					this.handleLifecycleEvent('componentWillReceiveProps', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state
-					});
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-					}
+						oldState: oldState
+					}, isMethodOverridden);
 					this.isRenderingComplete = false;
 					this.clearCalled();
 					//this.updateState('componentWillReceiveProps', nextProps);
@@ -65677,8 +65705,12 @@
 				value: function shouldComponentUpdate(nextProps, nextState) {
 					this.isInfiniteLoop = this.autoRenderCount >= 10;
 					var isWrappedComponentGoingToUpdate = null;
+					var isMethodOverridden = false;
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
-						isWrappedComponentGoingToUpdate = _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState);
+						console.debug('super.shouldComponentUpdate exists');
+						isMethodOverridden = true;
+						//isWrappedComponentGoingToUpdate = super.shouldComponentUpdate(nextProps, nextState);
+						console.info('isWrappedComponentGoingToUpdate', isWrappedComponentGoingToUpdate);
 					} else {
 						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
 					}
@@ -65699,9 +65731,9 @@
 					this.handleLifecycleEvent('shouldComponentUpdate', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state,
-						newState: nextState
-					}, isUnnecessaryUpdatePrevented);
+						oldState: (0, _deep.clone)(this.state),
+						newState: (0, _deep.clone)(nextState)
+					}, isMethodOverridden, isUnnecessaryUpdatePrevented);
 					this.updateStore();
 					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
 					if (isUpdateNecessary && !this.isInfiniteLoop) {
@@ -65715,38 +65747,44 @@
 			}, {
 				key: 'componentWillUpdate',
 				value: function componentWillUpdate(nextProps, nextState) {
+					var isMethodOverridden = false;
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
+						isMethodOverridden = true;
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
+					}
 					this.handleLifecycleEvent('componentWillUpdate', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state,
-						newState: nextState
-					});
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
-					}
+						oldState: (0, _deep.clone)(this.state),
+						newState: (0, _deep.clone)(nextState)
+					}, isMethodOverridden);
 				}
 			}, {
 				key: 'componentDidUpdate',
 				value: function componentDidUpdate(prevProps, prevState) {
+					var isMethodOverridden = false;
 					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this).call(this, prevProps, prevState);
 					}
 					this.isRenderingComplete = true;
 					this.handleLifecycleEvent('componentDidUpdate', {
 						oldProps: prevProps,
 						newProps: this.props,
-						oldState: prevState,
-						newState: newState,
+						oldState: (0, _deep.clone)(prevState),
+						newState: (0, _deep.clone)(newState),
 						updatedNewState: this.state
-					});
+					}, isMethodOverridden);
 					//this.updateState('componentDidUpdate', this.props);
 					this.updateStore();
 				}
 			}, {
 				key: 'componentWillUnmount',
 				value: function componentWillUnmount() {
+					var isMethodOverridden = false;
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this).call(this);
 					}
 					this.isRenderingComplete = true;
@@ -65754,8 +65792,8 @@
 					this.clearCalled();
 					this.handleLifecycleEvent('componentWillUnmount', {
 						newProps: this.props,
-						newState: this.state
-					});
+						newState: (0, _deep.clone)(this.state)
+					}, isMethodOverridden);
 					this.updateStore();
 				}
 	
@@ -65785,6 +65823,9 @@
 				// 	}
 				// };
 	
+				// TODOD No longer cloning state here so clean this up
+	
+	
 				// Remove children because they can contain
 				// circular references, which cause problems
 				// with cloning and stringifying
@@ -65794,10 +65835,12 @@
 				value: function render() {
 	
 					this.incrementRenderCount();
+					// render method is mandatory
+					var isMethodOverridden = true;
 					this.handleLifecycleEvent('render', {
 						newProps: this.props,
-						newState: this.state
-					});
+						newState: (0, _deep.clone)(this.state)
+					}, isMethodOverridden);
 					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
 				}
 			}]);
@@ -65813,13 +65856,15 @@
 			this.consoleWindow = null;
 	
 			this.handleLifecycleEvent = function (name, propsAndStates) {
-				var isUnnecessaryUpdatePrevented = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var isMethodOverridden = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var isUnnecessaryUpdatePrevented = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
 				var logEntry = _log2.default.get(_this2.logEntryId);
 				var count = logEntry.methods[name].count;
 				var clonedPropsAndStates = _this2.cloneValues(propsAndStates);
 				logEntry.methods[name] = _extends({
 					name: name,
+					isMethodOverridden: isMethodOverridden,
 					called: true,
 					count: ++count
 				}, clonedPropsAndStates, {
@@ -65827,7 +65872,6 @@
 					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
 				});
 				_log2.default.update(_this2.logEntryId, logEntry);
-				console.log('%c' + name, 'color: blue');
 			};
 	
 			this.cloneValues = function (propsAndStates) {
@@ -65838,7 +65882,7 @@
 					if (/Props/.test(name)) {
 						newValue = (0, _deep.clone)(_this2.removeCircularReferences(value));
 					} else {
-						newValue = (0, _deep.clone)(value);
+						newValue = value;
 					}
 					newPropsAndStates[name] = newValue;
 				}
@@ -65897,6 +65941,161 @@
 	};
 	
 	exports.default = Insure;
+
+/***/ },
+/* 744 */,
+/* 745 */
+/*!**********************************!*\
+  !*** ./src/constants/methods.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	var methodProperties = {
+		constructor: {
+			args: ['props'],
+			state: [],
+			props: [{
+				name: 'props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
+		},
+		componentWillMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
+		},
+		componentDidMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render.'
+		},
+		componentWillReceiveProps: {
+			args: ['nextProps'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		shouldComponentUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentWillUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		render: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentDidUpdate: {
+			args: ['prevProps', 'prevState'],
+			state: [{
+				name: 'prevState',
+				value: 'oldState'
+			}, {
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'prevProps',
+				value: 'oldProps'
+			}, {
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render. It can also initiate an infinite rendering loop ' + '(use the "text +=" option below to see an example of this).'
+		},
+		componentWillUnmount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true
+		}
+	
+	};
+	
+	exports.default = methodProperties;
 
 /***/ }
 /******/ ]);

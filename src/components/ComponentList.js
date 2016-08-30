@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
 import color from 'color';
-import ReactTooltip from 'react-tooltip';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import styles from '../styles/styles';
 
@@ -66,9 +66,20 @@ class ComponentList extends Component {
 			if (this.props.selectedComponentId === id) {
 				rowStyle.push(this.styles.selectedComponent);
 			}
-			let warningMessage = '';
+			const tooltip = (<Tooltip id='unnecessaryRendersTooltip'>{entry.unnecessaryUpdatesPrevented} unnecessary rerenders
+				prevented</Tooltip>);
+			let unnecessaryUpdateCount = '';
 			if (entry.unnecessaryUpdatesPrevented) {
-				warningMessage = `${entry.unnecessaryUpdatesPrevented} unnecessary rerenders prevented`;
+				unnecessaryUpdateCount = (
+					<div>
+						<OverlayTrigger
+							placement='right'
+							overlay={tooltip}
+						>
+							<div style={this.styles.warning}>{entry.unnecessaryUpdatesPrevented || ''}</div>
+						</OverlayTrigger>
+					</div>
+				);
 			}
 			return (
 				<div
@@ -77,14 +88,8 @@ class ComponentList extends Component {
 					onClick={this.handleComponentSelected.bind(this, id)}
 				>
 					<div style={componentStyle}>{entry.displayName}</div>
-					<div style={this.styles.renderCount} data-tip={warningMessage}>{entry.renderCount}</div>
-					<div data-tip={warningMessage} style={this.styles.warning}>{entry.unnecessaryUpdatesPrevented || ''}</div>
-					<ReactTooltip
-						place='right'
-						effect='solid'
-						type='error'
-						delayShow={100}
-					/>
+					<div style={this.styles.renderCount}>{entry.renderCount}</div>
+					{unnecessaryUpdateCount}
 				</div>
 			);
 		});

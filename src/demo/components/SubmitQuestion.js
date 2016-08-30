@@ -110,4 +110,4 @@ export class SubmitQuestion extends Component {
 
 }
 
-export default Insure(connect()(SubmitQuestion));
+export default connect()(Insure(SubmitQuestion));

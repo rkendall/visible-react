@@ -4,19 +4,15 @@ import React, {Component, PropTypes} from 'react';
 import Time from 'react-time'
 import Insure from '../../components/Insure';
 
-class Byline extends Component {
+const Byline = React.createClass({
 
-	static propTypes = {
+	propTypes: {
 		user: PropTypes.string.isRequired,
 		date: PropTypes.number.isRequired,
 		answerCount: PropTypes.number
-	};
+	},
 
-	static defaultProps = {
-		answerCount: null
-	};
-
-	styles = {
+	styles: {
 		container: {
 			display: 'flex',
 			marginBottom: '10px',
@@ -29,9 +25,22 @@ class Byline extends Component {
 			marginLeft: '30px',
 			fontWeight: 'bold'
 		}
-	};
+	},
 
-	getAnswerCount = () => {
+	getDefaultProps: function() {
+		return {
+			answerCount: null
+		}
+	},
+
+	// For Testing
+	getInitialState: function() {
+		return {
+			user: this.props.user
+		};
+	},
+
+	getAnswerCount: function() {
 		if (this.props.answerCount === null) {
 			return false;
 		}
@@ -44,17 +53,17 @@ class Byline extends Component {
 				{this.props.answerCount} {label}
 			</div>
 		)
-	};
+	},
 
-	getName = () => {
+	getName: function() {
 		return (
 			<span style={this.styles.name}>
 				{this.props.user}
 			</span>
 		)
-	};
+	},
 
-	render() {
+	render: function() {
 		return (
 			<div style={this.styles.container}>
 				<div style={this.styles.byline}>
@@ -65,6 +74,6 @@ class Byline extends Component {
 		);
 	}
 
-}
+});
 
 export default Insure(Byline);

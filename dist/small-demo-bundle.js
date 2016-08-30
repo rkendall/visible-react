@@ -30673,6 +30673,7 @@
 			methodNames.forEach(function (name) {
 				logObj[name] = {
 					name: name,
+					isMethodOverridden: false,
 					called: false,
 					count: 0,
 					oldState: null,
@@ -35317,6 +35318,10 @@
 	
 	var _log2 = _interopRequireDefault(_log);
 	
+	var _methods = __webpack_require__(/*! ../constants/methods */ 745);
+	
+	var _methods2 = _interopRequireDefault(_methods);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35341,11 +35346,16 @@
 	
 				_initialiseProps.call(_this);
 	
-				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), _this.props.id);
+				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), props.id);
 				_this.consoleWindow = _log2.default.getWindow();
 				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 				_this.isRenderingComplete = false;
 				_this.handleLifecycleEvent('constructor', { newProps: props });
+				var logEntry = _log2.default.get(_this.logEntryId);
+				for (var name in _methods2.default) {
+					logEntry.methods[name].isMethodOverridden = Boolean(_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), name, _this));
+				}
+				_log2.default.update(_this.logEntryId, logEntry);
 				//this.updateState('constructor', props);
 				return _this;
 			}
@@ -35353,27 +35363,32 @@
 			_createClass(ComponentWrapper, [{
 				key: 'componentWillMount',
 				value: function componentWillMount() {
-					this.handleLifecycleEvent('componentWillMount', {
-						newProps: this.props,
-						newState: this.state
-					});
+					var isMethodOverridden = false;
+					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this).call(this);
 					}
+					this.handleLifecycleEvent('componentWillMount', {
+						newProps: this.props,
+						newState: newState
+					}, isMethodOverridden);
 					//this.updateState('componentWillMount', this.props);
 				}
 			}, {
 				key: 'componentDidMount',
 				value: function componentDidMount() {
-					var newState = this.state;
+					var isMethodOverridden = false;
+					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this).call(this);
 					}
 					this.handleLifecycleEvent('componentDidMount', {
 						newProps: this.props,
 						newState: newState,
 						updatedNewState: this.state
-					});
+					}, isMethodOverridden);
 					this.isRenderingComplete = true;
 					this.setIsMounted(true);
 					//this.updateState('componentDidMount', this.props);
@@ -35382,14 +35397,17 @@
 			}, {
 				key: 'componentWillReceiveProps',
 				value: function componentWillReceiveProps(nextProps) {
+					var isMethodOverridden = false;
+					var oldState = (0, _deep.clone)(this.state);
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
+						isMethodOverridden = true;
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
+					}
 					this.handleLifecycleEvent('componentWillReceiveProps', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state
-					});
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-					}
+						oldState: oldState
+					}, isMethodOverridden);
 					this.isRenderingComplete = false;
 					this.clearCalled();
 					//this.updateState('componentWillReceiveProps', nextProps);
@@ -35399,8 +35417,12 @@
 				value: function shouldComponentUpdate(nextProps, nextState) {
 					this.isInfiniteLoop = this.autoRenderCount >= 10;
 					var isWrappedComponentGoingToUpdate = null;
+					var isMethodOverridden = false;
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
-						isWrappedComponentGoingToUpdate = _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState);
+						console.debug('super.shouldComponentUpdate exists');
+						isMethodOverridden = true;
+						//isWrappedComponentGoingToUpdate = super.shouldComponentUpdate(nextProps, nextState);
+						console.info('isWrappedComponentGoingToUpdate', isWrappedComponentGoingToUpdate);
 					} else {
 						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
 					}
@@ -35421,9 +35443,9 @@
 					this.handleLifecycleEvent('shouldComponentUpdate', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state,
-						newState: nextState
-					}, isUnnecessaryUpdatePrevented);
+						oldState: (0, _deep.clone)(this.state),
+						newState: (0, _deep.clone)(nextState)
+					}, isMethodOverridden, isUnnecessaryUpdatePrevented);
 					this.updateStore();
 					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
 					if (isUpdateNecessary && !this.isInfiniteLoop) {
@@ -35437,38 +35459,44 @@
 			}, {
 				key: 'componentWillUpdate',
 				value: function componentWillUpdate(nextProps, nextState) {
+					var isMethodOverridden = false;
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
+						isMethodOverridden = true;
+						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
+					}
 					this.handleLifecycleEvent('componentWillUpdate', {
 						oldProps: this.props,
 						newProps: nextProps,
-						oldState: this.state,
-						newState: nextState
-					});
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
-					}
+						oldState: (0, _deep.clone)(this.state),
+						newState: (0, _deep.clone)(nextState)
+					}, isMethodOverridden);
 				}
 			}, {
 				key: 'componentDidUpdate',
 				value: function componentDidUpdate(prevProps, prevState) {
+					var isMethodOverridden = false;
 					var newState = (0, _deep.clone)(this.state);
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this).call(this, prevProps, prevState);
 					}
 					this.isRenderingComplete = true;
 					this.handleLifecycleEvent('componentDidUpdate', {
 						oldProps: prevProps,
 						newProps: this.props,
-						oldState: prevState,
-						newState: newState,
+						oldState: (0, _deep.clone)(prevState),
+						newState: (0, _deep.clone)(newState),
 						updatedNewState: this.state
-					});
+					}, isMethodOverridden);
 					//this.updateState('componentDidUpdate', this.props);
 					this.updateStore();
 				}
 			}, {
 				key: 'componentWillUnmount',
 				value: function componentWillUnmount() {
+					var isMethodOverridden = false;
 					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this)) {
+						isMethodOverridden = true;
 						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this).call(this);
 					}
 					this.isRenderingComplete = true;
@@ -35476,8 +35504,8 @@
 					this.clearCalled();
 					this.handleLifecycleEvent('componentWillUnmount', {
 						newProps: this.props,
-						newState: this.state
-					});
+						newState: (0, _deep.clone)(this.state)
+					}, isMethodOverridden);
 					this.updateStore();
 				}
 	
@@ -35507,6 +35535,9 @@
 				// 	}
 				// };
 	
+				// TODOD No longer cloning state here so clean this up
+	
+	
 				// Remove children because they can contain
 				// circular references, which cause problems
 				// with cloning and stringifying
@@ -35516,10 +35547,12 @@
 				value: function render() {
 	
 					this.incrementRenderCount();
+					// render method is mandatory
+					var isMethodOverridden = true;
 					this.handleLifecycleEvent('render', {
 						newProps: this.props,
-						newState: this.state
-					});
+						newState: (0, _deep.clone)(this.state)
+					}, isMethodOverridden);
 					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
 				}
 			}]);
@@ -35535,13 +35568,15 @@
 			this.consoleWindow = null;
 	
 			this.handleLifecycleEvent = function (name, propsAndStates) {
-				var isUnnecessaryUpdatePrevented = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var isMethodOverridden = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+				var isUnnecessaryUpdatePrevented = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
 	
 				var logEntry = _log2.default.get(_this2.logEntryId);
 				var count = logEntry.methods[name].count;
 				var clonedPropsAndStates = _this2.cloneValues(propsAndStates);
 				logEntry.methods[name] = _extends({
 					name: name,
+					isMethodOverridden: isMethodOverridden,
 					called: true,
 					count: ++count
 				}, clonedPropsAndStates, {
@@ -35549,7 +35584,6 @@
 					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
 				});
 				_log2.default.update(_this2.logEntryId, logEntry);
-				console.log('%c' + name, 'color: blue');
 			};
 	
 			this.cloneValues = function (propsAndStates) {
@@ -35560,7 +35594,7 @@
 					if (/Props/.test(name)) {
 						newValue = (0, _deep.clone)(_this2.removeCircularReferences(value));
 					} else {
-						newValue = (0, _deep.clone)(value);
+						newValue = value;
 					}
 					newPropsAndStates[name] = newValue;
 				}
@@ -35619,6 +35653,161 @@
 	};
 	
 	exports.default = Insure;
+
+/***/ },
+/* 744 */,
+/* 745 */
+/*!**********************************!*\
+  !*** ./src/constants/methods.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	var methodProperties = {
+		constructor: {
+			args: ['props'],
+			state: [],
+			props: [{
+				name: 'props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
+		},
+		componentWillMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
+		},
+		componentDidMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render.'
+		},
+		componentWillReceiveProps: {
+			args: ['nextProps'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		shouldComponentUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentWillUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		render: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentDidUpdate: {
+			args: ['prevProps', 'prevState'],
+			state: [{
+				name: 'prevState',
+				value: 'oldState'
+			}, {
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'prevProps',
+				value: 'oldProps'
+			}, {
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render. It can also initiate an infinite rendering loop ' + '(use the "text +=" option below to see an example of this).'
+		},
+		componentWillUnmount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true
+		}
+	
+	};
+	
+	exports.default = methodProperties;
 
 /***/ }
 /******/ ]);

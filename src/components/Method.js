@@ -6,9 +6,11 @@ import Radium from 'radium';
 import color from 'color';
 import {diffJson} from 'diff';
 import Draggable from 'react-draggable';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 import log from '../log';
 import styles from '../styles/styles';
+import methodProperties from '../constants/methods';
 
 class Method extends Component {
 
@@ -40,7 +42,7 @@ class Method extends Component {
 			flexDirection: 'column',
 			justifyContent: 'space-between',
 			flex: '1',
-			width: '260px',
+			width: '275px',
 			height: '100%',
 			margin: '0 10px',
 			padding: '10px 10px 5px 10px',
@@ -61,7 +63,16 @@ class Method extends Component {
 			boxShadow: 'none'
 		},
 		methodName: {
-			fontWeight: 'bold'
+			display: 'flex',
+			alignItems: 'baseline',
+			fontWeight: 'bold',
+			wordBreak: 'break-word'
+		},
+		methodIcon: {
+			marginRight: '5px',
+			color: 'limegreen',
+			fontSize: '13px',
+			cursor: 'default'
 		},
 		line: {
 			display: 'flex',
@@ -116,8 +127,8 @@ class Method extends Component {
 		},
 		draggableWindow: {
 			position: 'fixed',
-			top: '10',
-			left: '10',
+			top: '10px',
+			left: '10px',
 			resize: 'both',
 			width: this.draggableWindowDimensions.width + 'px',
 			height: this.draggableWindowDimensions.height + 'px',
@@ -166,190 +177,6 @@ class Method extends Component {
 		}
 	};
 
-	methodProperties = {
-		constructor: {
-			args: ['props'],
-			state: [],
-			props: [
-				{
-					name: 'props',
-					value: 'newProps'
-				}
-			],
-			terminal: false,
-			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
-		},
-		componentWillMount: {
-			args: [],
-			state: [
-				{
-					name: 'this.state',
-					value: 'newState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'newProps'
-				}
-			],
-			terminal: false,
-			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
-		},
-		componentDidMount: {
-			args: [],
-			state: [
-				{
-					name: 'this.state',
-					value: 'newState'
-				},
-				{
-					name: '(final state)',
-					value: 'updatedNewState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'newProps'
-				}
-			],
-			terminal: true,
-			description: 'Avoid calling setState here because it will trigger an extra render.'
-		},
-		componentWillReceiveProps: {
-			args: ['nextProps'],
-			state: [
-				{
-					name: 'this.state',
-					value: 'oldState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'oldProps'
-				},
-				{
-					name: 'nextProps',
-					value: 'newProps'
-				}
-			],
-			terminal: false
-		},
-		shouldComponentUpdate: {
-			args: ['nextProps', 'nextState'],
-			state: [
-				{
-					name: 'this.state',
-					value: 'oldState'
-				},
-				{
-					name: 'nextState',
-					value: 'newState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'oldProps'
-				},
-				{
-					name: 'nextProps',
-					value: 'newProps'
-				}
-			],
-			terminal: false
-		},
-		componentWillUpdate: {
-			args: ['nextProps', 'nextState'],
-			state: [
-				{
-					name: 'this.state',
-					value: 'oldState'
-				},
-				{
-					name: 'nextState',
-					value: 'newState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'oldProps'
-				},
-				{
-					name: 'nextProps',
-					value: 'newProps'
-				}
-			],
-			terminal: false
-		},
-		render: {
-			args: [],
-			state: [
-				{
-					name: 'this.state',
-					value: 'newState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'newProps'
-				}
-			],
-			terminal: false
-		},
-		componentDidUpdate: {
-			args: ['prevProps', 'prevState'],
-			state: [
-				{
-					name: 'prevState',
-					value: 'oldState'
-				},
-				{
-					name: 'this.state',
-					value: 'newState'
-				},
-				{
-					name: '(final state)',
-					value: 'updatedNewState'
-				}
-			],
-			props: [
-				{
-					name: 'prevProps',
-					value: 'oldProps'
-				},
-				{
-					name: 'this.props',
-					value: 'newProps'
-				}
-			],
-			terminal: true,
-			description: 'Avoid calling setState here because it will trigger an extra render. It can also initiate an infinite rendering loop ' +
-			'(use the "text +=" option below to see an example of this).'
-		},
-		componentWillUnmount: {
-			args: [],
-			state: [
-				{
-					name: 'this.state',
-					value: 'newState'
-				}
-			],
-			props: [
-				{
-					name: 'this.props',
-					value: 'newProps'
-				}
-			],
-			terminal: true
-		}
-
-	};
-
 	constructor(props) {
 		super(props);
 		const name = this.props.methodObj.name;
@@ -376,8 +203,33 @@ class Method extends Component {
 	// 	log.set(clone(nextState));
 	// }
 
+	getMethodName = () => {
+		const methodObj = this.props.methodObj;
+		const args = this.getArgNames(methodObj).str;
+		const name = methodObj.name === 'constructor'
+			? `constructor(${args}) or getInitialState()`
+			: `${methodObj.name}(${args})`;
+		const iconMessage = (<Tooltip id='iconTooltip'>This method exists in the wrapped component</Tooltip>);
+		const methodIcon = methodObj.isMethodOverridden ? (
+			<OverlayTrigger
+				placement='right'
+				overlay={iconMessage}
+			>
+				<div style={this.styles.methodIcon}>⬤</div>
+			</OverlayTrigger>
+		) : '';
+		return (
+			<div>
+				<div style={this.styles.methodName}>
+					{methodIcon}
+						<div>{name}</div>
+				</div>
+			</div>
+		);
+	};
+
 	getArgNames = (methodObj) => {
-		const args = this.methodProperties[methodObj.name].args;
+		const args = methodProperties[methodObj.name].args;
 		return {
 			str: args.join(', '),
 			arr: args
@@ -407,7 +259,7 @@ class Method extends Component {
 		const types = ['props', 'state'];
 		const methodObj = this.props.methodObj;
 		return types.map((type) => {
-			const itemNames = this.methodProperties[methodObj.name][type];
+			const itemNames = methodProperties[methodObj.name][type];
 			return itemNames.map((nameObj, ind) => {
 				const isSecond = ind > 0;
 				return this.getText(nameObj.name, this.props.methodObj[nameObj.value], type, isSecond);
@@ -485,7 +337,7 @@ class Method extends Component {
 	};
 
 	getDescription = () => {
-		const description = this.methodProperties[this.props.methodObj.name].description;
+		const description = methodProperties[this.props.methodObj.name].description;
 		return (
 			<div style={styles.description}>{description}</div>
 		);
@@ -537,7 +389,7 @@ class Method extends Component {
 					<div>↓</div>
 				</div>
 			)
-		} else if (!this.methodProperties[this.props.methodObj.name].terminal) {
+		} else if (!methodProperties[this.props.methodObj.name].terminal) {
 			return (<div style={this.styles.arrow}>↓</div>);
 		} else {
 			return (<div style={[this.styles.arrow, this.styles.hidden]}>↓</div>);
@@ -581,8 +433,7 @@ class Method extends Component {
 				<div style={this.styles.container}>
 					<div style={this.getActivityStyle(methodObj)}>
 						<div>
-							<div style={this.styles.methodName}>{methodObj.name}({this.getArgNames(methodObj).str})
-							</div>
+							{this.getMethodName()}
 							{this.getTimesCalled(methodObj)}
 							{this.getPropsAndStates()}
 							{this.getUnnecessaryUpdatePrevented()}

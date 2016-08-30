@@ -40,6 +40,21 @@ class SubmitAnswer extends Component {
 		};
 	}
 
+	// FOR TESTING
+	componentWillReceiveProps() {
+
+	};
+
+	shouldComponentUpdate() {
+		return false;
+	}
+
+	componentDidUpate() {
+		this.setState({
+			foobar: 'foo'
+		});
+	};
+
 	updateEntry = (event) => {
 		this.setState({
 			answerText: event.target.value
@@ -79,4 +94,4 @@ class SubmitAnswer extends Component {
 
 }
 
-export default Insure(connect()(SubmitAnswer));
+export default connect()(Insure(SubmitAnswer));

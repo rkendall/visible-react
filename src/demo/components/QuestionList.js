@@ -47,6 +47,6 @@ export class QuestionList extends Component {
 
 }
 
-export default Insure(connect(
+export default connect(
 	(state) => deepcopy(state)
-)(QuestionList));
+)(Insure(QuestionList));

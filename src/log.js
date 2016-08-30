@@ -91,6 +91,7 @@ const log = {
 		methodNames.forEach((name) => {
 			logObj[name] = {
 				name,
+				isMethodOverridden: false,
 				called: false,
 				count: 0,
 				oldState: null,

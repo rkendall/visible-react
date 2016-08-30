@@ -56,4 +56,4 @@ class Question extends Component {
 
 }
 
-export default Insure(Radium(Question));
+export default Radium(Insure(Question));

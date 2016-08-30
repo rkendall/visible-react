@@ -6,6 +6,7 @@ import deepEqual from 'deep-equal';
 import uuid from 'node-uuid';
 
 import log from '../log';
+import methodProperties from '../constants/methods';
 
 function Insure(WrappedComponent) {
 
@@ -24,7 +25,7 @@ function Insure(WrappedComponent) {
 			// if (!this.key) {
 			// 	this.key = uuid.v1();
 			// }
-			this.logEntryId = log.add(getComponentName(WrappedComponent), this.props.id);
+			this.logEntryId = log.add(getComponentName(WrappedComponent), props.id);
 			this.consoleWindow = log.getWindow();
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
@@ -32,26 +33,37 @@ function Insure(WrappedComponent) {
 				'constructor',
 				{newProps: props}
 			);
+			let logEntry = log.get(this.logEntryId);
+			for (let name in methodProperties) {
+				logEntry.methods[name].isMethodOverridden = Boolean(super[name]);
+			}
+			log.update(this.logEntryId, logEntry);
 			//this.updateState('constructor', props);
 		}
 
 		componentWillMount() {
+			let isMethodOverridden = false;
+			const newState = clone(this.state);
+			if (super.componentWillMount) {
+				isMethodOverridden = true;
+				super.componentWillMount();
+			}
 			this.handleLifecycleEvent(
 				'componentWillMount',
 				{
 					newProps: this.props,
-					newState: this.state
-				}
+					newState
+				},
+				isMethodOverridden
 			);
-			if (super.componentWillMount) {
-				super.componentWillMount();
-			}
 			//this.updateState('componentWillMount', this.props);
 		}
 
 		componentDidMount() {
-			const newState = this.state;
+			let isMethodOverridden = false;
+			const newState = clone(this.state);
 			if (super.componentDidMount) {
+				isMethodOverridden = true;
 				super.componentDidMount();
 			}
 			this.handleLifecycleEvent(
@@ -60,7 +72,8 @@ function Insure(WrappedComponent) {
 					newProps: this.props,
 					newState: newState,
 					updatedNewState: this.state
-				}
+				},
+				isMethodOverridden
 			);
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
@@ -69,17 +82,21 @@ function Insure(WrappedComponent) {
 		}
 
 		componentWillReceiveProps(nextProps) {
+			let isMethodOverridden = false;
+			const oldState = clone(this.state);
+			if (super.componentWillReceiveProps) {
+				isMethodOverridden = true;
+				super.componentWillReceiveProps(nextProps);
+			}
 			this.handleLifecycleEvent(
 				'componentWillReceiveProps',
 				{
 					oldProps: this.props,
 					newProps: nextProps,
-					oldState: this.state
-				}
+					oldState
+				},
+				isMethodOverridden
 			);
-			if (super.componentWillReceiveProps) {
-				super.componentWillReceiveProps(nextProps);
-			}
 			this.isRenderingComplete = false;
 			this.clearCalled();
 			//this.updateState('componentWillReceiveProps', nextProps);
@@ -88,8 +105,12 @@ function Insure(WrappedComponent) {
 		shouldComponentUpdate(nextProps, nextState) {
 			this.isInfiniteLoop = this.autoRenderCount >= 10;
 			let isWrappedComponentGoingToUpdate = null;
+			let isMethodOverridden = false;
 			if (super.shouldComponentUpdate) {
-				isWrappedComponentGoingToUpdate = super.shouldComponentUpdate(nextProps, nextState);
+				console.debug('super.shouldComponentUpdate exists');
+				isMethodOverridden = true;
+				//isWrappedComponentGoingToUpdate = super.shouldComponentUpdate(nextProps, nextState);
+				console.info('isWrappedComponentGoingToUpdate', isWrappedComponentGoingToUpdate);
 			} else {
 				isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
 			}
@@ -112,9 +133,10 @@ function Insure(WrappedComponent) {
 				{
 					oldProps: this.props,
 					newProps: nextProps,
-					oldState: this.state,
-					newState: nextState
+					oldState: clone(this.state),
+					newState: clone(nextState)
 				},
+				isMethodOverridden,
 				isUnnecessaryUpdatePrevented
 			);
 			this.updateStore();
@@ -129,23 +151,28 @@ function Insure(WrappedComponent) {
 		}
 
 		componentWillUpdate(nextProps, nextState) {
+			let isMethodOverridden = false;
+			if (super.componentWillUpdate) {
+				isMethodOverridden = true;
+				super.componentWillUpdate(nextProps, nextState);
+			}
 			this.handleLifecycleEvent(
 				'componentWillUpdate',
 				{
 					oldProps: this.props,
 					newProps: nextProps,
-					oldState: this.state,
-					newState: nextState
-				}
+					oldState: clone(this.state),
+					newState: clone(nextState)
+				},
+				isMethodOverridden
 			);
-			if (super.componentWillUpdate) {
-				super.componentWillUpdate(nextProps, nextState);
-			}
 		}
 
 		componentDidUpdate(prevProps, prevState) {
+			let isMethodOverridden = false;
 			const newState = clone(this.state);
 			if (super.componentDidUpdate) {
+				isMethodOverridden = true;
 				super.componentDidUpdate(prevProps, prevState);
 			}
 			this.isRenderingComplete = true;
@@ -154,17 +181,20 @@ function Insure(WrappedComponent) {
 				{
 					oldProps: prevProps,
 					newProps: this.props,
-					oldState: prevState,
-					newState: newState,
+					oldState: clone(prevState),
+					newState: clone(newState),
 					updatedNewState: this.state
-				}
+				},
+				isMethodOverridden
 			);
 			//this.updateState('componentDidUpdate', this.props);
 			this.updateStore();
 		}
 
 		componentWillUnmount() {
+			let isMethodOverridden = false;
 			if (super.componentWillUnmount) {
+				isMethodOverridden = true;
 				super.componentWillUnmount();
 			}
 			this.isRenderingComplete = true;
@@ -174,8 +204,9 @@ function Insure(WrappedComponent) {
 				'componentWillUnmount',
 				{
 					newProps: this.props,
-					newState: this.state
-				}
+					newState: clone(this.state)
+				},
+				isMethodOverridden
 			);
 			this.updateStore();
 		}
@@ -206,12 +237,13 @@ function Insure(WrappedComponent) {
 		// 	}
 		// };
 
-		handleLifecycleEvent = (name, propsAndStates, isUnnecessaryUpdatePrevented = false) => {
+		handleLifecycleEvent = (name, propsAndStates, isMethodOverridden = false, isUnnecessaryUpdatePrevented = false) => {
 			let logEntry = log.get(this.logEntryId);
 			let count = logEntry.methods[name].count;
 			const clonedPropsAndStates = this.cloneValues(propsAndStates);
 			logEntry.methods[name] = {
 				name,
+				isMethodOverridden,
 				called: true,
 				count: ++count,
 				...clonedPropsAndStates,
@@ -219,9 +251,9 @@ function Insure(WrappedComponent) {
 				isUnnecessaryUpdatePrevented
 			};
 			log.update(this.logEntryId, logEntry);
-			console.log(`%c${name}`, 'color: blue');
 		};
 
+		// TODOD No longer cloning state here so clean this up
 		cloneValues = (propsAndStates) => {
 			let newPropsAndStates = {};
 			for (let name in propsAndStates) {
@@ -230,7 +262,7 @@ function Insure(WrappedComponent) {
 				if (/Props/.test(name)) {
 					newValue = clone(this.removeCircularReferences(value));
 				} else {
-					newValue = clone(value);
+					newValue = value;
 				}
 				newPropsAndStates[name] = newValue;
 			}
@@ -288,12 +320,15 @@ function Insure(WrappedComponent) {
 		render() {
 
 			this.incrementRenderCount();
+			// render method is mandatory
+			let isMethodOverridden = true;
 			this.handleLifecycleEvent(
 				'render',
 				{
 					newProps: this.props,
-					newState: this.state
-				}
+					newState: clone(this.state)
+				},
+				isMethodOverridden
 			);
 			return super.render();
 
