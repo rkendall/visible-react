@@ -5,9 +5,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	entry: {
-		'bundle': path.join(__dirname, 'src/index'),
-		'demo-bundle': path.join(__dirname, 'src/demo/index'),
-		'small-demo-bundle': path.join(__dirname, 'src/small-demo')
+		'bundle': path.join(__dirname, 'lib/index'),
+		'demo-bundle': path.join(__dirname, 'lib/demo/index'),
+		'small-demo-bundle': path.join(__dirname, 'lib/small-demo')
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -18,7 +18,7 @@ module.exports = {
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
-				include: path.join(__dirname, 'src'),
+				include: path.join(__dirname, 'lib'),
 				query: {
 					presets: [
 						'es2015',
@@ -31,12 +31,12 @@ module.exports = {
 	}
 	// plugins: [
 	// 	new HtmlWebpackPlugin({
-	// 		template: __dirname + '/src/index.html',
+	// 		template: __dirname + '/lib/index.html',
 	// 		filename: 'index.html',
 	// 		inject: 'body'
 	// 	}),
 	// 	new HtmlWebpackPlugin({
-	// 		template: __dirname + '/src/small-demo.html',
+	// 		template: __dirname + '/lib/small-demo.html',
 	// 		filename: 'small-demo.html',
 	// 		inject: 'body'
 	// 	})

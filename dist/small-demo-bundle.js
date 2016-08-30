@@ -43,7 +43,7 @@
 /******/ ([
 /* 0 */
 /*!***************************!*\
-  !*** ./src/small-demo.js ***!
+  !*** ./lib/small-demo.js ***!
   \***************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -55,7 +55,7 @@
 	
 	var _reactDom = __webpack_require__(/*! react-dom */ 34);
 	
-	var _App = __webpack_require__(/*! ./components/App */ 661);
+	var _App = __webpack_require__(/*! ./components/App */ 980);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
@@ -26398,17 +26398,16 @@
 /* 239 */,
 /* 240 */,
 /* 241 */,
-/* 242 */,
-/* 243 */
+/* 242 */
 /*!**************************!*\
   !*** ./~/color/index.js ***!
   \**************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var clone = __webpack_require__(/*! clone */ 244);
-	var convert = __webpack_require__(/*! color-convert */ 249);
-	var string = __webpack_require__(/*! color-string */ 253);
+	var clone = __webpack_require__(/*! clone */ 243);
+	var convert = __webpack_require__(/*! color-convert */ 248);
+	var string = __webpack_require__(/*! color-string */ 252);
 	
 	var Color = function (obj) {
 		if (obj instanceof Color) {
@@ -26858,7 +26857,7 @@
 
 
 /***/ },
-/* 244 */
+/* 243 */
 /*!**************************!*\
   !*** ./~/clone/clone.js ***!
   \**************************/
@@ -27025,10 +27024,10 @@
 	  module.exports = clone;
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 245 */
+/* 244 */
 /*!***************************!*\
   !*** ./~/buffer/index.js ***!
   \***************************/
@@ -27044,9 +27043,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(/*! base64-js */ 246)
-	var ieee754 = __webpack_require__(/*! ieee754 */ 247)
-	var isArray = __webpack_require__(/*! isarray */ 248)
+	var base64 = __webpack_require__(/*! base64-js */ 245)
+	var ieee754 = __webpack_require__(/*! ieee754 */ 246)
+	var isArray = __webpack_require__(/*! isarray */ 247)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -28824,10 +28823,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 246 */
+/* 245 */
 /*!********************************!*\
   !*** ./~/base64-js/lib/b64.js ***!
   \********************************/
@@ -28945,7 +28944,7 @@
 
 
 /***/ },
-/* 247 */
+/* 246 */
 /*!****************************!*\
   !*** ./~/ieee754/index.js ***!
   \****************************/
@@ -29038,7 +29037,7 @@
 
 
 /***/ },
-/* 248 */
+/* 247 */
 /*!*************************************!*\
   !*** ./~/buffer/~/isarray/index.js ***!
   \*************************************/
@@ -29052,14 +29051,14 @@
 
 
 /***/ },
-/* 249 */
+/* 248 */
 /*!**********************************!*\
   !*** ./~/color-convert/index.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(/*! ./conversions */ 250);
-	var route = __webpack_require__(/*! ./route */ 252);
+	var conversions = __webpack_require__(/*! ./conversions */ 249);
+	var route = __webpack_require__(/*! ./route */ 251);
 	
 	var convert = {};
 	
@@ -29138,14 +29137,14 @@
 
 
 /***/ },
-/* 250 */
+/* 249 */
 /*!****************************************!*\
   !*** ./~/color-convert/conversions.js ***!
   \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var cssKeywords = __webpack_require__(/*! ./css-keywords */ 251);
+	var cssKeywords = __webpack_require__(/*! ./css-keywords */ 250);
 	
 	// NOTE: conversions should only return primitive values (i.e. arrays, or
 	//       values that give correct `typeof` results).
@@ -29921,7 +29920,7 @@
 
 
 /***/ },
-/* 251 */
+/* 250 */
 /*!*****************************************!*\
   !*** ./~/color-convert/css-keywords.js ***!
   \*****************************************/
@@ -30081,13 +30080,13 @@
 
 
 /***/ },
-/* 252 */
+/* 251 */
 /*!**********************************!*\
   !*** ./~/color-convert/route.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var conversions = __webpack_require__(/*! ./conversions */ 250);
+	var conversions = __webpack_require__(/*! ./conversions */ 249);
 	
 	/*
 		this function routes a model to all other models.
@@ -30188,14 +30187,14 @@
 
 
 /***/ },
-/* 253 */
+/* 252 */
 /*!****************************************!*\
   !*** ./~/color-string/color-string.js ***!
   \****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	/* MIT license */
-	var colorNames = __webpack_require__(/*! color-name */ 254);
+	var colorNames = __webpack_require__(/*! color-name */ 253);
 	
 	module.exports = {
 	   getRgba: getRgba,
@@ -30418,7 +30417,7 @@
 
 
 /***/ },
-/* 254 */
+/* 253 */
 /*!*******************************!*\
   !*** ./~/color-name/index.js ***!
   \*******************************/
@@ -30576,206 +30575,9 @@
 	};
 
 /***/ },
-/* 255 */
-/*!********************!*\
-  !*** ./src/log.js ***!
-  \********************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _deepCopy = __webpack_require__(/*! deep-copy */ 235);
-	
-	var _deepCopy2 = _interopRequireDefault(_deepCopy);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var consoleWindow = null;
-	
-	var log = {
-		entries: {},
-		add: function add(name, key) {
-			var id = log.makeId(name, key);
-			if (!log.entries.hasOwnProperty(id)) {
-				var entry = {
-					id: id,
-					displayName: log.makeDisplayName(name, key),
-					name: name,
-					key: key,
-					renderCount: 0,
-					unnecessaryUpdatesPrevented: 0,
-					isMounted: false,
-					oldProps: null,
-					newProps: null,
-					methods: _extends({}, log.init())
-				};
-				log.entries[id] = entry;
-			}
-			return id;
-		},
-		update: function update(id, value) {
-			log.entries[id] = value;
-		},
-		get: function get(id) {
-			return log.entries[id];
-		},
-		makeId: function makeId(name, key) {
-			return key ? name + '-' + key : name;
-		},
-		makeDisplayName: function makeDisplayName(name, key) {
-			var formattedName = log.removeComponentWrapperNames(name);
-			return key ? formattedName + ' (' + key + ')' : formattedName;
-		},
-		removeComponentWrapperNames: function removeComponentWrapperNames(name) {
-			var wrapperPattern = /[^\(]+\(([^\)]+)\)/;
-			while (wrapperPattern.test(name)) {
-				name = name.replace(/[^\(]+\(([^\)]+)\)/, '$1');
-			}
-			return name;
-		},
-		config: {
-			constructor: {
-				setStateType: 'none',
-				value: ''
-			},
-			componentWillMount: {
-				setStateType: 'none',
-				value: ''
-			},
-			componentDidMount: {
-				setStateType: 'none',
-				value: ''
-			},
-			componentWillReceiveProps: {
-				setStateType: 'none',
-				value: ''
-			},
-			componentDidUpdate: {
-				setStateType: 'none',
-				value: ''
-			}
-		},
-		set: function set(settings) {
-			log.config[settings.name] = {
-				setStateType: settings.setStateType,
-				value: settings.value
-			};
-		},
-		init: function init() {
-			var methodNames = ['constructor', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'render', 'componentDidUpdate', 'componentWillUnmount'];
-			var logObj = {};
-			methodNames.forEach(function (name) {
-				logObj[name] = {
-					name: name,
-					isMethodOverridden: false,
-					called: false,
-					count: 0,
-					oldState: null,
-					newState: null,
-					updatedNewState: null,
-					isInfiniteLoop: false
-				};
-			});
-			return logObj;
-		},
-		getWindow: function getWindow() {
-			if (consoleWindow === null || consoleWindow.closed) {
-				consoleWindow = window.open('index.html', 'console', "width=1200,height=900,resizable,scrollbars=yes,status=1");
-				if (!consoleWindow) {
-					alert('You must disable your popup blocker to use the Life Insurance Console.');
-				}
-				consoleWindow.focus();
-				consoleWindow.log = {
-					entries: (0, _deepCopy2.default)(log.entries)
-				};
-				consoleWindow.postMessage('update', window.location.href);
-			}
-			window.onbeforeunload = function () {
-				consoleWindow.close();
-			};
-			return consoleWindow;
-		}
-	};
-	
-	exports.default = log;
-
-/***/ },
-/* 256 */
-/*!******************************!*\
-  !*** ./src/styles/styles.js ***!
-  \******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _color = __webpack_require__(/*! color */ 243);
-	
-	var _color2 = _interopRequireDefault(_color);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var hoverColor = (0, _color2.default)('lightblue').darken(0.1).hexString();
-	var activeColor = (0, _color2.default)('lightblue').darken(0.2).hexString();
-	
-	var styles = {
-		base: {
-			fontFamily: 'Arial, Helvetica, sans-serif',
-			fontSize: '12px'
-		},
-		box: {
-			padding: '10px',
-			border: '1px solid lightgray',
-			boxShadow: '4px 4px 8px rgba(0, 0, 0, .5)'
-		},
-		input: {
-			width: '200px',
-			margin: '5px 5px 0 0'
-		},
-		button: {
-			height: '20px',
-			width: '85px',
-			padding: '0',
-			backgroundColor: 'lightblue',
-			border: '1px solid lightblue',
-			borderRadius: 'none',
-			boxShadow: '2px 2px 5px rgba(0, 0, 0, .5)',
-			outline: 'none',
-			cursor: 'pointer',
-			':hover': {
-				backgroundColor: hoverColor,
-				border: '1px solid ' + hoverColor
-			},
-			':active': {
-				backgroundColor: activeColor,
-				border: '1px solid ' + activeColor
-			}
-		},
-		description: {
-			marginTop: '5px',
-			color: 'red',
-			fontWeight: 'normal'
-		},
-		props: {
-			color: 'blue'
-		},
-		state: {
-			color: '#4caf50'
-		}
-	};
-	
-	exports.default = styles;
-
-/***/ },
+/* 254 */,
+/* 255 */,
+/* 256 */,
 /* 257 */,
 /* 258 */,
 /* 259 */,
@@ -31017,7 +30819,676 @@
 /* 495 */,
 /* 496 */,
 /* 497 */,
-/* 498 */
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */,
+/* 502 */,
+/* 503 */,
+/* 504 */,
+/* 505 */,
+/* 506 */,
+/* 507 */,
+/* 508 */,
+/* 509 */,
+/* 510 */,
+/* 511 */,
+/* 512 */,
+/* 513 */,
+/* 514 */,
+/* 515 */,
+/* 516 */,
+/* 517 */,
+/* 518 */,
+/* 519 */,
+/* 520 */,
+/* 521 */,
+/* 522 */,
+/* 523 */,
+/* 524 */,
+/* 525 */,
+/* 526 */,
+/* 527 */,
+/* 528 */,
+/* 529 */,
+/* 530 */,
+/* 531 */,
+/* 532 */,
+/* 533 */,
+/* 534 */,
+/* 535 */,
+/* 536 */,
+/* 537 */,
+/* 538 */,
+/* 539 */,
+/* 540 */,
+/* 541 */,
+/* 542 */,
+/* 543 */,
+/* 544 */,
+/* 545 */,
+/* 546 */,
+/* 547 */,
+/* 548 */,
+/* 549 */,
+/* 550 */,
+/* 551 */,
+/* 552 */,
+/* 553 */,
+/* 554 */,
+/* 555 */,
+/* 556 */,
+/* 557 */
+/*!******************************!*\
+  !*** ./lib/styles/styles.js ***!
+  \******************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _color = __webpack_require__(/*! color */ 242);
+	
+	var _color2 = _interopRequireDefault(_color);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var hoverColor = (0, _color2.default)('lightblue').darken(0.1).hexString();
+	var activeColor = (0, _color2.default)('lightblue').darken(0.2).hexString();
+	
+	var styles = {
+		base: {
+			fontFamily: 'Arial, Helvetica, sans-serif',
+			fontSize: '12px'
+		},
+		box: {
+			padding: '10px',
+			border: '1px solid lightgray',
+			boxShadow: '4px 4px 8px rgba(0, 0, 0, .5)'
+		},
+		input: {
+			width: '200px',
+			margin: '5px 5px 0 0'
+		},
+		button: {
+			height: '20px',
+			width: '85px',
+			padding: '0',
+			backgroundColor: 'lightblue',
+			border: '1px solid lightblue',
+			borderRadius: 'none',
+			boxShadow: '2px 2px 5px rgba(0, 0, 0, .5)',
+			outline: 'none',
+			cursor: 'pointer',
+			':hover': {
+				backgroundColor: hoverColor,
+				border: '1px solid ' + hoverColor
+			},
+			':active': {
+				backgroundColor: activeColor,
+				border: '1px solid ' + activeColor
+			}
+		},
+		description: {
+			marginTop: '5px',
+			color: 'red',
+			fontWeight: 'normal'
+		},
+		props: {
+			color: 'blue'
+		},
+		state: {
+			color: '#4caf50'
+		}
+	};
+	
+	exports.default = styles;
+
+/***/ },
+/* 558 */,
+/* 559 */,
+/* 560 */,
+/* 561 */,
+/* 562 */,
+/* 563 */,
+/* 564 */,
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */,
+/* 569 */,
+/* 570 */,
+/* 571 */,
+/* 572 */,
+/* 573 */,
+/* 574 */,
+/* 575 */
+/*!********************!*\
+  !*** ./lib/log.js ***!
+  \********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _deepCopy = __webpack_require__(/*! deep-copy */ 235);
+	
+	var _deepCopy2 = _interopRequireDefault(_deepCopy);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var consoleWindow = null;
+	
+	var log = {
+		entries: {},
+		add: function add(name, key) {
+			var id = log.makeId(name, key);
+			if (!log.entries.hasOwnProperty(id)) {
+				var entry = {
+					id: id,
+					displayName: log.makeDisplayName(name, key),
+					name: name,
+					key: key,
+					renderCount: 0,
+					unnecessaryUpdatesPrevented: 0,
+					isMounted: false,
+					oldProps: null,
+					newProps: null,
+					methods: _extends({}, log.init())
+				};
+				log.entries[id] = entry;
+			}
+			return id;
+		},
+		update: function update(id, value) {
+			log.entries[id] = value;
+		},
+		get: function get(id) {
+			return log.entries[id];
+		},
+		makeId: function makeId(name, key) {
+			return key ? name + '-' + key : name;
+		},
+		makeDisplayName: function makeDisplayName(name, key) {
+			var formattedName = log.removeComponentWrapperNames(name);
+			return key ? formattedName + ' (' + key + ')' : formattedName;
+		},
+		removeComponentWrapperNames: function removeComponentWrapperNames(name) {
+			var wrapperPattern = /[^\(]+\(([^\)]+)\)/;
+			while (wrapperPattern.test(name)) {
+				name = name.replace(/[^\(]+\(([^\)]+)\)/, '$1');
+			}
+			return name;
+		},
+		config: {
+			constructor: {
+				setStateType: 'none',
+				value: ''
+			},
+			componentWillMount: {
+				setStateType: 'none',
+				value: ''
+			},
+			componentDidMount: {
+				setStateType: 'none',
+				value: ''
+			},
+			componentWillReceiveProps: {
+				setStateType: 'none',
+				value: ''
+			},
+			componentDidUpdate: {
+				setStateType: 'none',
+				value: ''
+			}
+		},
+		set: function set(settings) {
+			log.config[settings.name] = {
+				setStateType: settings.setStateType,
+				value: settings.value
+			};
+		},
+		init: function init() {
+			var methodNames = ['constructor', 'componentWillMount', 'componentDidMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'render', 'componentDidUpdate', 'componentWillUnmount'];
+			var logObj = {};
+			methodNames.forEach(function (name) {
+				logObj[name] = {
+					name: name,
+					isMethodOverridden: false,
+					called: false,
+					count: 0,
+					oldState: null,
+					newState: null,
+					updatedNewState: null,
+					isInfiniteLoop: false
+				};
+			});
+			return logObj;
+		},
+		getWindow: function getWindow() {
+			if (consoleWindow === null || consoleWindow.closed) {
+				consoleWindow = window.open('index.html', 'console', "width=1300,height=900,resizable,scrollbars=yes,status=1");
+				if (!consoleWindow) {
+					alert('You must disable your popup blocker to use the Life Insurance Console.');
+				}
+				consoleWindow.focus();
+				consoleWindow.log = {
+					entries: (0, _deepCopy2.default)(log.entries)
+				};
+				consoleWindow.postMessage('update', window.location.href);
+			}
+			window.onbeforeunload = function () {
+				consoleWindow.close();
+			};
+			return consoleWindow;
+		}
+	};
+	
+	exports.default = log;
+
+/***/ },
+/* 576 */
+/*!**********************************!*\
+  !*** ./lib/constants/methods.js ***!
+  \**********************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	var methodProperties = {
+		constructor: {
+			args: ['props'],
+			state: [],
+			props: [{
+				name: 'props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: ''
+		},
+		componentWillMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false,
+			description: ''
+		},
+		componentDidMount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render.'
+		},
+		componentWillReceiveProps: {
+			args: ['nextProps'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		shouldComponentUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentWillUpdate: {
+			args: ['nextProps', 'nextState'],
+			state: [{
+				name: 'this.state',
+				value: 'oldState'
+			}, {
+				name: 'nextState',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'oldProps'
+			}, {
+				name: 'nextProps',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		render: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: false
+		},
+		componentDidUpdate: {
+			args: ['prevProps', 'prevState'],
+			state: [{
+				name: 'prevState',
+				value: 'oldState'
+			}, {
+				name: 'this.state',
+				value: 'newState'
+			}, {
+				name: '(final state)',
+				value: 'updatedNewState'
+			}],
+			props: [{
+				name: 'prevProps',
+				value: 'oldProps'
+			}, {
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true,
+			description: 'Avoid calling setState here because it will trigger an extra render.'
+		},
+		componentWillUnmount: {
+			args: [],
+			state: [{
+				name: 'this.state',
+				value: 'newState'
+			}],
+			props: [{
+				name: 'this.props',
+				value: 'newProps'
+			}],
+			terminal: true
+		}
+	
+	};
+	
+	exports.default = methodProperties;
+
+/***/ },
+/* 577 */,
+/* 578 */,
+/* 579 */,
+/* 580 */,
+/* 581 */,
+/* 582 */,
+/* 583 */,
+/* 584 */,
+/* 585 */,
+/* 586 */,
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */,
+/* 593 */,
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */,
+/* 598 */,
+/* 599 */,
+/* 600 */,
+/* 601 */,
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */,
+/* 607 */,
+/* 608 */,
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */,
+/* 613 */,
+/* 614 */,
+/* 615 */,
+/* 616 */,
+/* 617 */,
+/* 618 */,
+/* 619 */,
+/* 620 */,
+/* 621 */,
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
+/* 629 */,
+/* 630 */,
+/* 631 */,
+/* 632 */,
+/* 633 */,
+/* 634 */,
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */,
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */,
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */,
+/* 665 */,
+/* 666 */,
+/* 667 */,
+/* 668 */,
+/* 669 */,
+/* 670 */,
+/* 671 */,
+/* 672 */,
+/* 673 */,
+/* 674 */,
+/* 675 */,
+/* 676 */,
+/* 677 */,
+/* 678 */,
+/* 679 */,
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */,
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
+/* 695 */,
+/* 696 */,
+/* 697 */,
+/* 698 */,
+/* 699 */,
+/* 700 */,
+/* 701 */,
+/* 702 */,
+/* 703 */,
+/* 704 */,
+/* 705 */,
+/* 706 */,
+/* 707 */,
+/* 708 */,
+/* 709 */,
+/* 710 */,
+/* 711 */,
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
+/* 719 */,
+/* 720 */,
+/* 721 */,
+/* 722 */,
+/* 723 */,
+/* 724 */,
+/* 725 */,
+/* 726 */,
+/* 727 */,
+/* 728 */,
+/* 729 */,
+/* 730 */,
+/* 731 */,
+/* 732 */,
+/* 733 */,
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
+/* 741 */,
+/* 742 */,
+/* 743 */,
+/* 744 */,
+/* 745 */,
+/* 746 */,
+/* 747 */,
+/* 748 */,
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */,
+/* 757 */,
+/* 758 */,
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */,
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */,
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */,
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
+/* 790 */,
+/* 791 */,
+/* 792 */,
+/* 793 */,
+/* 794 */,
+/* 795 */,
+/* 796 */,
+/* 797 */,
+/* 798 */,
+/* 799 */,
+/* 800 */,
+/* 801 */,
+/* 802 */,
+/* 803 */,
+/* 804 */,
+/* 805 */,
+/* 806 */,
+/* 807 */,
+/* 808 */,
+/* 809 */,
+/* 810 */,
+/* 811 */,
+/* 812 */,
+/* 813 */,
+/* 814 */,
+/* 815 */,
+/* 816 */
 /*!*****************************!*\
   !*** ./~/node-uuid/uuid.js ***!
   \*****************************/
@@ -31081,7 +31552,7 @@
 	    // Moderately fast, high quality
 	    if (true) {
 	      try {
-	        var _rb = __webpack_require__(/*! crypto */ 499).randomBytes;
+	        var _rb = __webpack_require__(/*! crypto */ 817).randomBytes;
 	        _nodeRNG = _rng = _rb && function() {return _rb(16);};
 	        _rng();
 	      } catch(e) {}
@@ -31296,16 +31767,16 @@
 	  }
 	})('undefined' !== typeof window ? window : null);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 499 */
+/* 817 */
 /*!**************************************!*\
   !*** ./~/crypto-browserify/index.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(/*! ./rng */ 500)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(/*! ./rng */ 818)
 	
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -31316,9 +31787,9 @@
 	    ].join('\n'))
 	}
 	
-	exports.createHash = __webpack_require__(/*! ./create-hash */ 502)
+	exports.createHash = __webpack_require__(/*! ./create-hash */ 820)
 	
-	exports.createHmac = __webpack_require__(/*! ./create-hmac */ 514)
+	exports.createHmac = __webpack_require__(/*! ./create-hmac */ 832)
 	
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -31339,7 +31810,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 	
-	var p = __webpack_require__(/*! ./pbkdf2 */ 515)(exports)
+	var p = __webpack_require__(/*! ./pbkdf2 */ 833)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 	
@@ -31359,10 +31830,10 @@
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 500 */
+/* 818 */
 /*!************************************!*\
   !*** ./~/crypto-browserify/rng.js ***!
   \************************************/
@@ -31371,7 +31842,7 @@
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(/*! crypto */ 501)
+	    g.crypto || g.msCrypto || __webpack_require__(/*! crypto */ 819)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -31395,10 +31866,10 @@
 	  }
 	}())
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 501 */
+/* 819 */
 /*!************************!*\
   !*** crypto (ignored) ***!
   \************************/
@@ -31407,16 +31878,16 @@
 	/* (ignored) */
 
 /***/ },
-/* 502 */
+/* 820 */
 /*!********************************************!*\
   !*** ./~/crypto-browserify/create-hash.js ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! sha.js */ 503)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! sha.js */ 821)
 	
-	var md5 = toConstructor(__webpack_require__(/*! ./md5 */ 511))
-	var rmd160 = toConstructor(__webpack_require__(/*! ripemd160 */ 513))
+	var md5 = toConstructor(__webpack_require__(/*! ./md5 */ 829))
+	var rmd160 = toConstructor(__webpack_require__(/*! ripemd160 */ 831))
 	
 	function toConstructor (fn) {
 	  return function () {
@@ -31444,10 +31915,10 @@
 	  return createHash(alg)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 503 */
+/* 821 */
 /*!***************************!*\
   !*** ./~/sha.js/index.js ***!
   \***************************/
@@ -31459,16 +31930,16 @@
 	  return new Alg()
 	}
 	
-	var Buffer = __webpack_require__(/*! buffer */ 245).Buffer
-	var Hash   = __webpack_require__(/*! ./hash */ 504)(Buffer)
+	var Buffer = __webpack_require__(/*! buffer */ 244).Buffer
+	var Hash   = __webpack_require__(/*! ./hash */ 822)(Buffer)
 	
-	exports.sha1 = __webpack_require__(/*! ./sha1 */ 505)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(/*! ./sha256 */ 509)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(/*! ./sha512 */ 510)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(/*! ./sha1 */ 823)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(/*! ./sha256 */ 827)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(/*! ./sha512 */ 828)(Buffer, Hash)
 
 
 /***/ },
-/* 504 */
+/* 822 */
 /*!**************************!*\
   !*** ./~/sha.js/hash.js ***!
   \**************************/
@@ -31554,7 +32025,7 @@
 
 
 /***/ },
-/* 505 */
+/* 823 */
 /*!**************************!*\
   !*** ./~/sha.js/sha1.js ***!
   \**************************/
@@ -31569,7 +32040,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 	
-	var inherits = __webpack_require__(/*! util */ 506).inherits
+	var inherits = __webpack_require__(/*! util */ 824).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -31701,7 +32172,7 @@
 
 
 /***/ },
-/* 506 */
+/* 824 */
 /*!************************!*\
   !*** ./~/util/util.js ***!
   \************************/
@@ -32232,7 +32703,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 507);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 825);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -32276,7 +32747,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 508);
+	exports.inherits = __webpack_require__(/*! inherits */ 826);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -32297,7 +32768,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/process/browser.js */ 3)))
 
 /***/ },
-/* 507 */
+/* 825 */
 /*!*******************************************!*\
   !*** ./~/util/support/isBufferBrowser.js ***!
   \*******************************************/
@@ -32311,7 +32782,7 @@
 	}
 
 /***/ },
-/* 508 */
+/* 826 */
 /*!****************************************!*\
   !*** ./~/inherits/inherits_browser.js ***!
   \****************************************/
@@ -32343,7 +32814,7 @@
 
 
 /***/ },
-/* 509 */
+/* 827 */
 /*!****************************!*\
   !*** ./~/sha.js/sha256.js ***!
   \****************************/
@@ -32358,7 +32829,7 @@
 	 *
 	 */
 	
-	var inherits = __webpack_require__(/*! util */ 506).inherits
+	var inherits = __webpack_require__(/*! util */ 824).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -32499,13 +32970,13 @@
 
 
 /***/ },
-/* 510 */
+/* 828 */
 /*!****************************!*\
   !*** ./~/sha.js/sha512.js ***!
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(/*! util */ 506).inherits
+	var inherits = __webpack_require__(/*! util */ 824).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -32752,7 +33223,7 @@
 
 
 /***/ },
-/* 511 */
+/* 829 */
 /*!************************************!*\
   !*** ./~/crypto-browserify/md5.js ***!
   \************************************/
@@ -32767,7 +33238,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 	
-	var helpers = __webpack_require__(/*! ./helpers */ 512);
+	var helpers = __webpack_require__(/*! ./helpers */ 830);
 	
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -32916,7 +33387,7 @@
 
 
 /***/ },
-/* 512 */
+/* 830 */
 /*!****************************************!*\
   !*** ./~/crypto-browserify/helpers.js ***!
   \****************************************/
@@ -32957,10 +33428,10 @@
 	
 	module.exports = { hash: hash };
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 513 */
+/* 831 */
 /*!**************************************!*\
   !*** ./~/ripemd160/lib/ripemd160.js ***!
   \**************************************/
@@ -33172,16 +33643,16 @@
 	
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 514 */
+/* 832 */
 /*!********************************************!*\
   !*** ./~/crypto-browserify/create-hmac.js ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! ./create-hash */ 502)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! ./create-hash */ 820)
 	
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -33225,16 +33696,16 @@
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 515 */
+/* 833 */
 /*!***************************************!*\
   !*** ./~/crypto-browserify/pbkdf2.js ***!
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(/*! pbkdf2-compat/pbkdf2 */ 516)
+	var pbkdf2Export = __webpack_require__(/*! pbkdf2-compat/pbkdf2 */ 834)
 	
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -33249,7 +33720,7 @@
 
 
 /***/ },
-/* 516 */
+/* 834 */
 /*!***********************************!*\
   !*** ./~/pbkdf2-compat/pbkdf2.js ***!
   \***********************************/
@@ -33340,209 +33811,13 @@
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 245).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 244).Buffer))
 
 /***/ },
-/* 517 */,
-/* 518 */,
-/* 519 */,
-/* 520 */,
-/* 521 */,
-/* 522 */,
-/* 523 */,
-/* 524 */,
-/* 525 */,
-/* 526 */,
-/* 527 */,
-/* 528 */,
-/* 529 */,
-/* 530 */,
-/* 531 */,
-/* 532 */,
-/* 533 */,
-/* 534 */,
-/* 535 */,
-/* 536 */,
-/* 537 */,
-/* 538 */,
-/* 539 */,
-/* 540 */,
-/* 541 */,
-/* 542 */,
-/* 543 */,
-/* 544 */,
-/* 545 */,
-/* 546 */,
-/* 547 */,
-/* 548 */,
-/* 549 */,
-/* 550 */,
-/* 551 */,
-/* 552 */,
-/* 553 */,
-/* 554 */,
-/* 555 */,
-/* 556 */,
-/* 557 */,
-/* 558 */,
-/* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */,
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */,
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */,
-/* 584 */,
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */,
-/* 592 */,
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */,
-/* 600 */,
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */,
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
-/* 612 */,
-/* 613 */,
-/* 614 */,
-/* 615 */,
-/* 616 */,
-/* 617 */,
-/* 618 */,
-/* 619 */,
-/* 620 */,
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */,
-/* 626 */,
-/* 627 */,
-/* 628 */,
-/* 629 */,
-/* 630 */,
-/* 631 */,
-/* 632 */,
-/* 633 */,
-/* 634 */,
-/* 635 */,
-/* 636 */,
-/* 637 */,
-/* 638 */,
-/* 639 */,
-/* 640 */,
-/* 641 */,
-/* 642 */,
-/* 643 */,
-/* 644 */,
-/* 645 */,
-/* 646 */,
-/* 647 */,
-/* 648 */,
-/* 649 */,
-/* 650 */,
-/* 651 */,
-/* 652 */,
-/* 653 */,
-/* 654 */,
-/* 655 */,
-/* 656 */,
-/* 657 */,
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */
-/*!*******************************!*\
-  !*** ./src/components/App.js ***!
-  \*******************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Parent = __webpack_require__(/*! ./Parent */ 662);
-	
-	var _Parent2 = _interopRequireDefault(_Parent);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var App = function (_Component) {
-		_inherits(App, _Component);
-	
-		function App() {
-			_classCallCheck(this, App);
-	
-			return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-		}
-	
-		_createClass(App, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(_Parent2.default, null);
-			}
-		}]);
-	
-		return App;
-	}(_react.Component);
-	
-	exports.default = App;
-	;
-
-/***/ },
-/* 662 */
+/* 835 */,
+/* 836 */
 /*!**********************************!*\
-  !*** ./src/components/Parent.js ***!
+  !*** ./lib/components/Insure.js ***!
   \**********************************/
 /***/ function(module, exports, __webpack_require__) {
 
@@ -33552,15 +33827,33 @@
 		value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Child = __webpack_require__(/*! ./Child */ 663);
+	var _deep = __webpack_require__(/*! deep */ 837);
 	
-	var _Child2 = _interopRequireDefault(_Child);
+	var _deepEqual = __webpack_require__(/*! deep-equal */ 236);
+	
+	var _deepEqual2 = _interopRequireDefault(_deepEqual);
+	
+	var _nodeUuid = __webpack_require__(/*! node-uuid */ 816);
+	
+	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
+	
+	var _log = __webpack_require__(/*! ../log */ 575);
+	
+	var _log2 = _interopRequireDefault(_log);
+	
+	var _methods = __webpack_require__(/*! ../constants/methods */ 576);
+	
+	var _methods2 = _interopRequireDefault(_methods);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33570,307 +33863,292 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Parent = function (_Component) {
-		_inherits(Parent, _Component);
+	function Insure(WrappedComponent) {
+		var _class, _temp, _initialiseProps;
 	
-		function Parent() {
-			_classCallCheck(this, Parent);
+		return _temp = _class = function (_WrappedComponent) {
+			_inherits(ComponentWrapper, _WrappedComponent);
 	
-			var _this = _possibleConstructorReturn(this, (Parent.__proto__ || Object.getPrototypeOf(Parent)).call(this));
+			function ComponentWrapper(props) {
+				_classCallCheck(this, ComponentWrapper);
 	
-			_this.handleTextChange = function (event) {
-				_this.setState({
-					text: event.target.value
-				});
-			};
+				// if (!this.key) {
+				// 	this.key = uuid.v1();
+				// }
+				var _this = _possibleConstructorReturn(this, (ComponentWrapper.__proto__ || Object.getPrototypeOf(ComponentWrapper)).apply(this, arguments));
 	
-			_this.state = {
-				text: 'Some text'
-			};
-			return _this;
-		}
+				_initialiseProps.call(_this);
 	
-		_createClass(Parent, [{
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement('input', {
-						type: 'text',
-						value: this.state.text,
-						onChange: this.handleTextChange
-					}),
-					_react2.default.createElement(_Child2.default, { text: this.state.text })
-				);
-			}
-		}]);
-	
-		return Parent;
-	}(_react.Component);
-	
-	exports.default = Parent;
-	;
-
-/***/ },
-/* 663 */
-/*!*********************************!*\
-  !*** ./src/components/Child.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Insure = __webpack_require__(/*! ./Insure */ 743);
-	
-	var _Insure2 = _interopRequireDefault(_Insure);
-	
-	var _Input = __webpack_require__(/*! ./Input */ 664);
-	
-	var _Input2 = _interopRequireDefault(_Input);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Child = function (_Component) {
-		_inherits(Child, _Component);
-	
-		function Child(props) {
-			_classCallCheck(this, Child);
-	
-			var _this = _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).call(this, props));
-	
-			_this.onChange = function (value) {
-				var newState = {
-					values: {
-						text: value
-					}
-				};
-				_this.setState(newState);
-			};
-	
-			_this.state = {
-				values: {
-					text: _this.props.text.toUpperCase()
+				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), props.id);
+				_this.consoleWindow = _log2.default.getWindow();
+				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
+				_this.isRenderingComplete = false;
+				_this.handleLifecycleEvent('constructor', { newProps: props });
+				var logEntry = _log2.default.get(_this.logEntryId);
+				for (var name in _methods2.default) {
+					logEntry.methods[name].isMethodOverridden = Boolean(_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), name, _this));
 				}
-			};
-			return _this;
-		}
-	
-		_createClass(Child, [{
-			key: 'componentWillReceiveProps',
-			value: function componentWillReceiveProps(nextProps) {
-				var newState = {
-					values: {
-						text: this.props.text.toUpperCase()
-					}
-				};
-				this.setState(newState);
+				_log2.default.update(_this.logEntryId, logEntry);
+				//this.updateState('constructor', props);
+				return _this;
 			}
-		}, {
-			key: 'render',
-			value: function render() {
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement(
-						'div',
-						null,
-						'Props: ',
-						this.props.text
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						'State: ',
-						this.state.values.text
-					),
-					_react2.default.createElement(_Input2.default, { value: this.props.text, onChange: this.onChange })
-				);
-			}
-		}]);
 	
-		return Child;
-	}(_react.Component);
-	
-	;
-	
-	exports.default = (0, _Insure2.default)(Child);
-
-/***/ },
-/* 664 */
-/*!*********************************!*\
-  !*** ./src/components/Input.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _radium = __webpack_require__(/*! radium */ 172);
-	
-	var _radium2 = _interopRequireDefault(_radium);
-	
-	var _styles = __webpack_require__(/*! ../styles/styles */ 256);
-	
-	var _styles2 = _interopRequireDefault(_styles);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Input = function (_Component) {
-		_inherits(Input, _Component);
-	
-		function Input(props) {
-			_classCallCheck(this, Input);
-	
-			var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
-	
-			_this.handleTextChange = function (event) {
-				_this.setState({
-					text: event.target.value
-				});
-			};
-	
-			_this.handleSubmitText = function () {
-				_this.props.onChange(_this.refs.input.value);
-			};
-	
-			_this.handleEnterKeyDown = function (event) {
-				if (event.which === 13) {
-					_this.handleSubmitText();
+			_createClass(ComponentWrapper, [{
+				key: 'componentWillMount',
+				value: function componentWillMount() {
+					this.handleLifecycleEvent('componentWillMount', {
+						newProps: this.props,
+						newState: this.state
+					});
+					//this.updateState('componentWillMount', this.props);
 				}
+			}, {
+				key: 'componentDidMount',
+				value: function componentDidMount() {
+					this.handleLifecycleEvent('componentDidMount', {
+						newProps: this.props,
+						newState: this.state,
+						updatedNewState: this.state
+					});
+					this.isRenderingComplete = true;
+					this.setIsMounted(true);
+					//this.updateState('componentDidMount', this.props);
+					this.updateStore();
+				}
+			}, {
+				key: 'componentWillReceiveProps',
+				value: function componentWillReceiveProps(nextProps) {
+					this.handleLifecycleEvent('componentWillReceiveProps', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state
+					});
+					this.isRenderingComplete = false;
+					this.clearCalled();
+					//this.updateState('componentWillReceiveProps', nextProps);
+				}
+			}, {
+				key: 'shouldComponentUpdate',
+				value: function shouldComponentUpdate(nextProps, nextState) {
+					this.isInfiniteLoop = this.autoRenderCount >= 10;
+					var isWrappedComponentGoingToUpdate = null;
+					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
+						isWrappedComponentGoingToUpdate = _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this).call(this, nextProps, nextState);
+					} else {
+						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
+					}
+					var isUpdateNecessary = void 0;
+					if (isWrappedComponentGoingToUpdate === false) {
+						isUpdateNecessary = false;
+					} else {
+						var areValuesEqual = (0, _deepEqual2.default)(nextProps, this.props) && (0, _deepEqual2.default)(nextState, this.state, { strict: true });
+						isUpdateNecessary = !areValuesEqual;
+					}
+					var isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
+					if (isUnnecessaryUpdatePrevented) {
+						this.incrementUnnecessaryUpdatesPrevented();
+					}
+					if (this.isRenderingComplete) {
+						this.clearCalled();
+					}
+					this.handleLifecycleEvent('shouldComponentUpdate', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state,
+						newState: nextState
+					}, isUnnecessaryUpdatePrevented);
+					this.updateStore();
+					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
+					if (isUpdateNecessary && !this.isInfiniteLoop) {
+						this.isRenderingComplete = false;
+						return true;
+					} else {
+						this.isRenderingComplete = true;
+						return false;
+					}
+				}
+			}, {
+				key: 'componentWillUpdate',
+				value: function componentWillUpdate(nextProps, nextState) {
+					this.handleLifecycleEvent('componentWillUpdate', {
+						oldProps: this.props,
+						newProps: nextProps,
+						oldState: this.state,
+						newState: nextState
+					});
+				}
+			}, {
+				key: 'componentDidUpdate',
+				value: function componentDidUpdate(prevProps, prevState) {
+					this.isRenderingComplete = true;
+					this.handleLifecycleEvent('componentDidUpdate', {
+						oldProps: prevProps,
+						newProps: this.props,
+						oldState: prevState,
+						newState: this.state,
+						updatedNewState: this.state
+					});
+					//this.updateState('componentDidUpdate', this.props);
+					this.updateStore();
+				}
+			}, {
+				key: 'componentWillUnmount',
+				value: function componentWillUnmount() {
+					this.isRenderingComplete = true;
+					this.setIsMounted(false);
+					this.clearCalled();
+					this.handleLifecycleEvent('componentWillUnmount', {
+						newProps: this.props,
+						newState: this.state
+					});
+					this.updateStore();
+				}
+	
+				// updateState = (name, props) => {
+				// 	const methodObj = log.config[name];
+				// 	const setStateType = methodObj.setStateType;
+				// 	const value = methodObj.value;
+				// 	if (setStateType === 'none') {
+				// 		return;
+				// 	}
+				// 	let text = '';
+				// 	if (setStateType === 'set') {
+				// 		text = value;
+				// 	} else if (setStateType === 'add') {
+				// 		text = (this.state.text || '') + value;
+				// 	} else if (setStateType === 'props') {
+				// 		text = props.parentText;
+				// 	}
+				// 	if (name === 'constructor') {
+				// 		this.state = {
+				// 			text
+				// 		};
+				// 	} else {
+				// 		this.setState({
+				// 			text
+				// 		});
+				// 	}
+				// };
+	
+				// TODOD No longer cloning state here so clean this up
+	
+	
+				// Remove children because they can contain
+				// circular references, which cause problems
+				// with cloning and stringifying
+	
+			}, {
+				key: 'render',
+				value: function render() {
+	
+					this.incrementRenderCount();
+					this.handleLifecycleEvent('render', {
+						newProps: this.props,
+						newState: this.state
+					});
+					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
+				}
+			}]);
+	
+			return ComponentWrapper;
+		}(WrappedComponent), _class.displayName = 'Insure(' + getComponentName(WrappedComponent) + ')', _initialiseProps = function _initialiseProps() {
+			var _this2 = this;
+	
+			this.logEntryId = null;
+			this.autoRenderCount = 0;
+			this.isInfiniteLoop = false;
+			this.isRenderingComplete = true;
+			this.consoleWindow = null;
+	
+			this.handleLifecycleEvent = function (name, propsAndStates) {
+				var isUnnecessaryUpdatePrevented = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+	
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				var count = logEntry.methods[name].count;
+				var clonedPropsAndStates = _this2.cloneValues(propsAndStates);
+				var methodObj = _extends({
+					name: name,
+					isMethodOverridden: logEntry.methods[name].isMethodOverridden,
+					called: true,
+					count: ++count
+				}, clonedPropsAndStates, {
+					isInfiniteLoop: _this2.isInfiniteLoop,
+					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
+				});
+				logEntry.methods[name] = Object.assign(logEntry.methods[name], methodObj);
+				_log2.default.update(_this2.logEntryId, logEntry);
 			};
 	
-			_this.state = {
-				text: _this.props.value
+			this.cloneValues = function (propsAndStates) {
+				var newPropsAndStates = {};
+				for (var name in propsAndStates) {
+					var value = propsAndStates[name];
+					var newValue = {};
+					if (/Props/.test(name)) {
+						newValue = (0, _deep.clone)(_this2.removeCircularReferences(value));
+					} else {
+						newValue = value;
+					}
+					newPropsAndStates[name] = newValue;
+				}
+				return newPropsAndStates;
 			};
-			return _this;
-		}
 	
-		_createClass(Input, [{
-			key: 'render',
-			value: function render() {
+			this.removeCircularReferences = function (props) {
+				if (!props) {
+					return null;
+				}
+				var newProps = Object.assign({}, props);
+				if (newProps.hasOwnProperty('children')) {
+					delete newProps.children;
+				}
+				return newProps;
+			};
 	
-				var labels = {
-					prop: 'Send Prop',
-					state: 'Update State'
-				};
-				var colors = {
-					prop: 'blue',
-					state: '#4caf50'
-				};
+			this.clearCalled = function () {
+				var logEntry = (0, _deep.clone)(_log2.default.get(_this2.logEntryId));
+				_this2.autoRenderCount = 0;
+				for (var name in logEntry.methods) {
+					logEntry.methods[name].called = false;
+				}
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
 	
-				return _react2.default.createElement(
-					'div',
-					null,
-					_react2.default.createElement('input', {
-						type: 'text',
-						ref: 'input',
-						value: this.state.text,
-						onChange: this.handleTextChange,
-						onKeyDown: this.handleEnterKeyDown,
-						style: [_styles2.default.input, { color: colors[this.props.type] }]
-					}),
-					_react2.default.createElement(
-						'button',
-						{
-							key: 'updateStateButton',
-							onClick: this.handleSubmitText,
-							style: _styles2.default.button
-						},
-						'Update'
-					)
-				);
-			}
-		}]);
+			this.updateStore = function () {
+				//this.consoleWindow.log.entries = clone(log.entries);
+				_this2.consoleWindow.log.entries = _log2.default.entries;
+				_this2.consoleWindow.postMessage('update', window.location.href);
+			};
 	
-		return Input;
-	}(_react.Component);
+			this.incrementRenderCount = function () {
+				_this2.autoRenderCount++;
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.renderCount++;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
 	
-	Input.propTypes = {
-		type: _react.PropTypes.string.isRequired,
-		onChange: _react.PropTypes.func.isRequired
+			this.setIsMounted = function (isMounted) {
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.isMounted = isMounted;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+	
+			this.incrementUnnecessaryUpdatesPrevented = function () {
+				var logEntry = _log2.default.get(_this2.logEntryId);
+				logEntry.unnecessaryUpdatesPrevented++;
+				_log2.default.update(_this2.logEntryId, logEntry);
+			};
+		}, _temp;
+	}
+	
+	var getComponentName = function getComponentName(component) {
+		return component ? component.displayName || component.name || 'Component' : '';
 	};
-	exports.default = (0, _radium2.default)(Input);
+	
+	exports.default = Insure;
 
 /***/ },
-/* 665 */,
-/* 666 */,
-/* 667 */,
-/* 668 */,
-/* 669 */,
-/* 670 */,
-/* 671 */,
-/* 672 */,
-/* 673 */,
-/* 674 */,
-/* 675 */,
-/* 676 */,
-/* 677 */,
-/* 678 */,
-/* 679 */,
-/* 680 */,
-/* 681 */,
-/* 682 */,
-/* 683 */,
-/* 684 */,
-/* 685 */,
-/* 686 */,
-/* 687 */,
-/* 688 */,
-/* 689 */,
-/* 690 */,
-/* 691 */,
-/* 692 */,
-/* 693 */,
-/* 694 */,
-/* 695 */,
-/* 696 */,
-/* 697 */,
-/* 698 */,
-/* 699 */,
-/* 700 */,
-/* 701 */,
-/* 702 */,
-/* 703 */,
-/* 704 */,
-/* 705 */,
-/* 706 */,
-/* 707 */,
-/* 708 */,
-/* 709 */,
-/* 710 */,
-/* 711 */
+/* 837 */
 /*!*******************************!*\
   !*** ./~/deep/js/lib/deep.js ***!
   \*******************************/
@@ -33881,9 +34159,9 @@
 	  var deep, puts, _,
 	    __slice = [].slice;
 	
-	  _ = __webpack_require__(/*! underscore */ 712);
+	  _ = __webpack_require__(/*! underscore */ 838);
 	
-	  puts = __webpack_require__(/*! util */ 506).puts;
+	  puts = __webpack_require__(/*! util */ 824).puts;
 	
 	  deep = {
 	    isPlainObject: function(obj) {
@@ -34017,7 +34295,7 @@
 
 
 /***/ },
-/* 712 */
+/* 838 */
 /*!************************************!*\
   !*** ./~/underscore/underscore.js ***!
   \************************************/
@@ -35252,40 +35530,151 @@
 
 
 /***/ },
-/* 713 */,
-/* 714 */,
-/* 715 */,
-/* 716 */,
-/* 717 */,
-/* 718 */,
-/* 719 */,
-/* 720 */,
-/* 721 */,
-/* 722 */,
-/* 723 */,
-/* 724 */,
-/* 725 */,
-/* 726 */,
-/* 727 */,
-/* 728 */,
-/* 729 */,
-/* 730 */,
-/* 731 */,
-/* 732 */,
-/* 733 */,
-/* 734 */,
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */,
-/* 739 */,
-/* 740 */,
-/* 741 */,
-/* 742 */,
-/* 743 */
-/*!**********************************!*\
-  !*** ./src/components/Insure.js ***!
-  \**********************************/
+/* 839 */,
+/* 840 */,
+/* 841 */,
+/* 842 */,
+/* 843 */,
+/* 844 */,
+/* 845 */,
+/* 846 */,
+/* 847 */,
+/* 848 */,
+/* 849 */,
+/* 850 */,
+/* 851 */,
+/* 852 */,
+/* 853 */,
+/* 854 */,
+/* 855 */,
+/* 856 */,
+/* 857 */,
+/* 858 */,
+/* 859 */,
+/* 860 */,
+/* 861 */,
+/* 862 */,
+/* 863 */,
+/* 864 */,
+/* 865 */,
+/* 866 */,
+/* 867 */,
+/* 868 */,
+/* 869 */,
+/* 870 */,
+/* 871 */,
+/* 872 */,
+/* 873 */,
+/* 874 */,
+/* 875 */,
+/* 876 */,
+/* 877 */,
+/* 878 */,
+/* 879 */,
+/* 880 */,
+/* 881 */,
+/* 882 */,
+/* 883 */,
+/* 884 */,
+/* 885 */,
+/* 886 */,
+/* 887 */,
+/* 888 */,
+/* 889 */,
+/* 890 */,
+/* 891 */,
+/* 892 */,
+/* 893 */,
+/* 894 */,
+/* 895 */,
+/* 896 */,
+/* 897 */,
+/* 898 */,
+/* 899 */,
+/* 900 */,
+/* 901 */,
+/* 902 */,
+/* 903 */,
+/* 904 */,
+/* 905 */,
+/* 906 */,
+/* 907 */,
+/* 908 */,
+/* 909 */,
+/* 910 */,
+/* 911 */,
+/* 912 */,
+/* 913 */,
+/* 914 */,
+/* 915 */,
+/* 916 */,
+/* 917 */,
+/* 918 */,
+/* 919 */,
+/* 920 */,
+/* 921 */,
+/* 922 */,
+/* 923 */,
+/* 924 */,
+/* 925 */,
+/* 926 */,
+/* 927 */,
+/* 928 */,
+/* 929 */,
+/* 930 */,
+/* 931 */,
+/* 932 */,
+/* 933 */,
+/* 934 */,
+/* 935 */,
+/* 936 */,
+/* 937 */,
+/* 938 */,
+/* 939 */,
+/* 940 */,
+/* 941 */,
+/* 942 */,
+/* 943 */,
+/* 944 */,
+/* 945 */,
+/* 946 */,
+/* 947 */,
+/* 948 */,
+/* 949 */,
+/* 950 */,
+/* 951 */,
+/* 952 */,
+/* 953 */,
+/* 954 */,
+/* 955 */,
+/* 956 */,
+/* 957 */,
+/* 958 */,
+/* 959 */,
+/* 960 */,
+/* 961 */,
+/* 962 */,
+/* 963 */,
+/* 964 */,
+/* 965 */,
+/* 966 */,
+/* 967 */,
+/* 968 */,
+/* 969 */,
+/* 970 */,
+/* 971 */,
+/* 972 */,
+/* 973 */,
+/* 974 */,
+/* 975 */,
+/* 976 */,
+/* 977 */,
+/* 978 */,
+/* 979 */,
+/* 980 */
+/*!*******************************!*\
+  !*** ./lib/components/App.js ***!
+  \*******************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35294,33 +35683,15 @@
 		value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _deep = __webpack_require__(/*! deep */ 711);
+	var _Parent = __webpack_require__(/*! ./Parent */ 981);
 	
-	var _deepEqual = __webpack_require__(/*! deep-equal */ 236);
-	
-	var _deepEqual2 = _interopRequireDefault(_deepEqual);
-	
-	var _nodeUuid = __webpack_require__(/*! node-uuid */ 498);
-	
-	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
-	
-	var _log = __webpack_require__(/*! ../log */ 255);
-	
-	var _log2 = _interopRequireDefault(_log);
-	
-	var _methods = __webpack_require__(/*! ../constants/methods */ 745);
-	
-	var _methods2 = _interopRequireDefault(_methods);
+	var _Parent2 = _interopRequireDefault(_Parent);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -35330,484 +35701,311 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	function Insure(WrappedComponent) {
-		var _class, _temp, _initialiseProps;
+	var App = function (_Component) {
+		_inherits(App, _Component);
 	
-		return _temp = _class = function (_WrappedComponent) {
-			_inherits(ComponentWrapper, _WrappedComponent);
+		function App() {
+			_classCallCheck(this, App);
 	
-			function ComponentWrapper(props) {
-				_classCallCheck(this, ComponentWrapper);
+			return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+		}
 	
-				// if (!this.key) {
-				// 	this.key = uuid.v1();
-				// }
-				var _this = _possibleConstructorReturn(this, (ComponentWrapper.__proto__ || Object.getPrototypeOf(ComponentWrapper)).apply(this, arguments));
-	
-				_initialiseProps.call(_this);
-	
-				_this.logEntryId = _log2.default.add(getComponentName(WrappedComponent), props.id);
-				_this.consoleWindow = _log2.default.getWindow();
-				//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
-				_this.isRenderingComplete = false;
-				_this.handleLifecycleEvent('constructor', { newProps: props });
-				var logEntry = _log2.default.get(_this.logEntryId);
-				for (var name in _methods2.default) {
-					logEntry.methods[name].isMethodOverridden = Boolean(_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), name, _this));
-				}
-				_log2.default.update(_this.logEntryId, logEntry);
-				//this.updateState('constructor', props);
-				return _this;
+		_createClass(App, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(_Parent2.default, null);
 			}
+		}]);
 	
-			_createClass(ComponentWrapper, [{
-				key: 'componentWillMount',
-				value: function componentWillMount() {
-					var isMethodOverridden = false;
-					var newState = (0, _deep.clone)(this.state);
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillMount', this).call(this);
-					}
-					this.handleLifecycleEvent('componentWillMount', {
-						newProps: this.props,
-						newState: newState
-					}, isMethodOverridden);
-					//this.updateState('componentWillMount', this.props);
-				}
-			}, {
-				key: 'componentDidMount',
-				value: function componentDidMount() {
-					var isMethodOverridden = false;
-					var newState = (0, _deep.clone)(this.state);
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidMount', this).call(this);
-					}
-					this.handleLifecycleEvent('componentDidMount', {
-						newProps: this.props,
-						newState: newState,
-						updatedNewState: this.state
-					}, isMethodOverridden);
-					this.isRenderingComplete = true;
-					this.setIsMounted(true);
-					//this.updateState('componentDidMount', this.props);
-					this.updateStore();
-				}
-			}, {
-				key: 'componentWillReceiveProps',
-				value: function componentWillReceiveProps(nextProps) {
-					var isMethodOverridden = false;
-					var oldState = (0, _deep.clone)(this.state);
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-					}
-					this.handleLifecycleEvent('componentWillReceiveProps', {
-						oldProps: this.props,
-						newProps: nextProps,
-						oldState: oldState
-					}, isMethodOverridden);
-					this.isRenderingComplete = false;
-					this.clearCalled();
-					//this.updateState('componentWillReceiveProps', nextProps);
-				}
-			}, {
-				key: 'shouldComponentUpdate',
-				value: function shouldComponentUpdate(nextProps, nextState) {
-					this.isInfiniteLoop = this.autoRenderCount >= 10;
-					var isWrappedComponentGoingToUpdate = null;
-					var isMethodOverridden = false;
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'shouldComponentUpdate', this)) {
-						console.debug('super.shouldComponentUpdate exists');
-						isMethodOverridden = true;
-						//isWrappedComponentGoingToUpdate = super.shouldComponentUpdate(nextProps, nextState);
-						console.info('isWrappedComponentGoingToUpdate', isWrappedComponentGoingToUpdate);
-					} else {
-						isWrappedComponentGoingToUpdate = nextProps !== this.props || nextState !== this.state;
-					}
-					var isUpdateNecessary = void 0;
-					if (isWrappedComponentGoingToUpdate === false) {
-						isUpdateNecessary = false;
-					} else {
-						var areValuesEqual = (0, _deepEqual2.default)(nextProps, this.props) && (0, _deepEqual2.default)(nextState, this.state, { strict: true });
-						isUpdateNecessary = !areValuesEqual;
-					}
-					var isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate && !isUpdateNecessary;
-					if (isUnnecessaryUpdatePrevented) {
-						this.incrementUnnecessaryUpdatesPrevented();
-					}
-					if (this.isRenderingComplete) {
-						this.clearCalled();
-					}
-					this.handleLifecycleEvent('shouldComponentUpdate', {
-						oldProps: this.props,
-						newProps: nextProps,
-						oldState: (0, _deep.clone)(this.state),
-						newState: (0, _deep.clone)(nextState)
-					}, isMethodOverridden, isUnnecessaryUpdatePrevented);
-					this.updateStore();
-					// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
-					if (isUpdateNecessary && !this.isInfiniteLoop) {
-						this.isRenderingComplete = false;
-						return true;
-					} else {
-						this.isRenderingComplete = true;
-						return false;
-					}
-				}
-			}, {
-				key: 'componentWillUpdate',
-				value: function componentWillUpdate(nextProps, nextState) {
-					var isMethodOverridden = false;
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUpdate', this).call(this, nextProps, nextState);
-					}
-					this.handleLifecycleEvent('componentWillUpdate', {
-						oldProps: this.props,
-						newProps: nextProps,
-						oldState: (0, _deep.clone)(this.state),
-						newState: (0, _deep.clone)(nextState)
-					}, isMethodOverridden);
-				}
-			}, {
-				key: 'componentDidUpdate',
-				value: function componentDidUpdate(prevProps, prevState) {
-					var isMethodOverridden = false;
-					var newState = (0, _deep.clone)(this.state);
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentDidUpdate', this).call(this, prevProps, prevState);
-					}
-					this.isRenderingComplete = true;
-					this.handleLifecycleEvent('componentDidUpdate', {
-						oldProps: prevProps,
-						newProps: this.props,
-						oldState: (0, _deep.clone)(prevState),
-						newState: (0, _deep.clone)(newState),
-						updatedNewState: this.state
-					}, isMethodOverridden);
-					//this.updateState('componentDidUpdate', this.props);
-					this.updateStore();
-				}
-			}, {
-				key: 'componentWillUnmount',
-				value: function componentWillUnmount() {
-					var isMethodOverridden = false;
-					if (_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this)) {
-						isMethodOverridden = true;
-						_get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'componentWillUnmount', this).call(this);
-					}
-					this.isRenderingComplete = true;
-					this.setIsMounted(false);
-					this.clearCalled();
-					this.handleLifecycleEvent('componentWillUnmount', {
-						newProps: this.props,
-						newState: (0, _deep.clone)(this.state)
-					}, isMethodOverridden);
-					this.updateStore();
-				}
+		return App;
+	}(_react.Component);
 	
-				// updateState = (name, props) => {
-				// 	const methodObj = log.config[name];
-				// 	const setStateType = methodObj.setStateType;
-				// 	const value = methodObj.value;
-				// 	if (setStateType === 'none') {
-				// 		return;
-				// 	}
-				// 	let text = '';
-				// 	if (setStateType === 'set') {
-				// 		text = value;
-				// 	} else if (setStateType === 'add') {
-				// 		text = (this.state.text || '') + value;
-				// 	} else if (setStateType === 'props') {
-				// 		text = props.parentText;
-				// 	}
-				// 	if (name === 'constructor') {
-				// 		this.state = {
-				// 			text
-				// 		};
-				// 	} else {
-				// 		this.setState({
-				// 			text
-				// 		});
-				// 	}
-				// };
-	
-				// TODOD No longer cloning state here so clean this up
-	
-	
-				// Remove children because they can contain
-				// circular references, which cause problems
-				// with cloning and stringifying
-	
-			}, {
-				key: 'render',
-				value: function render() {
-	
-					this.incrementRenderCount();
-					// render method is mandatory
-					var isMethodOverridden = true;
-					this.handleLifecycleEvent('render', {
-						newProps: this.props,
-						newState: (0, _deep.clone)(this.state)
-					}, isMethodOverridden);
-					return _get(ComponentWrapper.prototype.__proto__ || Object.getPrototypeOf(ComponentWrapper.prototype), 'render', this).call(this);
-				}
-			}]);
-	
-			return ComponentWrapper;
-		}(WrappedComponent), _class.displayName = 'Insure(' + getComponentName(WrappedComponent) + ')', _initialiseProps = function _initialiseProps() {
-			var _this2 = this;
-	
-			this.logEntryId = null;
-			this.autoRenderCount = 0;
-			this.isInfiniteLoop = false;
-			this.isRenderingComplete = true;
-			this.consoleWindow = null;
-	
-			this.handleLifecycleEvent = function (name, propsAndStates) {
-				var isMethodOverridden = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-				var isUnnecessaryUpdatePrevented = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
-	
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				var count = logEntry.methods[name].count;
-				var clonedPropsAndStates = _this2.cloneValues(propsAndStates);
-				logEntry.methods[name] = _extends({
-					name: name,
-					isMethodOverridden: isMethodOverridden,
-					called: true,
-					count: ++count
-				}, clonedPropsAndStates, {
-					isInfiniteLoop: _this2.isInfiniteLoop,
-					isUnnecessaryUpdatePrevented: isUnnecessaryUpdatePrevented
-				});
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.cloneValues = function (propsAndStates) {
-				var newPropsAndStates = {};
-				for (var name in propsAndStates) {
-					var value = propsAndStates[name];
-					var newValue = {};
-					if (/Props/.test(name)) {
-						newValue = (0, _deep.clone)(_this2.removeCircularReferences(value));
-					} else {
-						newValue = value;
-					}
-					newPropsAndStates[name] = newValue;
-				}
-				return newPropsAndStates;
-			};
-	
-			this.removeCircularReferences = function (props) {
-				if (!props) {
-					return null;
-				}
-				var newProps = Object.assign({}, props);
-				if (newProps.hasOwnProperty('children')) {
-					delete newProps.children;
-				}
-				return newProps;
-			};
-	
-			this.clearCalled = function () {
-				var logEntry = (0, _deep.clone)(_log2.default.get(_this2.logEntryId));
-				_this2.autoRenderCount = 0;
-				for (var name in logEntry.methods) {
-					logEntry.methods[name].called = false;
-				}
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.updateStore = function () {
-				//this.consoleWindow.log.entries = clone(log.entries);
-				_this2.consoleWindow.log.entries = _log2.default.entries;
-				_this2.consoleWindow.postMessage('update', window.location.href);
-			};
-	
-			this.incrementRenderCount = function () {
-				_this2.autoRenderCount++;
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.renderCount++;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.setIsMounted = function (isMounted) {
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.isMounted = isMounted;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-	
-			this.incrementUnnecessaryUpdatesPrevented = function () {
-				var logEntry = _log2.default.get(_this2.logEntryId);
-				logEntry.unnecessaryUpdatesPrevented++;
-				_log2.default.update(_this2.logEntryId, logEntry);
-			};
-		}, _temp;
-	}
-	
-	var getComponentName = function getComponentName(component) {
-		return component ? component.displayName || component.name || 'Component' : '';
-	};
-	
-	exports.default = Insure;
+	exports.default = App;
+	;
 
 /***/ },
-/* 744 */,
-/* 745 */
+/* 981 */
 /*!**********************************!*\
-  !*** ./src/constants/methods.js ***!
+  !*** ./lib/components/Parent.js ***!
   \**********************************/
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	var methodProperties = {
-		constructor: {
-			args: ['props'],
-			state: [],
-			props: [{
-				name: 'props',
-				value: 'newProps'
-			}],
-			terminal: false,
-			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
-		},
-		componentWillMount: {
-			args: [],
-			state: [{
-				name: 'this.state',
-				value: 'newState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'newProps'
-			}],
-			terminal: false,
-			description: 'Remove/add the Child Component to see the effect of changes you make here using setState.'
-		},
-		componentDidMount: {
-			args: [],
-			state: [{
-				name: 'this.state',
-				value: 'newState'
-			}, {
-				name: '(final state)',
-				value: 'updatedNewState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'newProps'
-			}],
-			terminal: true,
-			description: 'Avoid calling setState here because it will trigger an extra render.'
-		},
-		componentWillReceiveProps: {
-			args: ['nextProps'],
-			state: [{
-				name: 'this.state',
-				value: 'oldState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'oldProps'
-			}, {
-				name: 'nextProps',
-				value: 'newProps'
-			}],
-			terminal: false
-		},
-		shouldComponentUpdate: {
-			args: ['nextProps', 'nextState'],
-			state: [{
-				name: 'this.state',
-				value: 'oldState'
-			}, {
-				name: 'nextState',
-				value: 'newState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'oldProps'
-			}, {
-				name: 'nextProps',
-				value: 'newProps'
-			}],
-			terminal: false
-		},
-		componentWillUpdate: {
-			args: ['nextProps', 'nextState'],
-			state: [{
-				name: 'this.state',
-				value: 'oldState'
-			}, {
-				name: 'nextState',
-				value: 'newState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'oldProps'
-			}, {
-				name: 'nextProps',
-				value: 'newProps'
-			}],
-			terminal: false
-		},
-		render: {
-			args: [],
-			state: [{
-				name: 'this.state',
-				value: 'newState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'newProps'
-			}],
-			terminal: false
-		},
-		componentDidUpdate: {
-			args: ['prevProps', 'prevState'],
-			state: [{
-				name: 'prevState',
-				value: 'oldState'
-			}, {
-				name: 'this.state',
-				value: 'newState'
-			}, {
-				name: '(final state)',
-				value: 'updatedNewState'
-			}],
-			props: [{
-				name: 'prevProps',
-				value: 'oldProps'
-			}, {
-				name: 'this.props',
-				value: 'newProps'
-			}],
-			terminal: true,
-			description: 'Avoid calling setState here because it will trigger an extra render. It can also initiate an infinite rendering loop ' + '(use the "text +=" option below to see an example of this).'
-		},
-		componentWillUnmount: {
-			args: [],
-			state: [{
-				name: 'this.state',
-				value: 'newState'
-			}],
-			props: [{
-				name: 'this.props',
-				value: 'newProps'
-			}],
-			terminal: true
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Child = __webpack_require__(/*! ./Child */ 982);
+	
+	var _Child2 = _interopRequireDefault(_Child);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Parent = function (_Component) {
+		_inherits(Parent, _Component);
+	
+		function Parent() {
+			_classCallCheck(this, Parent);
+	
+			var _this = _possibleConstructorReturn(this, (Parent.__proto__ || Object.getPrototypeOf(Parent)).call(this));
+	
+			_this.handleTextChange = function (event) {
+				_this.setState({
+					text: event.target.value
+				});
+			};
+	
+			_this.state = {
+				text: 'Some text'
+			};
+			return _this;
 		}
 	
-	};
+		_createClass(Parent, [{
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement('input', {
+						type: 'text',
+						value: this.state.text,
+						onChange: this.handleTextChange
+					}),
+					_react2.default.createElement(_Child2.default, { text: this.state.text })
+				);
+			}
+		}]);
 	
-	exports.default = methodProperties;
+		return Parent;
+	}(_react.Component);
+	
+	exports.default = Parent;
+	;
+
+/***/ },
+/* 982 */
+/*!*********************************!*\
+  !*** ./lib/components/Child.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Insure = __webpack_require__(/*! ./Insure */ 836);
+	
+	var _Insure2 = _interopRequireDefault(_Insure);
+	
+	var _Input = __webpack_require__(/*! ./Input */ 983);
+	
+	var _Input2 = _interopRequireDefault(_Input);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Child = function (_Component) {
+		_inherits(Child, _Component);
+	
+		function Child(props) {
+			_classCallCheck(this, Child);
+	
+			var _this = _possibleConstructorReturn(this, (Child.__proto__ || Object.getPrototypeOf(Child)).call(this, props));
+	
+			_this.onChange = function (value) {
+				var newState = {
+					values: {
+						text: value
+					}
+				};
+				_this.setState(newState);
+			};
+	
+			_this.state = {
+				values: {
+					text: _this.props.text.toUpperCase()
+				}
+			};
+			return _this;
+		}
+	
+		_createClass(Child, [{
+			key: 'componentWillReceiveProps',
+			value: function componentWillReceiveProps(nextProps) {
+				var newState = {
+					values: {
+						text: this.props.text.toUpperCase()
+					}
+				};
+				this.setState(newState);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'div',
+						null,
+						'Props: ',
+						this.props.text
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						'State: ',
+						this.state.values.text
+					),
+					_react2.default.createElement(_Input2.default, { value: this.props.text, onChange: this.onChange })
+				);
+			}
+		}]);
+	
+		return Child;
+	}(_react.Component);
+	
+	;
+	
+	exports.default = (0, _Insure2.default)(Child);
+
+/***/ },
+/* 983 */
+/*!*********************************!*\
+  !*** ./lib/components/Input.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _radium = __webpack_require__(/*! radium */ 172);
+	
+	var _radium2 = _interopRequireDefault(_radium);
+	
+	var _styles = __webpack_require__(/*! ../styles/styles */ 557);
+	
+	var _styles2 = _interopRequireDefault(_styles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Input = function (_Component) {
+		_inherits(Input, _Component);
+	
+		function Input(props) {
+			_classCallCheck(this, Input);
+	
+			var _this = _possibleConstructorReturn(this, (Input.__proto__ || Object.getPrototypeOf(Input)).call(this, props));
+	
+			_this.handleTextChange = function (event) {
+				_this.setState({
+					text: event.target.value
+				});
+			};
+	
+			_this.handleSubmitText = function () {
+				_this.props.onChange(_this.refs.input.value);
+			};
+	
+			_this.handleEnterKeyDown = function (event) {
+				if (event.which === 13) {
+					_this.handleSubmitText();
+				}
+			};
+	
+			_this.state = {
+				text: _this.props.value
+			};
+			return _this;
+		}
+	
+		_createClass(Input, [{
+			key: 'render',
+			value: function render() {
+	
+				var labels = {
+					prop: 'Send Prop',
+					state: 'Update State'
+				};
+				var colors = {
+					prop: 'blue',
+					state: '#4caf50'
+				};
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement('input', {
+						type: 'text',
+						ref: 'input',
+						value: this.state.text,
+						onChange: this.handleTextChange,
+						onKeyDown: this.handleEnterKeyDown,
+						style: [_styles2.default.input, { color: colors[this.props.type] }]
+					}),
+					_react2.default.createElement(
+						'button',
+						{
+							key: 'updateStateButton',
+							onClick: this.handleSubmitText,
+							style: _styles2.default.button
+						},
+						'Update'
+					)
+				);
+			}
+		}]);
+	
+		return Input;
+	}(_react.Component);
+	
+	Input.propTypes = {
+		type: _react.PropTypes.string.isRequired,
+		onChange: _react.PropTypes.func.isRequired
+	};
+	exports.default = (0, _radium2.default)(Input);
 
 /***/ }
 /******/ ]);
