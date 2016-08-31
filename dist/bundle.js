@@ -59737,13 +59737,6 @@
 		// 	log.set(clone(nextState));
 		// }
 	
-		// draggableWindowDimensions = {
-		// 	width: 800,
-		// 	height: 600
-		// };
-		//
-	
-	
 		_createClass(Method, [{
 			key: 'render',
 			value: function render() {
@@ -59881,50 +59874,6 @@
 				width: '100%',
 				marginLeft: '5px'
 			}
-			// draggableWindow: {
-			// 	position: 'fixed',
-			// 	top: '10px',
-			// 	left: '10px',
-			// 	resize: 'both',
-			// 	width: this.draggableWindowDimensions.width + 'px',
-			// 	height: this.draggableWindowDimensions.height + 'px',
-			// 	overflow: 'auto',
-			// 	backgroundColor: 'white',
-			// 	border: '1px solid gray',
-			// 	boxShadow: '5px 5px 6px rgba(0, 0, 0, .4)',
-			// 	opacity: '1',
-			// 	animation: 'x .3s ease-in',
-			// 	animationName: Radium.keyframes({
-			// 		'0%': {opacity: '0'},
-			// 		'100%': {opacity: '1'}
-			// 	}),
-			// 	backfaceVisibility: 'hidden'
-			// },
-			// draggableWindowClosed: {
-			// 	opacity: '0',
-			// 	animation: 'x .3s ease-in',
-			// 	animationName: Radium.keyframes({
-			// 		'0%': {opacity: '1'},
-			// 		'100%': {opacity: '0'}
-			// 	}),
-			// 	backfaceVisibility: 'hidden'
-			// },
-			// handle: {
-			// 	display: 'flex',
-			// 	justifyContent: 'flex-end',
-			// 	alignItems: 'center',
-			// 	height: '30px',
-			// 	backgroundColor: 'lightgray',
-			// 	cursor: 'move'
-			// },
-			// windowContent: {
-			// 	margin: '0',
-			// 	padding: '10px'
-			// },
-			// close: {
-			// 	marginRight: '5px',
-			// 	cursor: 'pointer'
-			// },
 		};
 	
 		this.getMethodName = function () {
@@ -60049,11 +59998,15 @@
 	
 		this.getDescription = function () {
 			var description = _methods2.default[_this2.props.methodObj.name].description;
-			return _react2.default.createElement(
-				'div',
-				{ style: _styles2.default.description },
-				description
-			);
+			if (description) {
+				return _react2.default.createElement(
+					'div',
+					{ style: _styles2.default.description },
+					description
+				);
+			} else {
+				return false;
+			}
 		};
 	
 		this.getSetState = function (methodObj) {
