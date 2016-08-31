@@ -26263,18 +26263,26 @@
 				height: 600
 			};
 			_this.styles = {
-				container: _extends({}, _styles2.default.base, {
-					display: 'flex'
-				}),
+				container: _extends({
+					display: 'flex',
+					position: 'absolute',
+					height: '100%',
+					overflow: 'hidden'
+				}, _styles2.default.base),
+				lifeCycle: {
+					height: '100%',
+					overflowX: 'hidden',
+					overflowY: 'auto'
+				},
 				draggableWindowHidden: {
 					display: 'none'
 				},
 				draggableWindow: {
-					display: 'block',
+					display: 'flex',
+					flexDirection: 'column',
 					position: 'absolute',
 					top: '10px',
 					left: '10px',
-					height: _this.draggableWindowDimensions.height + 'px',
 					backgroundColor: 'white',
 					border: '1px solid gray',
 					boxShadow: '5px 5px 6px rgba(0, 0, 0, .4)',
@@ -26421,33 +26429,37 @@
 							onChange: this.handleConfigChange,
 							selectedComponentId: this.state.selectedComponentId
 						}),
-						_react2.default.createElement(_LifeCycle2.default, {
-							logEntry: this.state.log.entries[this.state.selectedComponentId],
-							showFullText: this.openDraggableWindow
-						})
-					),
-					_react2.default.createElement(
-						_reactDraggable2.default,
-						{
-							handle: '.handle',
-							bounds: 'parent'
-						},
 						_react2.default.createElement(
 							'div',
-							{ style: draggableWindowStyle },
+							{ style: this.styles.lifeCycle },
+							_react2.default.createElement(_LifeCycle2.default, {
+								logEntry: this.state.log.entries[this.state.selectedComponentId],
+								showFullText: this.openDraggableWindow
+							})
+						),
+						_react2.default.createElement(
+							_reactDraggable2.default,
+							{
+								handle: '.handle',
+								bounds: 'parent'
+							},
 							_react2.default.createElement(
 								'div',
-								{ className: 'handle', style: this.styles.handle },
+								{ style: draggableWindowStyle },
 								_react2.default.createElement(
 									'div',
-									{ onClick: this.closeDraggableWindow, style: this.styles.close },
-									'close'
+									{ className: 'handle', style: this.styles.handle },
+									_react2.default.createElement(
+										'div',
+										{ onClick: this.closeDraggableWindow, style: this.styles.close },
+										'close'
+									)
+								),
+								_react2.default.createElement(
+									'pre',
+									{ style: this.styles.windowContent },
+									this.state.fullText
 								)
-							),
-							_react2.default.createElement(
-								'pre',
-								{ style: this.styles.windowContent },
-								this.state.fullText
 							)
 						)
 					)
@@ -28315,6 +28327,8 @@
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -28404,9 +28418,11 @@
 			table: {
 				zIndex: '0'
 			},
-			row: {
+			cell: {
 				display: 'flex',
-				minWidth: '150px',
+				alignItems: 'center',
+				flex: '1',
+				height: '100%',
 				cursor: 'pointer',
 				opacity: '1',
 				animation: 'x 1s ease-out',
@@ -28417,12 +28433,6 @@
 				})
 			},
 			component: {
-				display: 'flex',
-				alignItems: 'center',
-				flex: '1',
-				minWidth: '200px',
-				marginRight: '10px',
-				padding: '3px 5px',
 				overflow: 'hidden',
 				whiteSpace: 'nowrap',
 				textOverflow: 'ellipsis',
@@ -28432,7 +28442,7 @@
 				fontWeight: 'normal',
 				color: 'gray'
 			},
-			selectedComponent: {
+			selectedCell: {
 				backgroundColor: (0, _color2.default)('lightblue').lighten(.1).hexString()
 			},
 			methodName: {
@@ -28469,25 +28479,31 @@
 			});
 		};
 	
+		this.mergeStyles = function (stylesArray) {
+			stylesArray.unshift({});
+			return Object.assign.apply(Object, _toConsumableArray(stylesArray));
+		};
+	
+		this.getRowSelectedStyle = function (id) {
+			if (_this2.props.selectedComponentId === id) {
+				return _this2.styles.selectedCell;
+			}
+			return {};
+		};
+	
 		this.getComponentNameCell = function (props) {
 			var row = _this2.state.componentTableData[props.rowIndex];
+			var componentStyle = [_this2.styles.component, _this2.styles.cell];
 			var entry = _this2.props.entries[row.id];
-			var componentStyle = [_this2.styles.component, _this2.styles.row];
 			if (!entry.isMounted) {
 				componentStyle.push(_this2.styles.unmountedComponent);
 			}
-			if (_this2.props.selectedComponentId === row.id) {
-				componentStyle.push(_this2.styles.selectedComponent);
-			}
-			// TODO remove the workaround because Radium now works with the table?
-			// Radium doesn't seem to work with FixedDataTable so must merge the styles manually here
-			componentStyle.unshift({});
-			componentStyle = Object.assign.apply(_this2, componentStyle);
+			componentStyle.push(_this2.getRowSelectedStyle(row.id));
 			return _react2.default.createElement(
 				Cell,
 				_extends({}, props, {
 					onClick: _this2.handleComponentSelected.bind(_this2, row.id),
-					style: componentStyle
+					style: _this2.mergeStyles(componentStyle)
 				}),
 				_react2.default.createElement(
 					'div',
@@ -28499,12 +28515,16 @@
 	
 		this.getRenderCountCell = function (props) {
 			var row = _this2.state.componentTableData[props.rowIndex];
+			var renderCountStyle = _this2.mergeStyles([_this2.styles.cell, _this2.styles.renderCount, _this2.getRowSelectedStyle(row.id)]);
 			return _react2.default.createElement(
 				Cell,
-				null,
+				{
+					onClick: _this2.handleComponentSelected.bind(_this2, row.id),
+					style: renderCountStyle
+				},
 				_react2.default.createElement(
 					'div',
-					{ style: _this2.styles.renderCount },
+					null,
 					row.renderCount
 				)
 			);
@@ -28512,14 +28532,16 @@
 	
 		this.getWarningCountCell = function (props) {
 			var row = _this2.state.componentTableData[props.rowIndex];
-			var tooltip = _react2.default.createElement(
-				_reactBootstrap.Tooltip,
-				{ id: 'unnecessaryRendersTooltip' },
-				row.warningCount,
-				' unnecessary rerenders prevented'
-			);
 			var warningCount = '';
+			var warningStyle = [_this2.styles.cell, _this2.getRowSelectedStyle(row.id)];
 			if (row.warningCount) {
+				warningStyle.push(_this2.styles.warning);
+				var tooltip = _react2.default.createElement(
+					_reactBootstrap.Tooltip,
+					{ id: 'unnecessaryRendersTooltip' },
+					row.warningCount,
+					' unnecessary rerenders prevented'
+				);
 				warningCount = _react2.default.createElement(
 					'div',
 					null,
@@ -28531,7 +28553,7 @@
 						},
 						_react2.default.createElement(
 							'div',
-							{ style: _this2.styles.warning },
+							{ style: warningStyle },
 							row.warningCount || ''
 						)
 					)
@@ -28539,7 +28561,10 @@
 			}
 			return _react2.default.createElement(
 				Cell,
-				null,
+				{
+					onClick: _this2.handleComponentSelected.bind(_this2, row.id),
+					style: _this2.mergeStyles(warningStyle)
+				},
 				warningCount
 			);
 		};
@@ -60041,16 +60066,12 @@
 			return _react2.default.createElement(
 				'div',
 				null,
-				_this2.getDescription(),
 				_react2.default.createElement(
 					'div',
 					{ style: _this2.styles.setState },
-					_react2.default.createElement(
-						'div',
-						null,
-						label
-					)
-				)
+					label
+				),
+				_this2.getDescription()
 			);
 	
 			// const inputDisabled = this.state.setStateType === 'none' || this.state.setStateType === 'props';
