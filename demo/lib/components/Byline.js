@@ -2,7 +2,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import Time from 'react-time'
-import Insure from '../../components/Insure';
+import Insure from 'life-insurance';
 
 const Byline = React.createClass({
 

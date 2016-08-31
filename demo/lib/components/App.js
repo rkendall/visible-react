@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Radium from 'radium';
-import Insure from '../../components/Insure';
+import Insure from 'life-insurance';
 
 import * as questionActions from '../actions/actions';
 

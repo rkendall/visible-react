@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {hashHistory} from 'react-router';
 import Radium from 'radium';
-import Insure from '../../components/Insure';
+import Insure from 'life-insurance';
 
 import Keywords from './Keywords';
 import Byline from './Byline';

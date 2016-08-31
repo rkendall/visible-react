@@ -4,7 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import Insure from '../../components/Insure';
+import Insure from 'life-insurance';
 
 import {addAnswer} from '../actions/actions';
 import styles from '../styles/styles';

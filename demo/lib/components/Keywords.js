@@ -1,7 +1,7 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import Insure from '../../components/Insure';
+import Insure from 'life-insurance';
 
 class Keywords extends Component {
 
