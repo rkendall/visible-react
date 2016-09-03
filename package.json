@@ -2,10 +2,10 @@
   "name": "life-insurance",
   "version": "0.0.1",
   "description": "Optimization and debugging for React lifecycle events",
-  "main": "dist/index.js",
+  "main": "build/Insure.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "babel ./lib/insure --out-dir ./build --presets es2015,stage-0,react --plugins babel-plugin-add-module-exports && browserify ./build/Insure.js -o ./demo/node_modules/life-insurance/dist/index.js --transform browserify-global-shim --standalone Insure && webpack -d"
+    "bundle": "babel ./lib/insure --out-dir ./build --source-maps --presets es2015,stage-0,react --plugins babel-plugin-add-module-exports && browserify ./build/Insure.js -o ./dist/index.js --transform browserify-global-shim --standalone Insure"
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",
@@ -37,6 +37,7 @@
     "react-time": "^4.2.0",
     "redux": "^3.5.2",
     "script-loader": "^0.7.0",
+    "shallowequal": "^0.2.2",
     "smart-circular": "^1.0.2"
   },
   "devDependencies": {
@@ -52,9 +53,15 @@
     "browserify-global-shim": "^1.0.3",
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.24.0",
+    "css-to-radium": "^1.0.3",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.22.0",
+    "react-addons-perf": "^15.3.1",
     "style-loader": "^0.13.1",
     "uglifyjs": "^2.4.10",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.15.1"
   }
 }

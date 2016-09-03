@@ -28,5 +28,36 @@
         "date": 1470716316776
       }
     ]
+  },
+  {
+    "id": "3",
+    "title": "What's black and white and red all over?",
+    "description": "I've searched the forum and couldn't find an answer.",
+    "user": "May Brown",
+    "date": 1470716319776,
+    "keywords": ["colors", "riddles"],
+    "answers": [
+      {
+        "text": "A newspaper.",
+        "user": "Rupert Murdoch",
+        "date": 1472742254565
+      },
+      {
+        "text": "What's a newspaper?",
+        "user": "Mark Zuckerberg",
+        "date": 1472742254565
+      },
+      {
+        "text": "A sunburned zebra.",
+        "user": "May",
+        "date": 1472771242555
+      },
+      {
+        "text": "An old picture of Lenin.",
+        "user": "Vladimir",
+        "date": 1472772252565
+      }
+    ]
   }
+
 ]

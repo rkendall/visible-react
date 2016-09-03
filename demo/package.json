@@ -2,7 +2,7 @@
   "name": "visible-react-demo",
   "version": "0.0.1",
   "description": "Demo of Visible React (part of Life Insurance)",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,30 +10,20 @@
   "license": "MIT",
   "dependencies": {
     "color": "^0.11.3",
-    "deep": "0.0.2",
-    "deep-copy": "^1.1.2",
-    "deep-equal": "^1.0.1",
-    "deepcopy": "^0.6.3",
-    "diff": "^3.0.0",
-    "filter-object": "^2.1.0",
-    "fixed-data-table": "^0.6.3",
     "json-loader": "^0.5.4",
-    "life-insurance": "file:///Users/robertkendall/code/life-insurance/life-insurance-0.0.1.tgz",
+    "life-insurance": "../life-insurance-0.0.1.tgz",
     "material-ui": "^0.15.3",
     "moment": "^2.14.1",
     "node-uuid": "^1.4.7",
     "radium": "^0.18.1",
-    "rc-tooltip": "^3.4.2",
     "react": "^15.3.0",
-    "react-bootstrap": "^0.30.3",
     "react-dom": "^15.3.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
     "react-tap-event-plugin": "^1.0.0",
     "react-time": "^4.2.0",
     "redux": "^3.5.2",
-    "script-loader": "^0.7.0",
-    "smart-circular": "^1.0.2"
+    "script-loader": "^0.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.13.2",
