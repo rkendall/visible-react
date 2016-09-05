@@ -1,9 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var dataTableStyles = {
+const dataTableStyles = {
 	'.fixedDataTableCellGroupLayout_cellGroup': {
 		WebkitBackfaceVisibility: 'hidden',
 		backfaceVisibility: 'hidden',
@@ -288,5 +283,4 @@ var dataTableStyles = {
 	}
 };
 
-exports.default = dataTableStyles;
-module.exports = exports['default'];
+export default dataTableStyles;

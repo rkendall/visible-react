@@ -1,9 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-var bootstrapStyles = {
+const bootstrapStyles = {
 	html: {
 		fontFamily: 'sans-serif',
 		msTextSizeAdjust: '100%',
@@ -388,5 +383,4 @@ var bootstrapStyles = {
 	}
 };
 
-exports.default = bootstrapStyles;
-module.exports = exports['default'];
+export default bootstrapStyles;

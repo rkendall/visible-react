@@ -1,19 +1,9 @@
-'use strict';
+import color from 'color';
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
+const hoverColor = color('lightblue').darken(0.1).hexString();
+const activeColor = color('lightblue').darken(0.2).hexString();
 
-var _color = require('color');
-
-var _color2 = _interopRequireDefault(_color);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var hoverColor = (0, _color2.default)('lightblue').darken(0.1).hexString();
-var activeColor = (0, _color2.default)('lightblue').darken(0.2).hexString();
-
-var styles = {
+const styles = {
 	base: {
 		fontFamily: 'Arial, Helvetica, sans-serif',
 		fontSize: '12px'
@@ -59,5 +49,4 @@ var styles = {
 	}
 };
 
-exports.default = styles;
-module.exports = exports['default'];
+export default styles;
