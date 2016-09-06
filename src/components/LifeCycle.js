@@ -15,7 +15,8 @@ class LifeCycle extends Component {
 			width: '900px',
 			minWidth: '900px',
 			padding: '10px',
-			backgroundColor: 'lightblue'
+			backgroundColor: 'lightblue',
+			boxSizing: 'border-box'
 		},
 		title: {
 			display: 'flex',
@@ -44,19 +45,23 @@ class LifeCycle extends Component {
 		},
 		left: {
 			display: 'flex',
-			justifyContent: 'flex-start'
+			justifyContent: 'flex-start',
+			boxSizing: 'border-box'
 		},
 		right: {
 			display: 'flex',
-			justifyContent: 'flex-end'
+			justifyContent: 'flex-end',
+			boxSizing: 'border-box'
 		},
 		both: {
 			display: 'flex',
-			justifyContent: 'space-between'
+			justifyContent: 'space-between',
+			boxSizing: 'border-box'
 		},
 		center: {
 			display: 'flex',
-			justifyContent: 'center'
+			justifyContent: 'center',
+			boxSizing: 'border-box'
 		},
 		arrows: {
 			display: 'flex',

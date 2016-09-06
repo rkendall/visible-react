@@ -30,7 +30,8 @@ class Method extends Component {
 			width: '275px',
 			margin: '0 10px',
 			padding: '10px 10px 5px 10px',
-			backgroundColor: 'white'
+			backgroundColor: 'white',
+			boxSizing: 'border-box'
 		},
 		active: {
 			boxShadow: '0 0 10px 6px #2d7188',
@@ -48,14 +49,17 @@ class Method extends Component {
 		},
 		methodName: {
 			display: 'flex',
-			alignItems: 'baseline',
+			alignItems: 'center',
 			fontWeight: 'bold',
 			wordBreak: 'break-word'
 		},
 		methodIcon: {
+			width: '16px',
+			height: '16px',
 			marginRight: '5px',
-			color: 'limegreen',
-			fontSize: '12px',
+			background: 'lightblue',
+			borderRadius: '50%',
+			boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.5)',
 			cursor: 'default'
 		},
 		propsAndState: {
@@ -134,7 +138,7 @@ class Method extends Component {
 			: `${methodObj.name}(${args})`;
 		const iconMessage = 'This method exists in the wrapped component';
 		const methodIcon = methodObj.isMethodOverridden ? (
-			<div style={this.styles.methodIcon} title={iconMessage}>⬤</div>
+			<div style={this.styles.methodIcon} title={iconMessage}></div>
 		) : '';
 		return (
 			<div key={name + '-name-icon'}>
@@ -158,7 +162,7 @@ class Method extends Component {
 		const isActive = methodObj.called;
 		let style = isActive ? this.styles.active : this.styles.inactive;
 		if (methodObj.name === 'render') {
-			style.width = '560px'
+			style.width = '570px'
 		}
 		return Object.assign({}, this.styles.section, style);
 	};

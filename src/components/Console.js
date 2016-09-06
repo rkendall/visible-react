@@ -24,12 +24,12 @@ class Console extends Component {
 	styles = {
 		container: {
 			display: 'flex',
+			justifyContent: 'space-between',
 			height: '100%',
 			overflow: 'hidden',
 			...styles.base
 		},
 		lifeCycle: {
-			flex: '2',
 			height: '100%',
 			overflowX: 'hidden',
 			overflowY: 'auto'

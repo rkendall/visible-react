@@ -5,10 +5,7 @@ import color from 'color';
 import {Table, Column} from 'fixed-data-table';
 let Cell = require('fixed-data-table').Cell;
 Cell = Radium(Cell);
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 import dataTableStyles from '../vendor/dataTableStyle.js';
-import bootStrapStyles from '../vendor/bootstrapStyles.js';
-import shallowEqual from 'shallowequal';
 
 import TableCell from './TableCell';
 import DataIconCell from './DataIconCell';
@@ -19,7 +16,6 @@ class ComponentList extends Component {
 	styles = {
 		container: {
 			position: 'relative',
-			flex: '1',
 			padding: '10px'
 		},
 		heading: {
@@ -69,8 +65,14 @@ class ComponentList extends Component {
 			whiteSpace: 'nowrap',
 			textOverflow: 'ellipsis'
 		},
-		renderCount: {},
+		renderCount: {
+			justifyContent: 'flex-end',
+			width: '100%',
+			textAlign: 'right'
+		},
 		warning: {
+			justifyContent: 'flex-end',
+			width: '100%',
 			minWidth: '20px',
 			padding: '3px 0',
 			color: 'red',
@@ -80,15 +82,21 @@ class ComponentList extends Component {
 
 	constructor(props) {
 		super(props);
+		const columnWidths = {
+			changed: 20,
+			name: 175,
+			renderCount: 85,
+			warningCount: 75
+		};
+		let tableWidth = 0;
+		for (name in columnWidths) {
+			tableWidth += columnWidths[name];
+		}
 		this.state = {
 			selectedComponentId: props.entries.first().get('id'),
 			componentTableData: this.getComponentTableData(props.entries),
-			columnWidths: {
-				changed: 20,
-				name: 150,
-				renderCount: 75,
-				warningCount: 75
-			}
+			tableWidth,
+			columnWidths
 		};
 	}
 
@@ -117,10 +125,9 @@ class ComponentList extends Component {
 	}
 
 	updateDimensions = () => {
-		this.setState({
-			tableWidth: (window.innerWidth - 950)
-			//tableHeight: (window.innerHeight - 150)
-		});
+		// this.setState({
+		// 	tableWidth: this.state.tableWidth += (window.innerWidth - 1350)
+		// });
 	};
 
 	getComponentTableData = (immutableEntries) => {
@@ -212,8 +219,9 @@ class ComponentList extends Component {
 		const row = this.state.componentTableData[props.rowIndex];
 		const warningCount = row.warningCount || '';
 		let warningStyle = [this.styles.cell, this.getRowSelectedStyle(row.id), this.styles.warning];
-		const tooltip = warningCount + ' unnecessary rerenders prevented';
+		const tooltip = warningCount ? warningCount + ' unnecessary rerenders prevented' : '';
 		const data = warningCount;
+
 		return (
 			<TableCell
 				data={data}
@@ -309,7 +317,7 @@ class ComponentList extends Component {
 
 	render() {
 
-		const stylesheets = Object.assign({}, dataTableStyles, bootStrapStyles);
+		const stylesheets = Object.assign({}, dataTableStyles);
 
 		return (
 			<div style={this.styles.container}>
