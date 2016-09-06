@@ -59,7 +59,7 @@ class Method extends Component {
 			marginRight: '5px',
 			background: 'lightblue',
 			borderRadius: '50%',
-			boxShadow: '1px 1px 5px rgba(0, 0, 0, 0.5)',
+			boxShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
 			cursor: 'default'
 		},
 		propsAndState: {
