@@ -2,14 +2,11 @@
 
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
-import connect from 'react-redux';
 import Radium from 'radium';
 import color from 'color';
-import deepEqual from 'deep-equal';
-import shallowEqual from 'shallowequal';
+import circularJson from 'circular-json';
 
 import styles from '../styles/styles';
-import methodProperties from '../constants/methods.js';
 
 class Method extends Component {
 
@@ -50,6 +47,7 @@ class Method extends Component {
 		methodName: {
 			display: 'flex',
 			alignItems: 'center',
+			flex: '1',
 			fontWeight: 'bold',
 			wordBreak: 'break-word'
 		},
@@ -57,14 +55,27 @@ class Method extends Component {
 			width: '16px',
 			height: '16px',
 			marginRight: '5px',
-			background: 'lightblue',
 			borderRadius: '50%',
-			boxShadow: '1px 1px 2px rgba(0, 0, 0, 0.5)',
-			cursor: 'default'
+			cursor: 'default',
+			boxShadow: 'inset 0 -1px 1px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,1)',
+			background: 'linear-gradient(to bottom, lightblue 0%, ' + color('lightblue').darken(0.5).hexString() + ' 100%)'
 		},
 		propsAndState: {
 			display: 'flex',
 			alignItems: 'center'
+		},
+		propsAndStateChanged: {
+			fontWeight: 'bold',
+			animation: 'x .7s ease-out',
+			animationName: Radium.keyframes({
+				'0%': {backgroundColor: 'white'},
+				'40%': {backgroundColor: 'yellow'},
+				'100%': {backgroundColor: 'white'}
+			})
+		},
+		propsAndStateUnchanged: {
+			fontWeight: 'normal',
+			color: 'gray'
 		},
 		line: {
 			display: 'flex'
@@ -119,15 +130,14 @@ class Method extends Component {
 	constructor() {
 		super();
 		this.state = {
-			showFullText: false,
-			fadeDraggableWindow: false
+			showFullText: false
 		}
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
 			nextProps !== this.props
-			|| !shallowEqual(nextState, this.state)
+			|| nextState.showFullText !== this.state.showFullText
 		);
 	}
 
@@ -151,7 +161,7 @@ class Method extends Component {
 	};
 
 	getArgNames = (methodObj) => {
-		const args = methodProperties[methodObj.name].args;
+		const args = this.props.methodConfig.args;
 		return {
 			str: args.join(', '),
 			arr: args
@@ -179,27 +189,21 @@ class Method extends Component {
 
 	// TODO Refactor for clarity
 	getPropsAndStates = (methodObj) => {
+		const config = this.props.methodConfig;
 		let types = ['props', 'state'];
 		return types.map((type) => {
-			const items = methodProperties[methodObj.name][type].slice();
-			let filteredItems = items.filter((item) => {
-			    if (item.value !== 'updatedNewState') {
-					return item;
-				}
-			});
-			const names = filteredItems.map((item, ind) => {
+			const items = config[type].slice();
+			const names = items.map((item, ind) => {
 				const isSecond = ind > 0;
-				return this.getPropAndStateNames(item.name, type, isSecond);
+				return this.getPropAndStateName(item.name, type, isSecond);
 			});
 			// Display both values only if one has changed
-			const itemsForValues = this.props.isChanged[type]
-				? filteredItems.slice()
-				: [filteredItems.slice()[0]];
-			const values = itemsForValues.map((item) => {
-				if (!item) {
-					return '';
-				}
-				return this.getPropAndStateValues(methodObj[item.value], type, methodObj);
+			const isParallelItemDifferent = config[type + 'NotEqual'];
+			const itemsForValues = isParallelItemDifferent
+				? [items.slice()[0]]
+				: items.slice();
+			const values = itemsForValues.map((item, ind) => {
+				return this.getPropAndStateValues(items, ind, type);
 			});
 			const baseKey = `${methodObj.name}-${type}`;
 			return (
@@ -211,7 +215,7 @@ class Method extends Component {
 		});
 	};
 
-	getPropAndStateNames = (name, type, isSecond) => {
+	getPropAndStateName = (name, type, isSecond) => {
 		const arrow = isSecond ? '↳' : '';
 		return (
 			<div style={this.styles.line}>
@@ -220,19 +224,23 @@ class Method extends Component {
 		);
 	};
 
-	getPropAndStateValues = (value, type, methodObj) => {
+	getPropAndStateValues = (items, ind, type) => {
+		const item = items[ind];
+		const value = item.value;
+		const isChangedStyle = item.isChanged ? this.styles.propsAndStateChanged : this.styles.propsAndStateUnchanged;
+		// this.props.children may contain circular references
 		return (
 			<div
-				onClick={this.showFullText.bind(this, type, value, methodObj)}
-				style={[this.styles.value, styles[type]]}
+				onClick={this.handleShowFullText.bind(this, items)}
+				style={[this.styles.value, styles[type], isChangedStyle]}
 			>
-				{value ? JSON.stringify(value) : ''}
+				{value ? circularJson.stringify(value).substr(0, 300) : ''}
 			</div>
 		);
 	};
 
-	showFullText = (type, value, methodObj) => {
-		this.props.showFullText(type, value, methodObj);
+	handleShowFullText = (items) => {
+		this.props.showFullText(items);
 	};
 
 	getUnnecessaryUpdatePrevented = (methodObj) => {
@@ -243,7 +251,7 @@ class Method extends Component {
 	};
 
 	getDescription = (methodObj) => {
-		const description = methodProperties[methodObj.name].description;
+		const description = this.props.methodConfig.description;
 		if (description) {
 			return (
 				<div style={styles.description}>{description}</div>
@@ -265,7 +273,7 @@ class Method extends Component {
 		if (!validMethods.includes(name)) {
 			return false;
 		}
-		const label = methodObj.name === 'constructorMethod' ? 'this.state can be set here' : 'this.setState is available here';
+		const label = methodObj.name === 'constructorMethod' ? 'this.state = x' : 'this.setState(x)';
 		return (
 			<div>
 				<div style={this.styles.setState}>
@@ -286,7 +294,7 @@ class Method extends Component {
 					<div>↓</div>
 				</div>
 			)
-		} else if (!methodProperties[methodObj.name].terminal) {
+		} else if (!this.props.methodConfig.terminal) {
 			return (<div style={this.styles.arrow}>↓</div>);
 		} else {
 			return (<div style={[this.styles.arrow, this.styles.hidden]}>↓</div>);

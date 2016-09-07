@@ -16,6 +16,18 @@ const entries = (state, action) => {
 				renderCount: 0,
 				unnecessaryUpdatesPrevented: 0,
 				isMounted: false,
+				props: {
+					initialProps: null,
+					renderedInitialProps: null,
+					newProps: null
+				},
+				state: {
+					initialState: null,
+					mountedState: null,
+					rerenderedInitialState: null,
+					rerenderedInitialStateAfterProps: null,
+					rerenderedNewState: null
+				},
 				isChanged: {
 					props: null,
 					state: null
@@ -24,7 +36,11 @@ const entries = (state, action) => {
 			};
 			return state.setIn(['entries', id], Immutable.fromJS(entry).toMap());
 		case 'UPDATE_ENTRY':
-			return state.updateIn(['entries', action.key], (oldValue) => {
+			return state.updateIn(['entries', action.entryId], (oldValue) => {
+				return oldValue.mergeDeep(Immutable.fromJS(action.value));
+			});
+		case 'UPDATE_METHOD':
+			return state.updateIn(['entries', action.entryId, 'methods', action.methodName], (oldValue) => {
 				return oldValue.mergeDeep(Immutable.fromJS(action.value));
 			});
 		case 'UPDATE_VALUE':
@@ -64,13 +80,13 @@ const initMethods = () => {
 			isMethodOverridden: false,
 			called: false,
 			count: 0,
-			oldState: null,
-			newState: null,
-			oldProps: null,
-			newProps: null,
-			updatedNewState: null,
 			isInfiniteLoop: false
 		}
 	});
 	return logObj;
+};
+
+const checkEqualityOfPropsAndState = (methodObj) => {
+	const isStateChanged = methodObj.get('oldState') !== methodObj.get('newState');
+	return methodObj.set('isStateChanged', isStateChanged);
 };

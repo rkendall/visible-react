@@ -24,10 +24,19 @@ export const updateValue = (key, value) => {
 	};
 };
 
-export const updateMethods = (key, value) => {
+export const updateMethod = (entryId, methodName, value) => {
+	return {
+		type: 'UPDATE_METHOD',
+		entryId,
+		methodName,
+		value
+	};
+};
+
+export const updateMethods = (entryId, value) => {
 	return {
 		type: 'UPDATE_METHODS',
-		key,
+		entryId,
 		value
 	};
 };

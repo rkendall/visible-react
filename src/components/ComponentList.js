@@ -23,6 +23,9 @@ class ComponentList extends Component {
 			fontSize: '14px',
 			fontWeight: 'bold'
 		},
+		tableContainer: {
+			boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)'
+		},
 		table: {
 			zIndex: '0'
 		},
@@ -73,7 +76,7 @@ class ComponentList extends Component {
 		warning: {
 			justifyContent: 'flex-end',
 			width: '100%',
-			minWidth: '20px',
+			//minWidth: '20px',
 			padding: '3px 0',
 			color: 'red',
 			fontWeight: 'bold'
@@ -169,7 +172,6 @@ class ComponentList extends Component {
 			<DataIconCell
 				isChanged={isChanged}
 				{...props}
-				onClick={this.handleComponentSelected.bind(this, row.id)}
 				style={this.mergeStyles(changedStyle)}
 				childStyle={this.styles.changed}
 			/>
@@ -189,7 +191,6 @@ class ComponentList extends Component {
 			<TableCell
 				data={data}
 				{...props}
-				onClick={this.handleComponentSelected.bind(this, row.id)}
 				style={this.mergeStyles(componentStyle)}
 				childStyle={this.styles.methodName}
 			>
@@ -208,7 +209,6 @@ class ComponentList extends Component {
 		return (
 			<TableCell
 				data={data}
-				onClick={this.handleComponentSelected.bind(this, row.id)}
 				style={renderCountStyle}
 			>
 			</TableCell>
@@ -225,7 +225,6 @@ class ComponentList extends Component {
 		return (
 			<TableCell
 				data={data}
-				onClick={this.handleComponentSelected.bind(this, row.id)}
 				style={this.mergeStyles(warningStyle)}
 				title={tooltip}
 			>
@@ -247,49 +246,52 @@ class ComponentList extends Component {
 		const headerHeight = 25;
 		const rowsCount = this.state.componentTableData.length;
 		return (
-			<Table
-				rowsCount={rowsCount}
-				rowHeight={rowHeight}
-				headerHeight={headerHeight}
-				width={this.state.tableWidth}
-				overflowX='hidden'
-				height={headerHeight + (rowHeight * rowsCount) + 2}
-				maxHeight={900}
-				onColumnResizeEndCallback={this.onColumnResizeEnd}
-				isColumnResizing={false}
-				style={this.styles.table}
-			>
-				<Column
-					columnKey='changed'
-					header={<Cell></Cell>}
-					cell={this.getChangedCell}
-					width={this.state.columnWidths.changed}
-					isResizable={true}
-				/>
-				<Column
-					columnKey='name'
-					header={<Cell>Name</Cell>}
-					cell={this.getComponentNameCell}
-					width={this.state.columnWidths.name}
-					isResizable={true}
-					flexGrow={2}
-				/>
-				<Column
-					columnKey='renderCount'
-					header={<Cell>Rendered</Cell>}
-					cell={this.getRenderCountCell}
-					width={this.state.columnWidths.renderCount}
-					isResizable={true}
-					flexGrow={1}
-				/>
-				<Column
-					columnKey='warningCount'
-					header={<Cell>Warnings</Cell>}
-					cell={this.getWarningCountCell}
-					width={this.state.columnWidths.warningCount}
-					isResizable={true}
-				/>
-			</Table>
+			<div style={this.styles.tableContainer}>
+				<Table
+					rowsCount={rowsCount}
+					rowHeight={rowHeight}
+					headerHeight={headerHeight}
+					width={this.state.tableWidth}
+					overflowX='hidden'
+					height={headerHeight + (rowHeight * rowsCount) + 2}
+					maxHeight={900}
+					onRowMouseDown={this.handleComponentSelected}
+					onColumnResizeEndCallback={this.onColumnResizeEnd}
+					isColumnResizing={false}
+					style={this.styles.table}
+				>
+					<Column
+						columnKey='changed'
+						header={<Cell></Cell>}
+						cell={this.getChangedCell}
+						width={this.state.columnWidths.changed}
+						isResizable={true}
+					/>
+					<Column
+						columnKey='name'
+						header={<Cell>Name</Cell>}
+						cell={this.getComponentNameCell}
+						width={this.state.columnWidths.name}
+						isResizable={true}
+						flexGrow={2}
+					/>
+					<Column
+						columnKey='renderCount'
+						header={<Cell>Rendered</Cell>}
+						cell={this.getRenderCountCell}
+						width={this.state.columnWidths.renderCount}
+						isResizable={true}
+						flexGrow={1}
+					/>
+					<Column
+						columnKey='warningCount'
+						header={<Cell>Warnings</Cell>}
+						cell={this.getWarningCountCell}
+						width={this.state.columnWidths.warningCount}
+						isResizable={true}
+					/>
+				</Table>
+			</div>
 		);
 	};
 
@@ -307,11 +309,12 @@ class ComponentList extends Component {
 		});
 	};
 
-	handleComponentSelected = (id) => {
+	handleComponentSelected = (event, rowIndex) => {
+		const row = this.state.componentTableData[rowIndex];
 		this.setState({
-			selectedComponentId: id
+			selectedComponentId: row.id
 		});
-		const option = {selectedComponentId: id};
+		const option = {selectedComponentId: row.id};
 		this.props.onChange(option);
 	};
 

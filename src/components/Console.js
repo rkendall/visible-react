@@ -9,17 +9,14 @@ import Draggable from 'react-draggable';
 import {diffJson} from 'diff';
 import Radium from 'radium';
 import color from 'color';
+import circularJson from 'circular-json';
 
 import ComponentList from './ComponentList';
 import LifeCycle from './LifeCycle';
 import styles from '../styles/styles';
+import methodProperties from '../constants/methods';
 
 class Console extends Component {
-
-	draggableWindowDimensions = {
-		width: 800,
-		height: 600
-	};
 
 	styles = {
 		container: {
@@ -77,7 +74,8 @@ class Console extends Component {
 			cursor: 'move'
 		},
 		windowContent: {
-			minWidth: this.draggableWindowDimensions.width + 'px',
+			minWidth: '800px',
+			maxWidth: (window.innerWidth - 50) + 'px',
 			height: '600px',
 			margin: '0',
 			padding: '10px',
@@ -121,16 +119,17 @@ class Console extends Component {
 	};
 
 	// TODOD Clean this up
-	openDraggableWindow = (type, value, methodObj) => {
+	openDraggableWindow = (items) => {
 		let fullText = '';
-		const nameSuffix = type[0].toUpperCase() + type.substr(1);
-		if (methodObj.oldState && methodObj.newState) {
+		const value1 = items[0].value;
+		const value2 = items.length === 2 ? items[1].value : null;
+		if (value1 !== null && value2 !== null) {
 			fullText = this.diffText(
-				JSON.stringify(methodObj['old' + nameSuffix], null, 2),
-				JSON.stringify(methodObj['new' + nameSuffix], null, 2)
+				circularJson.stringify(value1, null, 2),
+				circularJson.stringify(value2, null, 2)
 			);
 		} else {
-			fullText = JSON.stringify(value, null, 2);
+			fullText = circularJson.stringify(items[0].value, null, 2);
 		}
 		this.setState({
 			showFullText: true,
@@ -144,7 +143,7 @@ class Console extends Component {
 		let html = [];
 		diff.forEach(function(part, ind) {
 			// green for additions, red for deletions
-			// grey for common parts
+			// black for common parts
 			const color = part.added ? 'added' :
 				part.removed ? 'removed' : 'unchanged';
 			html.push(
@@ -163,10 +162,13 @@ class Console extends Component {
 
 	// TODO Replace this animation with CSS
 	render() {
-		
 		const draggableWindowStyle = this.state.showFullText
 			? this.styles.draggableWindow
 			:this.styles.draggableWindowHidden;
+		const entry = this.props.entries.get(this.state.selectedComponentId);
+		const methodsConfig = methodProperties(entry.get('props').toJS(), entry.get('state').toJS());
+		console.debug('methodsConfig');
+		console.debug('this.props', methodsConfig.componentWillReceiveProps.props);
 		return (
 			<div>
 				<div style={this.styles.container}>
@@ -176,8 +178,9 @@ class Console extends Component {
 					/>
 					<div style={this.styles.lifeCycle}>
 						<LifeCycle
-							entry={this.props.entries.get(this.state.selectedComponentId)}
+							entry={entry}
 							showFullText={this.openDraggableWindow}
+							methodsConfig={methodsConfig}
 						/>
 					</div>
 					<Draggable

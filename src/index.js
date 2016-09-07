@@ -58,12 +58,16 @@ function Insure(WrappedComponent) {
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
 			this.clearCalled();
-			this.handleLifecycleEvent(
-				'constructorMethod',
-				{newProps: props}
-			);
+			this.handleLifecycleEvent({
+				name: 'constructorMethod',
+				propsAndState: {
+					props: {
+						initialProps: props
+					}
+				}
+			});
 			let methodObj = {};
-			Object.keys(methodProperties).forEach((name) => {
+			Object.keys(methodProperties()).forEach((name) => {
 				const methodName = name === 'constructorMethod' ? 'constructor' : name;
 				methodObj[name] = {
 					isMethodOverridden: Boolean(super[methodName])
@@ -77,25 +81,26 @@ function Insure(WrappedComponent) {
 		}
 
 		componentWillMount() {
-			this.handleLifecycleEvent(
-				'componentWillMount',
-				{
-					newProps: this.props,
-					newState: this.state
+			this.handleLifecycleEvent({
+				name: 'componentWillMount',
+				propsAndState: {
+					state: {
+						initialState: this.state
+					}
 				}
-			);
+			});
 		}
 
 		componentDidMount() {
 			this.consoleWindow = log.getWindow();
-			this.handleLifecycleEvent(
-				'componentDidMount',
-				{
-					newProps: this.props,
-					newState: this.state,
-					updatedNewState: this.state
+			this.handleLifecycleEvent({
+				name: 'componentDidMount',
+				propsAndState: {
+					state: {
+						mountedState: this.state
+					}
 				}
-			);
+			});
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
 			log.updateWindow();
@@ -103,15 +108,22 @@ function Insure(WrappedComponent) {
 
 		componentWillReceiveProps(nextProps) {
 			this.clearCalled();
-			this.handleLifecycleEvent(
-				'componentWillReceiveProps',
-				{
-					oldProps: this.props,
-					newProps: nextProps,
-					oldState: this.state
+			this.handleLifecycleEvent({
+				name: 'componentWillReceiveProps',
+				propsAndState: {
+					props: {
+						renderedInitialProps: this.props,
+						newProps: nextProps
+					},
+					state: {
+						rerenderedInitialState: this.state
+					}
 				}
-			);
+			});
 			this.isRenderingComplete = false;
+			console.debug('componentWillReceiveProps');
+			console.debug('this.props', this.props);
+			console.debug('nextProps', nextProps);
 		}
 
 		shouldComponentUpdate(nextProps, nextState) {
@@ -143,18 +155,19 @@ function Insure(WrappedComponent) {
 			if (this.isRenderingComplete) {
 				this.clearCalled();
 			}
-			this.handleLifecycleEvent(
-				'shouldComponentUpdate',
-				{
-					oldProps: this.props,
-					newProps: nextProps,
-					oldState: this.state,
-					newState: nextState
+			this.handleLifecycleEvent({
+				name: 'shouldComponentUpdate',
+				propsAndState: {
+					props: {
+						renderedInitialProps: this.props
+					},
+					state: {
+						rerenderedInitialStateAfterProps: this.state,
+						rerenderedNewState: nextState
+					}
 				},
-				isUnnecessaryUpdatePrevented,
-				!arePropsEqual,
-				!areStatesEqual
-			);
+				isUnnecessaryUpdatePrevented
+			});
 			let willUpdate;
 			// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
 			if (this.isInfiniteLoop) {
@@ -178,29 +191,16 @@ function Insure(WrappedComponent) {
 		}
 
 		componentWillUpdate(nextProps, nextState) {
-			this.handleLifecycleEvent(
-				'componentWillUpdate',
-				{
-					oldProps: this.props,
-					newProps: nextProps,
-					oldState: this.state,
-					newState: nextState
-				}
-			);
+			this.handleLifecycleEvent({
+				name: 'componentWillUpdate'
+			});
 		}
 
 		componentDidUpdate(prevProps, prevState) {
 			this.isRenderingComplete = true;
-			this.handleLifecycleEvent(
-				'componentDidUpdate',
-				{
-					oldProps: prevProps,
-					newProps: this.props,
-					oldState: prevState,
-					newState: this.state,
-					updatedNewState: this.state
-				}
-			);
+			this.handleLifecycleEvent({
+				name: 'componentDidUpdate'
+			});
 			log.updateWindow();
 		}
 
@@ -208,68 +208,39 @@ function Insure(WrappedComponent) {
 			this.isRenderingComplete = true;
 			this.setIsMounted(false);
 			this.clearCalled();
-			this.handleLifecycleEvent(
-				'componentWillUnmount',
-				{
-					newProps: this.props,
-					newState: this.state
-				}
-			);
+			this.handleLifecycleEvent({
+				name: 'componentWillUnmount'
+			});
 			log.updateWindow();
 		}
 
 		// TODO Refactor to use object as argument
-		handleLifecycleEvent = (name, propsAndStates, isUnnecessaryUpdatePrevented = false, arePropsChanged = null, areStatesChanged = null) => {
+		handleLifecycleEvent = (values) => {
 			let count = log.getFromStore([
 				'entries',
 				this.logEntryId,
 				'methods',
-				name,
+				values.name,
 				'count'
 			]);
-			const clonedPropsAndStates = this.cloneValues(propsAndStates);
-			const logEntry = {
-				methods: {
-					[name]: {
-						name,
-						called: true,
-						count: count + 1,
-						...clonedPropsAndStates,
-						isInfiniteLoop: this.isInfiniteLoop,
-						isUnnecessaryUpdatePrevented
-					}
-				}
+			const method = {
+				name: values.name,
+				called: true,
+				count: count + 1,
+				isInfiniteLoop: this.isInfiniteLoop,
+				isUnnecessaryUpdatePrevented: values.isUnnecessaryUpdatePrevented
 			};
-			if (arePropsChanged !== null) {
-				logEntry.isChanged = {props: arePropsChanged};
-			}
-			if (areStatesChanged !== null) {
-				if (!logEntry.hasOwnProperty('isChanged')) {
-					logEntry.isChanged = {};
-				}
-				logEntry.isChanged.state = areStatesChanged;
-			}
 			log.updateStore({
 				type: 'UPDATE_ENTRY',
-				key: this.logEntryId,
-				value: logEntry
+				entryId: this.logEntryId,
+				value: values.propsAndState
 			});
-		};
-
-		// TODOD No longer cloning state here so clean this up
-		cloneValues = (propsAndStates) => {
-			let newPropsAndStates = {};
-			for (let name in propsAndStates) {
-				const value = propsAndStates[name];
-				let newValue = {};
-				if (/Props/.test(name)) {
-					newValue = clone(this.removeCircularReferences(value));
-				} else {
-					newValue = value;
-				}
-				newPropsAndStates[name] = newValue;
-			}
-			return newPropsAndStates;
+			log.updateStore({
+				type: 'UPDATE_METHOD',
+				entryId: this.logEntryId,
+				methodName: values.name,
+				value: method
+			});
 		};
 
 		// Remove children because they can contain
@@ -289,7 +260,7 @@ function Insure(WrappedComponent) {
 		clearCalled = () => {
 			this.autoRenderCount = 0;
 			let methodObj = {};
-			Object.keys(methodProperties).forEach((name) => {
+			Object.keys(methodProperties()).forEach((name) => {
 				methodObj[name] = {
 					called: false
 				};
@@ -327,13 +298,9 @@ function Insure(WrappedComponent) {
 		render() {
 
 			this.incrementRenderCount();
-			this.handleLifecycleEvent(
-				'render',
-				{
-					newProps: this.props,
-					newState: this.state
-				}
-			);
+			this.handleLifecycleEvent({
+				name: 'render'
+			});
 			return super.render();
 
 		}
