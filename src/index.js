@@ -6,7 +6,7 @@ import deepEqual from 'deep-equal';
 import uuid from 'node-uuid';
 
 import log from './log.js';
-import methodProperties from './constants/methods.js';
+import lifecycleConfig from './store/lifecycleConfig';
 
 function Insure(WrappedComponent) {
 
@@ -44,6 +44,7 @@ function Insure(WrappedComponent) {
 		isInfiniteLoop = false;
 		isRenderingComplete = true;
 		consoleWindow = null;
+		lifecycleLocation = '';
 
 		constructor(props) {
 			super(...arguments);
@@ -57,14 +58,11 @@ function Insure(WrappedComponent) {
 			});
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
+			this.lifecycleLocation = 'mounting';
 			this.clearCalled();
 			this.handleLifecycleEvent({
 				name: 'constructorMethod',
-				propsAndState: {
-					props: {
-						initialProps: props
-					}
-				}
+				props: [props]
 			});
 			let methodObj = {};
 			Object.keys(methodProperties()).forEach((name) => {
@@ -83,11 +81,8 @@ function Insure(WrappedComponent) {
 		componentWillMount() {
 			this.handleLifecycleEvent({
 				name: 'componentWillMount',
-				propsAndState: {
-					state: {
-						initialState: this.state
-					}
-				}
+				props: [this.props],
+				state: [this.state]
 			});
 		}
 
@@ -95,11 +90,8 @@ function Insure(WrappedComponent) {
 			this.consoleWindow = log.getWindow();
 			this.handleLifecycleEvent({
 				name: 'componentDidMount',
-				propsAndState: {
-					state: {
-						mountedState: this.state
-					}
-				}
+				props: [this.props],
+				state: [this.state]
 			});
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
@@ -107,27 +99,19 @@ function Insure(WrappedComponent) {
 		}
 
 		componentWillReceiveProps(nextProps) {
+			this.lifecycleLocation = 'updating';
 			this.clearCalled();
 			this.handleLifecycleEvent({
 				name: 'componentWillReceiveProps',
-				propsAndState: {
-					props: {
-						renderedInitialProps: this.props,
-						newProps: nextProps
-					},
-					state: {
-						rerenderedInitialState: this.state
-					}
-				}
+				props: [this.props, nextProps],
+				state: [this.state]
 			});
 			this.isRenderingComplete = false;
-			console.debug('componentWillReceiveProps');
-			console.debug('this.props', this.props);
-			console.debug('nextProps', nextProps);
 		}
 
 		shouldComponentUpdate(nextProps, nextState) {
 
+			this.lifecycleLocation = 'updating';
 			this.isInfiniteLoop = this.autoRenderCount >= 10;
 
 			let shouldWrappedComponentUpdate;
@@ -157,15 +141,8 @@ function Insure(WrappedComponent) {
 			}
 			this.handleLifecycleEvent({
 				name: 'shouldComponentUpdate',
-				propsAndState: {
-					props: {
-						renderedInitialProps: this.props
-					},
-					state: {
-						rerenderedInitialStateAfterProps: this.state,
-						rerenderedNewState: nextState
-					}
-				},
+				props: [this.props, nextProps],
+				state: [this.state, nextState],
 				isUnnecessaryUpdatePrevented
 			});
 			let willUpdate;
@@ -192,55 +169,76 @@ function Insure(WrappedComponent) {
 
 		componentWillUpdate(nextProps, nextState) {
 			this.handleLifecycleEvent({
-				name: 'componentWillUpdate'
+				name: 'componentWillUpdate',
+				props: [this.props, nextProps],
+				state: [this.state, nextState]
 			});
 		}
 
 		componentDidUpdate(prevProps, prevState) {
 			this.isRenderingComplete = true;
 			this.handleLifecycleEvent({
-				name: 'componentDidUpdate'
+				name: 'componentDidUpdate',
+				props: [prevProps, this.props],
+				state: [prevState, this.state]
 			});
 			log.updateWindow();
 		}
 
 		componentWillUnmount() {
+			this.lifecycleLocation = 'unmounting';
 			this.isRenderingComplete = true;
 			this.setIsMounted(false);
 			this.clearCalled();
 			this.handleLifecycleEvent({
-				name: 'componentWillUnmount'
+				name: 'componentWillUnmount',
+				props: [this.props],
+				state: [this.state]
 			});
 			log.updateWindow();
 		}
 
-		// TODO Refactor to use object as argument
-		handleLifecycleEvent = (values) => {
+		handleLifecycleEvent = (lifecycleData) => {
 			let count = log.getFromStore([
 				'entries',
 				this.logEntryId,
 				'methods',
-				values.name,
+				lifecycleData.name,
 				'count'
 			]);
 			const method = {
-				name: values.name,
+				name: lifecycleData.name,
 				called: true,
 				count: count + 1,
 				isInfiniteLoop: this.isInfiniteLoop,
-				isUnnecessaryUpdatePrevented: values.isUnnecessaryUpdatePrevented
+				isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
+				lifecycleLocation: this.lifecycleLocation
 			};
-			log.updateStore({
-				type: 'UPDATE_ENTRY',
-				entryId: this.logEntryId,
-				value: values.propsAndState
-			});
 			log.updateStore({
 				type: 'UPDATE_METHOD',
 				entryId: this.logEntryId,
-				methodName: values.name,
+				methodName: lifecycleData.name,
 				value: method
 			});
+			const config = lifecycleConfig[name];
+			let propsAndState = {};
+			// TODO remove redundant code with a loop
+			if (config.save) {
+				if (config.save.includes('props')) {
+					log.updateStore({
+						type: 'UPDATE_PROPSANDSTATE',
+						keyPath: [this.logEntryId, 'props', [lifecycleData.lifecycleLocation]],
+						value: lifecycleData.props
+					});
+				}
+				if (config.save.includes('state')) {
+					log.updateStore({
+						type: 'UPDATE_PROPSANDSTATE',
+						keyPath: [this.logEntryId, 'state', [lifecycleData.lifecycleLocation]],
+						value: lifecycleData.state
+					});
+				}
+			}
 		};
 
 		// Remove children because they can contain

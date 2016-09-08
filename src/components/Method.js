@@ -200,8 +200,8 @@ class Method extends Component {
 			// Display both values only if one has changed
 			const isParallelItemDifferent = config[type + 'NotEqual'];
 			const itemsForValues = isParallelItemDifferent
-				? [items.slice()[0]]
-				: items.slice();
+				? items.slice()
+				: [items.slice()[0]];
 			const values = itemsForValues.map((item, ind) => {
 				return this.getPropAndStateValues(items, ind, type);
 			});

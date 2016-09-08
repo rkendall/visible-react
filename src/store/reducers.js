@@ -16,28 +16,15 @@ const entries = (state, action) => {
 				renderCount: 0,
 				unnecessaryUpdatesPrevented: 0,
 				isMounted: false,
-				props: {
-					initialProps: null,
-					renderedInitialProps: null,
-					newProps: null
-				},
-				state: {
-					initialState: null,
-					mountedState: null,
-					rerenderedInitialState: null,
-					rerenderedInitialStateAfterProps: null,
-					rerenderedNewState: null
-				},
-				isChanged: {
-					props: null,
-					state: null
-				},
+				props: {},
+				state: {},
+				lifecycleLocation: '',
 				methods: initMethods()
 			};
 			return state.setIn(['entries', id], Immutable.fromJS(entry).toMap());
-		case 'UPDATE_ENTRY':
-			return state.updateIn(['entries', action.entryId], (oldValue) => {
-				return oldValue.mergeDeep(Immutable.fromJS(action.value));
+		case 'UPDATE_PROPSANDSTATE':
+			return state.updateIn(['entries', ...action.keyPath], (oldValue) => {
+				return oldValue.push(Immutable.fromJS(action.value));
 			});
 		case 'UPDATE_METHOD':
 			return state.updateIn(['entries', action.entryId, 'methods', action.methodName], (oldValue) => {
