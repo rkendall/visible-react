@@ -151,7 +151,7 @@ class Method extends Component {
 			<div style={this.styles.methodIcon} title={iconMessage}></div>
 		) : '';
 		return (
-			<div key={name + '-name-icon'}>
+			<div id={name + '-name-icon'}>
 				<div style={this.styles.methodName}>
 					{methodIcon}
 					<div>{name}</div>
@@ -161,7 +161,7 @@ class Method extends Component {
 	};
 
 	getArgNames = (methodObj) => {
-		const args = this.props.methodConfig.args;
+		const args = methodObj.args;
 		return {
 			str: args.join(', '),
 			arr: args
@@ -189,27 +189,32 @@ class Method extends Component {
 
 	// TODO Refactor for clarity
 	getPropsAndStates = (methodObj) => {
-		const config = this.props.methodConfig;
 		let types = ['props', 'state'];
 		return types.map((type) => {
-			const items = config[type].slice();
-			const names = items.map((item, ind) => {
+			const propsOrState = methodObj[type];
+			// TODO This should be converted to JS Array when mothodObj is converted toJS()
+			// but for some reason it isn't
+			const values = propsOrState.values.toJS();
+			const nameComponents = propsOrState.names.map((name, ind) => {
 				const isSecond = ind > 0;
-				return this.getPropAndStateName(item.name, type, isSecond);
+				return this.getPropAndStateName(name, type, isSecond);
 			});
 			// Display both values only if one has changed
-			const isParallelItemDifferent = config[type + 'NotEqual'];
-			const itemsForValues = isParallelItemDifferent
-				? items.slice()
-				: [items.slice()[0]];
-			const values = itemsForValues.map((item, ind) => {
-				return this.getPropAndStateValues(items, ind, type);
-			});
+			let valueComponents = false;
+			if (values.length) {
+				const isParallelItemDifferent = propsOrState.arePartnersDifferent;
+				const valuesToDisplay = !isParallelItemDifferent && values.length === 2
+					? values.slice(0, 1)
+					: values;
+				valueComponents = valuesToDisplay.map((item, ind) => {
+					return this.getPropAndStateValues(valuesToDisplay, ind, type, propsOrState.isChanged);
+				});
+			}
 			const baseKey = `${methodObj.name}-${type}`;
 			return (
-				<div key={baseKey} style={this.styles.propsAndState}>
-					<div key={baseKey + '-label'} style={this.styles.label}>{names}</div>
-					<div key={baseKey + '-value'} style={this.styles.valueContainer}>{values}</div>
+				<div id={baseKey} style={this.styles.propsAndState}>
+					<div id={baseKey + '-label'} style={this.styles.label}>{nameComponents}</div>
+					<div id={baseKey + '-value'} style={this.styles.valueContainer}>{valueComponents}</div>
 				</div>
 			);
 		});
@@ -224,14 +229,13 @@ class Method extends Component {
 		);
 	};
 
-	getPropAndStateValues = (items, ind, type) => {
-		const item = items[ind];
-		const value = item.value;
-		const isChangedStyle = item.isChanged ? this.styles.propsAndStateChanged : this.styles.propsAndStateUnchanged;
+	getPropAndStateValues = (valuesToDisplay, ind, type, isChanged) => {
+		const value = valuesToDisplay[ind];
+		const isChangedStyle = isChanged && ind === 0 ? this.styles.propsAndStateChanged : this.styles.propsAndStateUnchanged;
 		// this.props.children may contain circular references
 		return (
 			<div
-				onClick={this.handleShowFullText.bind(this, items)}
+				onClick={this.handleShowFullText.bind(this, valuesToDisplay)}
 				style={[this.styles.value, styles[type], isChangedStyle]}
 			>
 				{value ? circularJson.stringify(value).substr(0, 300) : ''}
@@ -251,7 +255,7 @@ class Method extends Component {
 	};
 
 	getDescription = (methodObj) => {
-		const description = this.props.methodConfig.description;
+		const description = methodObj.description;
 		if (description) {
 			return (
 				<div style={styles.description}>{description}</div>
@@ -294,7 +298,7 @@ class Method extends Component {
 					<div>↓</div>
 				</div>
 			)
-		} else if (!this.props.methodConfig.terminal) {
+		} else if (!methodObj.terminal) {
 			return (<div style={this.styles.arrow}>↓</div>);
 		} else {
 			return (<div style={[this.styles.arrow, this.styles.hidden]}>↓</div>);

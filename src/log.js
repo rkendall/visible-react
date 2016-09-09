@@ -10,6 +10,7 @@ import Immutable from 'immutable';
 
 import PopoutWindow from './components/PopoutWindow.js';
 import entries from './store/reducers';
+import lifecycleConfig from './store/lifecycleConfig';
 
 let consoleWindow = null;
 
@@ -58,7 +59,15 @@ const log = {
 		return name;
 	},
 
-	updateWindow: () => {
+	addCalculatedValues: () => {
+		const entries = store.getState().get('entries');
+		return lifecycleConfig.addRemainingPropertiesToAllEntries(entries);
+	},
+
+	// The timer returns control to the wrapped application while
+	// Visible React processes a batch of updates and does it's own rendering.
+	// This is necessary for performance.
+	updateWindow: (lifecycleId) => {
 		if (consoleWindow === null || consoleWindow.closed) {
 			return;
 		}
@@ -66,13 +75,15 @@ const log = {
 			return;
 		}
 		log.isTimerOn = true;
+		const self = this;
 		setTimeout(() => {
+			const entries = log.addCalculatedValues();
 			const container = consoleWindow.document.getElementById('visible-react');
 			ReactDOM.render((
 				<Provider store={store}>
 					<StyleRoot>
 						<PopoutWindow
-							entries={store.getState().get('entries')}
+							entries={entries}
 						/>
 					</StyleRoot>
 				</Provider>
@@ -99,7 +110,7 @@ const log = {
 			container.id = 'visible-react';
 			consoleWindow.document.body.appendChild(container);
 			consoleWindow.focus();
-			log.updateWindow();
+			//log.updateWindow();
 		}
 		window.onbeforeunload = () => {
 			consoleWindow.close();

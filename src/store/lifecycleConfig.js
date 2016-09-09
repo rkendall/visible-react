@@ -1,140 +1,251 @@
 'use strict';
 
 import deepEqual from 'deep-equal';
+import Immutable from 'immutable';
 
-const lifecycleConfig =  {
+// Refactor so 'this' can be used here
+const lifecycleConfig = {
 
 	// Remember to clear this each time
-	comparisonCache: {},
+	isPartnerChanged: {
+		props: null,
+		state: null
+	},
 
-	getLifecycle: (entry) => {
-		this.comparisonCache = {};
-		const lifecycleProperties = this.getProperties();
-		const lifecycle = entry.map((method) => {
-			const methodConfig = lifecycleProperties[method.name];
-		    method.args = methodConfig.args;
-			methodConfig.displayNames.forEach((name) => {
-
-			});
+	addRemainingPropertiesToAllEntries: (entries) => {
+		return entries.map((entry) => {
+			return lifecycleConfig.addRemainingPropertiesToEntry(entry);
 		});
 	},
 
-	getPropsAndStates: (lifecycleProperties, propsAndStates) => {
-		const names = lifecycleProperties.displayNames;
-		// let modelObjects = names.map((name, ind) => {
-		// 	let propsOrStates = modelObj[lifecycleProperties.lifecycleLocation].slice();
-		// 	if (propsOrStates.length === 3) {
-		// 		propsOrStates.shift();
-		// 	}
-		// 	let pointer = null;
-		// 	if (propsOrStates[ind]) {
-		// 		pointer = [lifecycleProperties.lifecycleLocation, ind];
-		// 	}
-		//     return {
-		// 		name,
-		// 		pointerToText: pointer,
-		// 		isDifferentFromPreceding: ''
-		// 	};
-		// });
+	addRemainingPropertiesToEntry: (entry) => {
+
+		lifecycleConfig.isPartnerChanged = {
+			props: null,
+			state: null
+		};
+		let isChanged = {
+			props: false,
+			state: false
+		};
+
+		const remainingPropertiesForEntry = lifecycleConfig.properties;
+		const newMethods = entry.get('methods').map((method, methodName) => {
+			// TODO refactor repeated code
+			const remainingPropertiesForMethod = remainingPropertiesForEntry[methodName];
+
+			const propValues = method.get('props');
+			remainingPropertiesForMethod.props.values = propValues;
+			if (remainingPropertiesForMethod.props.hasOwnProperty('arePartnersDifferent')) {
+				remainingPropertiesForMethod.props.arePartnersDifferent = lifecycleConfig.arePartnerPropsOrStatesDifferent(propValues, 'props');
+			}
+			if (remainingPropertiesForMethod.props.hasOwnProperty('isChanged')) {
+				const isPropsChanged = lifecycleConfig.isPropsOrStateChanged(propValues, methodName, 'props', entry);
+				remainingPropertiesForMethod.props.isChanged = isPropsChanged;
+				if (isPropsChanged && !isChanged.props) {
+					isChanged.props = true;
+				}
+			}
+
+			const stateValues = method.get('state');
+			remainingPropertiesForMethod.state.values = stateValues;
+			if (remainingPropertiesForMethod.state.hasOwnProperty('arePartnersDifferent')) {
+				remainingPropertiesForMethod.state.arePartnersDifferent = lifecycleConfig.arePartnerPropsOrStatesDifferent(stateValues, 'state');
+			}
+			if (remainingPropertiesForMethod.state.hasOwnProperty('isChanged')) {
+				const isStateChanged = lifecycleConfig.isPropsOrStateChanged(stateValues, methodName, 'state', entry);
+				remainingPropertiesForMethod.state.isChanged = isStateChanged;
+				if (isStateChanged && !isChanged.state) {
+					isChanged.state = true;
+				}
+			}
+			return method.merge(Immutable.Map(remainingPropertiesForMethod));
+
+		});
+
+		return entry.set('methods', newMethods).set('isChanged', isChanged);
+
 	},
 
-	compareModelObjects: (value1, value2) => {
-		const values = Object.assign({}, props, state);
-		if (!Object.keys(values).length) {
+	arePartnerPropsOrStatesDifferent: (immutableItems, type) => {
+		if (immutableItems.size < 2) {
 			return false;
 		}
-		const id = value1 + '-' + value2;
-		if (comparisonCache.hasOwnProperty(id)) {
-			return comparisonCache[id];
-		} else {
-			const result = !deepEqual(values[value1], values[value2]);
-			comparisonCache[id] = result;
-			return result;
+		// Immutability doesn't help with comparison here because the two source objects
+		// were different; convert to JS for faster comparison
+		const items = immutableItems.toJS();
+		if (lifecycleConfig.isPartnerChanged[type] === null) {
+			lifecycleConfig.isPartnerChanged[type] = !deepEqual(items[0], items[1], {strict: true});
 		}
+		return lifecycleConfig.isPartnerChanged[type];
 	},
-	
-	getProperties: () => {
+
+	isPropsOrStateChanged: (values, methodName, type, entry) => {
+		const method = entry.getIn(['methods', methodName]);
+		const lifecycleLocation = method.get('lifecycleLocation');
+		const isCalled = method.get('called');
+		if (!isCalled) {
+			return false;
+		}
+		if (lifecycleLocation === 'mounting' && !values.first()) {
+			return false;
+		}
+		if (methodName === 'constructorMethod' || methodName === 'componentWillMount') {
+			return true;
+		}
+		let precedingValue;
+		if (methodName === 'render') {
+			if (lifecycleLocation === 'mounting') {
+				precedingValue = entry.getIn(['methods', 'componentWillMount', type, '0']);
+			} else {
+				return false;
+			}
+		} else if (methodName === 'componentWillReceiveProps' && type === 'props') {
+			precedingValue = values.first();
+		} else if (methodName === 'shouldComponentUpdate' && type === 'state') {
+			precedingValue = values.first();
+		} else {
+			return false;
+		}
+		// Only the second of two parallel values will be marked changed;
+		// for example, nextProps
+		const value1ToCompare = values.last() ? values.last().toJS() : '';
+		const value2ToCompare = precedingValue ? precedingValue.toJS() : '';
+		return !deepEqual(value1ToCompare, value2ToCompare, {strict: true})
+	},
+
+	get properties() {
 		return {
 			constructorMethod: {
 				args: ['props'],
-				displayNames: {
-					props: ['props']
+				props: {
+					names: ['props'],
+					values: [],
+					isChanged: false
 				},
-				save: ['props'],
+				state: {
+					names: [],
+					values: []
+				},
 				terminal: false
 			},
 			componentWillMount: {
 				args: [],
-				displayNames: {
-					props: ['this.props'],
-					state: ['this.state']
+				props: {
+					names: ['this.props'],
+					values: []
 				},
-				save: ['state'],
-				terminal: false
-			},
-			componentDidMount: {
-				args: [],
-				displayNames: {
-					props: ['this.props'],
-					state: ['this.state']
-				},
-				terminal: true,
-				description: 'Avoid calling setState here because it will trigger an extra render.'
-			},
-			componentWillReceiveProps: {
-				args: ['nextProps'],
-				displayNames: {
-					props: ['this.props', 'nextProps'],
-					state: ['this.state']
-				},
-				save: ['props', 'state'],
-				terminal: false
-			},
-			shouldComponentUpdate: {
-				args: ['nextProps', 'nextState'],
-				displayNames: {
-					props: ['this.props', 'nextProps'],
-					state: ['this.state', 'nextState']
-				},
-				save: ['state'],
-				terminal: false
-			},
-			componentWillUpdate: {
-				args: ['nextProps', 'nextState'],
-				displayNames: {
-					props: ['this.props', 'nextProps'],
-					state: ['this.state', 'nextState']
+				state: {
+					names: ['this.state'],
+					values: [],
+					isChanged: false
 				},
 				terminal: false
 			},
 			render: {
 				args: [],
-				displayNames: {
-					props: ['this.props'],
-					state: ['this.state']
+				props: {
+					names: ['this.props'],
+					values: []
 				},
-				save: ['state'],
+				state: {
+					names: ['this.state'],
+					values: [],
+					isChanged: false
+				},
+				terminal: false
+			},
+			componentDidMount: {
+				args: [],
+				props: {
+					names: ['this.props'],
+					values: []
+				},
+				state: {
+					names: ['this.state'],
+					values: []
+				},
+				description: 'Avoid calling setState here because it will trigger an extra render.'
+			},
+			componentWillReceiveProps: {
+				args: ['nextProps'],
+				props: {
+					names: ['this.props', 'nextProps'],
+					values: [],
+					arePartnersDifferent: false,
+					isChanged: false
+				},
+				state: {
+					names: ['this.state'],
+					values: []
+				},
+				terminal: false
+			},
+			shouldComponentUpdate: {
+				args: ['nextProps', 'nextState'],
+				props: {
+					names: ['this.props', 'nextProps'],
+					values: [],
+					arePartnersDifferent: false
+				},
+				state: {
+					names: ['this.state', 'nextState'],
+					values: [],
+					isChanged: false,
+					arePartnersDifferent: false
+				},
+				terminal: false
+			},
+			componentWillUpdate: {
+				args: ['nextProps', 'nextState'],
+				props: {
+					names: ['this.props', 'nextProps'],
+					values: [],
+					arePartnersDifferent: false
+				},
+				state: {
+					names: ['this.state', 'nextState'],
+					values: [],
+					arePartnersDifferent: false
+				},
 				terminal: false
 			},
 			componentDidUpdate: {
 				args: ['prevProps', 'prevState'],
-				displayNames: {
-					props: ['prevProps', 'this.props'],
-					state: ['prevState', 'this.state']
+				props: {
+					names: ['prevProps', 'this.props'],
+					values: [],
+					arePartnersDifferent: false
+				},
+				state: {
+					names: ['prevState', 'this.state'],
+					values: [],
+					arePartnersDifferent: false
 				},
 				terminal: true,
 				description: 'Avoid calling setState here because it will trigger an extra render.'
 			},
 			componentWillUnmount: {
 				args: [],
-				displayNames: {
-					props: ['this.props'],
-					state: ['this.state']
+				props: {
+					names: ['this.props'],
+					values: []
 				},
-				save: ['state'],
+				state: {
+					names: ['this.state'],
+					values: []
+				},
 				terminal: true
 			}
 		};
+	},
+
+	getDisplayNames: (methodName, type) => {
+		return lifecycleConfig.properties[methodName][type];
+	},
+
+	get methodNames() {
+		return Object.keys(lifecycleConfig.properties);
 	}
 
 };

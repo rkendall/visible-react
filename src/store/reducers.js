@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 const entries = (state, action) => {
 
 	switch (action.type) {
+		// TODO should this be immutable?
 		case 'ADD':
 			const {key, id, name, displayName} = action;
 			const entry = {
@@ -16,16 +17,14 @@ const entries = (state, action) => {
 				renderCount: 0,
 				unnecessaryUpdatesPrevented: 0,
 				isMounted: false,
-				props: {},
-				state: {},
+				isChanged: {
+					props: false,
+					state: false
+				},
 				lifecycleLocation: '',
 				methods: initMethods()
 			};
 			return state.setIn(['entries', id], Immutable.fromJS(entry).toMap());
-		case 'UPDATE_PROPSANDSTATE':
-			return state.updateIn(['entries', ...action.keyPath], (oldValue) => {
-				return oldValue.push(Immutable.fromJS(action.value));
-			});
 		case 'UPDATE_METHOD':
 			return state.updateIn(['entries', action.entryId, 'methods', action.methodName], (oldValue) => {
 				return oldValue.mergeDeep(Immutable.fromJS(action.value));
@@ -67,13 +66,15 @@ const initMethods = () => {
 			isMethodOverridden: false,
 			called: false,
 			count: 0,
-			isInfiniteLoop: false
+			isInfiniteLoop: false,
+			props: [],
+			state: []
 		}
 	});
 	return logObj;
 };
 
-const checkEqualityOfPropsAndState = (methodObj) => {
-	const isStateChanged = methodObj.get('oldState') !== methodObj.get('newState');
-	return methodObj.set('isStateChanged', isStateChanged);
-};
+// const checkEqualityOfPropsAndState = (methodObj) => {
+// 	const isStateChanged = methodObj.get('oldState') !== methodObj.get('newState');
+// 	return methodObj.set('isStateChanged', isStateChanged);
+// };

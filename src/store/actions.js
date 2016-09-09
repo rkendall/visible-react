@@ -8,14 +8,6 @@ export const add = (key, name) => {
 	};
 };
 
-export const updateEntry = (key, value) => {
-	return {
-		type: 'UPDATE_PROPSANDSTATE',
-		keyPath,
-		value
-	};
-};
-
 export const updateValue = (key, value) => {
 	return {
 		type: 'UPDATE_VALUE',

@@ -112,7 +112,6 @@ class ComponentList extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		//console.debug('ComponentList', nextProps.entries ? Object.keys(nextProps.entries) : null);
 		this.setState({
 			componentTableData: this.getComponentTableData(nextProps.entries)
 		});
@@ -134,12 +133,13 @@ class ComponentList extends Component {
 	};
 
 	getComponentTableData = (immutableEntries) => {
+		// TODO Keep these as immutables for better performance?
 		const entries = immutableEntries.toJS();
 		const sortedComponentIds = this.getSortedComponentIds(entries);
 		return sortedComponentIds.map((id, ind) => {
 			const entry = entries[id];
 			return {
-				changed: entry.isChanged,
+				isChanged: entry.isChanged,
 				name: entry.displayName,
 				renderCount: entry.renderCount,
 				warningCount: entry.unnecessaryUpdatesPrevented,

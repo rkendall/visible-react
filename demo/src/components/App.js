@@ -42,7 +42,7 @@ class App extends Component {
 	render() {
 		return (
 			<div style={this.styles.app}>
-				<div style={this.styles.heading}>Community Questions</div>
+				<div style={this.styles.heading}>The Big Questions</div>
 				<div style={this.styles.container}>
 					{this.props.children}
 				</div>

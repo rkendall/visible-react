@@ -62,10 +62,11 @@ function Insure(WrappedComponent) {
 			this.clearCalled();
 			this.handleLifecycleEvent({
 				name: 'constructorMethod',
-				props: [props]
+				props: [props],
+				state: []
 			});
 			let methodObj = {};
-			Object.keys(methodProperties()).forEach((name) => {
+			lifecycleConfig.methodNames.forEach((name) => {
 				const methodName = name === 'constructorMethod' ? 'constructor' : name;
 				methodObj[name] = {
 					isMethodOverridden: Boolean(super[methodName])
@@ -95,7 +96,7 @@ function Insure(WrappedComponent) {
 			});
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
-			log.updateWindow();
+			log.updateWindow(this.logEntryId);
 		}
 
 		componentWillReceiveProps(nextProps) {
@@ -161,7 +162,7 @@ function Insure(WrappedComponent) {
 			if (willUpdate) {
 				return true;
 			} else {
-				log.updateWindow();
+				log.updateWindow(this.logEntryId);
 				return false;
 			}
 
@@ -182,7 +183,7 @@ function Insure(WrappedComponent) {
 				props: [prevProps, this.props],
 				state: [prevState, this.state]
 			});
-			log.updateWindow();
+			log.updateWindow(this.logEntryId);
 		}
 
 		componentWillUnmount() {
@@ -195,7 +196,7 @@ function Insure(WrappedComponent) {
 				props: [this.props],
 				state: [this.state]
 			});
-			log.updateWindow();
+			log.updateWindow(this.logEntryId);
 		}
 
 		handleLifecycleEvent = (lifecycleData) => {
@@ -206,10 +207,15 @@ function Insure(WrappedComponent) {
 				lifecycleData.name,
 				'count'
 			]);
+			const cleanedProps = lifecycleData.props.map((propsValue) => {
+			    return this.removePropsChildren(propsValue);
+			});
 			const method = {
 				name: lifecycleData.name,
 				called: true,
 				count: count + 1,
+				props: cleanedProps || [],
+				state: lifecycleData.state || [],
 				isInfiniteLoop: this.isInfiniteLoop,
 				isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
 				lifecycleLocation: this.lifecycleLocation
@@ -220,33 +226,16 @@ function Insure(WrappedComponent) {
 				methodName: lifecycleData.name,
 				value: method
 			});
-			const config = lifecycleConfig[name];
-			let propsAndState = {};
-			// TODO remove redundant code with a loop
-			if (config.save) {
-				if (config.save.includes('props')) {
-					log.updateStore({
-						type: 'UPDATE_PROPSANDSTATE',
-						keyPath: [this.logEntryId, 'props', [lifecycleData.lifecycleLocation]],
-						value: lifecycleData.props
-					});
-				}
-				if (config.save.includes('state')) {
-					log.updateStore({
-						type: 'UPDATE_PROPSANDSTATE',
-						keyPath: [this.logEntryId, 'state', [lifecycleData.lifecycleLocation]],
-						value: lifecycleData.state
-					});
-				}
-			}
 		};
 
-		// Remove children because they can contain
+		// Remove props.children because they can contain
 		// circular references, which cause problems
-		// with cloning and stringifying
-		removeCircularReferences = (props) => {
+		// with cloning and stringifying;
+		// This prop value is meant to be opaque
+		// and used only internally
+		removePropsChildren = (props) => {
 			if (!props) {
-				return null;
+				return [];
 			}
 			let newProps = Object.assign({}, props);
 			if (newProps.hasOwnProperty('children')) {
@@ -258,7 +247,7 @@ function Insure(WrappedComponent) {
 		clearCalled = () => {
 			this.autoRenderCount = 0;
 			let methodObj = {};
-			Object.keys(methodProperties()).forEach((name) => {
+			lifecycleConfig.methodNames.forEach((name) => {
 				methodObj[name] = {
 					called: false
 				};
@@ -297,7 +286,9 @@ function Insure(WrappedComponent) {
 
 			this.incrementRenderCount();
 			this.handleLifecycleEvent({
-				name: 'render'
+				name: 'render',
+				props: [this.props],
+				state: [this.state]
 			});
 			return super.render();
 

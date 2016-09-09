@@ -9,6 +9,12 @@ import styles from '../styles/styles';
 
 class DataIconCell extends Component {
 
+	styles = {
+		icons: {
+			display: 'flex'
+		}
+	};
+
 	shouldComponentUpdate(nextProps) {
 		return this.props.isChanged !== nextProps.isChanged
 			|| !shallowEqual(this.props.style, nextProps.style)
@@ -17,15 +23,14 @@ class DataIconCell extends Component {
 	
 	render() {
 		const {isChanged, ...props} = this.props;
-		const isChangedObj = isChanged.toJS();
-		const propsIcon = isChangedObj.props
+		const propsIcon = isChanged.props
 			? (<div style={styles.props}>•</div>)
 			: '';
-		const stateIcon = isChangedObj.state
+		const stateIcon = isChanged.state
 			? (<div style={styles.state}>•</div>)
 			: '';
 		let data = (
-			<div>
+			<div style={this.styles.icons}>
 				{propsIcon}
 				{stateIcon}
 			</div>

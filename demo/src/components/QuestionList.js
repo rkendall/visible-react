@@ -12,7 +12,7 @@ import styles from '../styles/styles';
 
 // Export unconnected component for testing
 export class QuestionList extends Component {
-	
+
 	getQuestionList = () => {
 		return this.props.questions.map((question, ind) => {
 			return (

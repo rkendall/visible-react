@@ -97,7 +97,6 @@ class LifeCycle extends Component {
 			isChanged: this.props.entry.get('isChanged'),
 			// TODO rename function to make it clear it's a callback
 			showFullText: this.props.showFullText,
-			methodConfig: this.props.methodsConfig[methodName],
 			key: methodName + '-method-box'
 		};
 	};

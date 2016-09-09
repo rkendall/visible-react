@@ -14,7 +14,7 @@ import circularJson from 'circular-json';
 import ComponentList from './ComponentList';
 import LifeCycle from './LifeCycle';
 import styles from '../styles/styles';
-import methodProperties from '../constants/methods';
+import lifecycleConfig from '../store/lifecycleConfig';
 
 class Console extends Component {
 
@@ -119,17 +119,17 @@ class Console extends Component {
 	};
 
 	// TODOD Clean this up
-	openDraggableWindow = (items) => {
+	openDraggableWindow = (values) => {
 		let fullText = '';
-		const value1 = items[0].value;
-		const value2 = items.length === 2 ? items[1].value : null;
+		const value1 = values[0];
+		const value2 = values.length === 2 ? values[1] : null;
 		if (value1 !== null && value2 !== null) {
 			fullText = this.diffText(
-				circularJson.stringify(value1, null, 2),
-				circularJson.stringify(value2, null, 2)
+				JSON.stringify(value1, null, 2),
+				JSON.stringify(value2, null, 2)
 			);
 		} else {
-			fullText = circularJson.stringify(items[0].value, null, 2);
+			fullText = JSON.stringify(value1, null, 2);
 		}
 		this.setState({
 			showFullText: true,
@@ -147,7 +147,7 @@ class Console extends Component {
 			const color = part.added ? 'added' :
 				part.removed ? 'removed' : 'unchanged';
 			html.push(
-				<span key={'diff-'  + ind} style={self.styles[color]}>{part.value}</span>
+				<span id={'diff-'  + ind} style={self.styles[color]}>{part.value}</span>
 			)
 		});
 		return html;
@@ -166,9 +166,6 @@ class Console extends Component {
 			? this.styles.draggableWindow
 			:this.styles.draggableWindowHidden;
 		const entry = this.props.entries.get(this.state.selectedComponentId);
-		const methodsConfig = methodProperties(entry.get('props').toJS(), entry.get('state').toJS());
-		console.debug('methodsConfig');
-		console.debug('this.props', methodsConfig.componentWillReceiveProps.props);
 		return (
 			<div>
 				<div style={this.styles.container}>
@@ -180,7 +177,6 @@ class Console extends Component {
 						<LifeCycle
 							entry={entry}
 							showFullText={this.openDraggableWindow}
-							methodsConfig={methodsConfig}
 						/>
 					</div>
 					<Draggable
