@@ -5,21 +5,29 @@ import ReactDOM from 'react-dom';
 import Radium from 'radium';
 import color from 'color';
 import circularJson from 'circular-json';
+import Immutable from 'immutable';
 
 import styles from '../styles/styles';
 
 class Method extends Component {
 
 	static propTypes = {
-		methodObj: PropTypes.shape({
-			name: PropTypes.string,
-			called: PropTypes.bool,
-			count: PropTypes.number,
-			props: PropTypes.object,
-			state: PropTypes.object,
-			args: PropTypes.array
-		}).isRequired
+		methodObj: PropTypes.instanceOf(Immutable.Map).isRequired,
+		isChanged: PropTypes.object.isRequired,
+		showFullText: PropTypes.func.isRequired
 	};
+
+	// TODO need to install react-immutable-proptypes to do this
+	// static propTypes = {
+	// 	methodObj: PropTypes.shape({
+	// 		name: PropTypes.string,
+	// 		called: PropTypes.bool,
+	// 		count: PropTypes.number,
+	// 		props: PropTypes.object,
+	// 		state: PropTypes.object,
+	// 		args: PropTypes.array
+	// 	}).isRequired
+	// };
 
 
 	styles = {
@@ -212,9 +220,9 @@ class Method extends Component {
 			}
 			const baseKey = `${methodObj.name}-${type}`;
 			return (
-				<div id={baseKey} style={this.styles.propsAndState}>
-					<div id={baseKey + '-label'} style={this.styles.label}>{nameComponents}</div>
-					<div id={baseKey + '-value'} style={this.styles.valueContainer}>{valueComponents}</div>
+				<div key={baseKey} style={this.styles.propsAndState}>
+					<div key={baseKey + '-label'} style={this.styles.label}>{nameComponents}</div>
+					<div key={baseKey + '-value'} style={this.styles.valueContainer}>{valueComponents}</div>
 				</div>
 			);
 		});
@@ -223,7 +231,7 @@ class Method extends Component {
 	getPropAndStateName = (name, type, isSecond) => {
 		const arrow = isSecond ? '↳' : '';
 		return (
-			<div style={this.styles.line}>
+			<div key={name} style={this.styles.line}>
 				<div>{arrow}{name}:</div>
 			</div>
 		);
@@ -237,6 +245,7 @@ class Method extends Component {
 		// this.props.children may contain circular references
 		return (
 			<div
+				key={'value-' + ind}
 				onClick={this.handleShowFullText.bind(this, valuesToDisplay)}
 				style={[this.styles.value, styles[type], isChangedStyle]}
 			>
@@ -281,7 +290,7 @@ class Method extends Component {
 		}
 		const label = methodObj.name === 'constructorMethod' ? 'this.state = x' : 'this.setState(x)';
 		return (
-			<div>
+			<div key={label}>
 				<div style={this.styles.setState}>
 					{label}
 				</div>
@@ -295,15 +304,15 @@ class Method extends Component {
 			return (<div style={this.styles.arrow}></div>);
 		} else if (methodObj.name === 'render') {
 			return (
-				<div style={this.styles.arrow}>
+				<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>
 					<div>↓</div>
 					<div>↓</div>
 				</div>
 			)
 		} else if (!methodObj.terminal) {
-			return (<div style={this.styles.arrow}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>↓</div>);
 		} else {
-			return (<div style={[this.styles.arrow, this.styles.hidden]}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>↓</div>);
 		}
 	};
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import Radium, {Style} from 'radium';
 import color from 'color';
@@ -6,12 +6,22 @@ import {Table, Column} from 'fixed-data-table';
 let Cell = require('fixed-data-table').Cell;
 Cell = Radium(Cell);
 import dataTableStyles from '../vendor/dataTableStyle.js';
+import shallowEqual from 'shallowequal';
+import Immutable from 'immutable';
 
 import TableCell from './TableCell';
 import DataIconCell from './DataIconCell';
-import styles from '../styles/styles';
+import log from '../log';
 
 class ComponentList extends Component {
+
+	static propTypes = {
+		entries: PropTypes.instanceOf(Immutable.Map).isRequired,
+		onChange: PropTypes.func.isRequired
+	};
+
+	rowHeight = 25;
+	headerHeight = 25;
 
 	styles = {
 		container: {
@@ -95,11 +105,15 @@ class ComponentList extends Component {
 		for (name in columnWidths) {
 			tableWidth += columnWidths[name];
 		}
+		const componentTableData = this.getComponentTableData(props.entries);
 		this.state = {
 			selectedComponentId: props.entries.first().get('id'),
-			componentTableData: this.getComponentTableData(props.entries),
+			componentTableData,
 			tableWidth,
-			columnWidths
+			columnWidths,
+			// The height must be set again
+			// after the component has mounted and the window height is available
+			maxTableHeight: null
 		};
 	}
 
@@ -108,7 +122,12 @@ class ComponentList extends Component {
 	}
 
 	componentDidMount() {
-		window.addEventListener("resize", this.updateDimensions);
+		log.getWindow().addEventListener("resize", this.updateDimensions);
+		setTimeout( () => {
+			this.setState({
+				maxTableHeight: this.getMaxTableHeight()
+			});
+		}, 0);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -118,18 +137,27 @@ class ComponentList extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return this.props !== nextProps
-			|| this.state.selectedComponentId !== nextState.selectedComponentId;
+		return !shallowEqual(this.props, nextProps)
+			|| !shallowEqual(this.state, nextState);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener("resize", this.updateDimensions);
+		log.getWindow().removeEventListener("resize", this.updateDimensions);
 	}
 
 	updateDimensions = () => {
-		// this.setState({
-		// 	tableWidth: this.state.tableWidth += (window.innerWidth - 1350)
-		// });
+		// Don't update state after initial rerender;
+		// causes UI to flash
+		if (this.state.maxTableHeight !== null) {
+			this.setState({
+				maxTableHeight: this.getMaxTableHeight()
+			});
+		}
+		if (log.getWindow().innerWidth) {
+			this.setState({
+				tableWidth: this.state.tableWidth += (log.getWindow().innerWidth - 1350)
+			});
+		}
 	};
 
 	getComponentTableData = (immutableEntries) => {
@@ -241,20 +269,23 @@ class ComponentList extends Component {
 		}));
 	};
 
+	getMaxTableHeight = () => {
+		return log.getWindow().innerHeight - 60;
+	};
+
 	getComponents = () => {
-		const rowHeight = 25;
-		const headerHeight = 25;
 		const rowsCount = this.state.componentTableData.length;
-		const tableHeight = Math.min(
-			(headerHeight + (rowHeight * rowsCount) + 2),
-			window.innerHeight - 50
-		);
+		let tableHeight = this.headerHeight + (this.rowHeight * rowsCount) + 2;
+		const maxTableHeight = this.state.maxTableHeight;
+		if (maxTableHeight && tableHeight > maxTableHeight) {
+			tableHeight = maxTableHeight;
+		}
 		return (
 			<div style={this.styles.tableContainer}>
 				<Table
-					rowsCount={rowsCount}
-					rowHeight={rowHeight}
-					headerHeight={headerHeight}
+					rowsCount={this.state.componentTableData.length}
+					rowHeight={this.rowHeight}
+					headerHeight={this.headerHeight}
 					width={this.state.tableWidth}
 					overflowY='auto'
 					overflowX='hidden'

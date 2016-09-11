@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import shallowEqual from 'shallowequal';
 
@@ -9,6 +9,12 @@ import styles from '../styles/styles';
 
 class DataIconCell extends Component {
 
+	static propTypes = {
+		isChanged: PropTypes.object.isRequired,
+		style: PropTypes.object.isRequired,
+		childStyle: PropTypes.object.isRequired
+	};
+
 	styles = {
 		icons: {
 			display: 'flex'
@@ -16,9 +22,7 @@ class DataIconCell extends Component {
 	};
 
 	shouldComponentUpdate(nextProps) {
-		return this.props.isChanged !== nextProps.isChanged
-			|| !shallowEqual(this.props.style, nextProps.style)
-			|| !shallowEqual(this.props.childStyle, nextProps.childStyle);
+		return !shallowEqual(this.props, nextProps);
 	}
 	
 	render() {

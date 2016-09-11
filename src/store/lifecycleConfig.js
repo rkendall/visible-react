@@ -12,15 +12,15 @@ const lifecycleConfig = {
 		state: null
 	},
 
-	addRemainingPropertiesToAllEntries: (entries) => {
+	addRemainingPropertiesToAllEntries: function(entries) {
 		return entries.map((entry) => {
-			return lifecycleConfig.addRemainingPropertiesToEntry(entry);
+			return this.addRemainingPropertiesToEntry(entry);
 		});
 	},
 
-	addRemainingPropertiesToEntry: (entry) => {
+	addRemainingPropertiesToEntry: function(entry) {
 
-		lifecycleConfig.isPartnerChanged = {
+		this.isPartnerChanged = {
 			props: null,
 			state: null
 		};
@@ -29,7 +29,7 @@ const lifecycleConfig = {
 			state: false
 		};
 
-		const remainingPropertiesForEntry = lifecycleConfig.properties;
+		const remainingPropertiesForEntry = this.properties;
 		const newMethods = entry.get('methods').map((method, methodName) => {
 			// TODO refactor repeated code
 			const remainingPropertiesForMethod = remainingPropertiesForEntry[methodName];
@@ -37,10 +37,10 @@ const lifecycleConfig = {
 			const propValues = method.get('props');
 			remainingPropertiesForMethod.props.values = propValues;
 			if (remainingPropertiesForMethod.props.hasOwnProperty('arePartnersDifferent')) {
-				remainingPropertiesForMethod.props.arePartnersDifferent = lifecycleConfig.arePartnerPropsOrStatesDifferent(propValues, 'props');
+				remainingPropertiesForMethod.props.arePartnersDifferent = this.arePartnerPropsOrStatesDifferent(propValues, 'props');
 			}
 			if (remainingPropertiesForMethod.props.hasOwnProperty('isChanged')) {
-				const isPropsChanged = lifecycleConfig.isPropsOrStateChanged(propValues, methodName, 'props', entry);
+				const isPropsChanged = this.isPropsOrStateChanged(propValues, methodName, 'props', entry);
 				remainingPropertiesForMethod.props.isChanged = isPropsChanged;
 				if (isPropsChanged && !isChanged.props) {
 					isChanged.props = true;
@@ -50,10 +50,10 @@ const lifecycleConfig = {
 			const stateValues = method.get('state');
 			remainingPropertiesForMethod.state.values = stateValues;
 			if (remainingPropertiesForMethod.state.hasOwnProperty('arePartnersDifferent')) {
-				remainingPropertiesForMethod.state.arePartnersDifferent = lifecycleConfig.arePartnerPropsOrStatesDifferent(stateValues, 'state');
+				remainingPropertiesForMethod.state.arePartnersDifferent = this.arePartnerPropsOrStatesDifferent(stateValues, 'state');
 			}
 			if (remainingPropertiesForMethod.state.hasOwnProperty('isChanged')) {
-				const isStateChanged = lifecycleConfig.isPropsOrStateChanged(stateValues, methodName, 'state', entry);
+				const isStateChanged = this.isPropsOrStateChanged(stateValues, methodName, 'state', entry);
 				remainingPropertiesForMethod.state.isChanged = isStateChanged;
 				if (isStateChanged && !isChanged.state) {
 					isChanged.state = true;
@@ -67,20 +67,20 @@ const lifecycleConfig = {
 
 	},
 
-	arePartnerPropsOrStatesDifferent: (immutableItems, type) => {
+	arePartnerPropsOrStatesDifferent: function(immutableItems, type) {
 		if (immutableItems.size < 2) {
 			return false;
 		}
 		// Immutability doesn't help with comparison here because the two source objects
 		// were different; convert to JS for faster comparison
 		const items = immutableItems.toJS();
-		if (lifecycleConfig.isPartnerChanged[type] === null) {
-			lifecycleConfig.isPartnerChanged[type] = !deepEqual(items[0], items[1], {strict: true});
+		if (this.isPartnerChanged[type] === null) {
+			this.isPartnerChanged[type] = !deepEqual(items[0], items[1], {strict: true});
 		}
-		return lifecycleConfig.isPartnerChanged[type];
+		return this.isPartnerChanged[type];
 	},
 
-	isPropsOrStateChanged: (values, methodName, type, entry) => {
+	isPropsOrStateChanged: function(values, methodName, type, entry) {
 		const method = entry.getIn(['methods', methodName]);
 		const lifecycleLocation = method.get('lifecycleLocation');
 		const isCalled = method.get('called');
@@ -240,12 +240,12 @@ const lifecycleConfig = {
 		};
 	},
 
-	getDisplayNames: (methodName, type) => {
-		return lifecycleConfig.properties[methodName][type];
+	getDisplayNames: function(methodName, type) {
+		return this.properties[methodName][type];
 	},
 
 	get methodNames() {
-		return Object.keys(lifecycleConfig.properties);
+		return Object.keys(this.properties);
 	}
 
 };

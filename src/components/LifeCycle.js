@@ -1,8 +1,6 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import clone from 'deep-copy';
 import Radium from 'radium';
 
 import Method from './Method';

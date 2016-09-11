@@ -3,6 +3,7 @@
 import React from 'react';
 import {clone} from 'deep';
 import deepEqual from 'deep-equal';
+import shallowEqual from 'shallowequal';
 import uuid from 'node-uuid';
 
 import log from './log.js';
@@ -10,30 +11,28 @@ import lifecycleConfig from './store/lifecycleConfig';
 
 function Insure(WrappedComponent) {
 
-	// if (process.env.NODE_ENV === 'production') {
-	//
-	// 	return class ComponentWrapper extends WrappedComponent {
-	//
-	// 		shouldComponentUpdate(nextProps, nextState) {
-	//
-	// 			if (super.shouldComponentUpdate) {
-	// 				const isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
-	// 				if (!isSuperAllowingUpdate) {
-	// 					return false;
-	// 				}
-	// 			}
-	//
-	// 			return (
-	// 				nextState !== this.state
-	// 				|| nextProps !== this.props
-	// 				|| !deepEqual(nextState, this.state, {strict: true})
-	// 				|| !deepEqual(nextProps, this.props, {strict: true})
-	// 			);
-	//
-	// 		}
-	//
-	// 	};
-	// }
+	if (process.env.NODE_ENV === 'production') {
+
+		return class ComponentWrapper extends WrappedComponent {
+
+			shouldComponentUpdate(nextProps, nextState) {
+
+				if (super.shouldComponentUpdate) {
+					const isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
+					if (!isSuperAllowingUpdate) {
+						return false;
+					}
+				}
+
+				return (
+					!shallowEqual(nextState, this.state)
+					|| !shallowEqual(nextProps, this.props)
+				);
+
+			}
+
+		};
+	}
 
 	return class DevComponentWrapper extends WrappedComponent {
 
@@ -45,16 +44,18 @@ function Insure(WrappedComponent) {
 		isRenderingComplete = true;
 		consoleWindow = null;
 		lifecycleLocation = '';
+		componentName = '';
 
 		constructor(props) {
 			super(...arguments);
 			// if (!this.key) {
 			// 	this.key = uuid.v1();
 			// }
+			this.componentName = getComponentName(WrappedComponent)
 			this.logEntryId = log.add({
 				type: 'ADD_ENTRY',
 				key: props.id,
-				name: getComponentName(WrappedComponent)
+				name: this.componentName
 			});
 			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
@@ -226,6 +227,7 @@ function Insure(WrappedComponent) {
 				methodName: lifecycleData.name,
 				value: method
 			});
+			console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
 		};
 
 		// Remove props.children because they can contain

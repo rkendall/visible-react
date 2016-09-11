@@ -93,10 +93,7 @@ const log = {
 	},
 
 	getWindow: () => {
-		if (!window) {
-			return;
-		}
-		if (consoleWindow === null || consoleWindow.closed) {
+		if (window && consoleWindow === null || consoleWindow.closed) {
 			consoleWindow = window.open(
 				'',
 				'console',
@@ -111,10 +108,10 @@ const log = {
 			consoleWindow.document.body.appendChild(container);
 			consoleWindow.focus();
 			//log.updateWindow();
+			window.onbeforeunload = () => {
+				consoleWindow.close();
+			};
 		}
-		window.onbeforeunload = () => {
-			consoleWindow.close();
-		};
 		return consoleWindow;
 	}
 };

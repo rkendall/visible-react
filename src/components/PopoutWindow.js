@@ -1,16 +1,17 @@
 'use strict';
 
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {Component, PropTypes} from 'react';
 import {render} from 'react-dom';
-import deepEqual from 'deep-equal';
-import clone from 'deep-copy';
-import log from '../log.js';
+import Immutable from 'immutable';
 
 import Console from './Console';
 
 class PopoutWindow extends Component {
-	
+
+	static propTypes = {
+		entries: PropTypes.instanceOf(Immutable.Map).isRequired
+	};
+
 	shouldComponentUpdate(nextProps) {
 		return this.props !== nextProps;
 	}

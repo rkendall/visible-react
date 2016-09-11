@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {connect} from 'react-redux';
 import clone from 'deep-copy';
@@ -10,13 +10,18 @@ import {diffJson} from 'diff';
 import Radium from 'radium';
 import color from 'color';
 import circularJson from 'circular-json';
+import Immutable from 'immutable';
 
 import ComponentList from './ComponentList';
 import LifeCycle from './LifeCycle';
 import styles from '../styles/styles';
-import lifecycleConfig from '../store/lifecycleConfig';
+import log from '../log';
 
 class Console extends Component {
+
+	static propTypes = {
+		entries: PropTypes.instanceOf(Immutable.Map).isRequired
+	};
 
 	styles = {
 		container: {
@@ -75,7 +80,7 @@ class Console extends Component {
 		},
 		windowContent: {
 			minWidth: '800px',
-			maxWidth: (window.innerWidth - 50) + 'px',
+			maxWidth: (log.getWindow().innerWidth - 50) + 'px',
 			height: '600px',
 			margin: '0',
 			padding: '10px',
