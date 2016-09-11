@@ -245,6 +245,10 @@ class ComponentList extends Component {
 		const rowHeight = 25;
 		const headerHeight = 25;
 		const rowsCount = this.state.componentTableData.length;
+		const tableHeight = Math.min(
+			(headerHeight + (rowHeight * rowsCount) + 2),
+			window.innerHeight - 50
+		);
 		return (
 			<div style={this.styles.tableContainer}>
 				<Table
@@ -252,9 +256,9 @@ class ComponentList extends Component {
 					rowHeight={rowHeight}
 					headerHeight={headerHeight}
 					width={this.state.tableWidth}
+					overflowY='auto'
 					overflowX='hidden'
-					height={headerHeight + (rowHeight * rowsCount) + 2}
-					maxHeight={900}
+					height={tableHeight}
 					onRowMouseDown={this.handleComponentSelected}
 					onColumnResizeEndCallback={this.onColumnResizeEnd}
 					isColumnResizing={false}

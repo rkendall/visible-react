@@ -231,7 +231,9 @@ class Method extends Component {
 
 	getPropAndStateValues = (valuesToDisplay, ind, type, isChanged) => {
 		const value = valuesToDisplay[ind];
-		const isChangedStyle = isChanged && ind === 0 ? this.styles.propsAndStateChanged : this.styles.propsAndStateUnchanged;
+		const isChangedStyle = isChanged && ((valuesToDisplay.length === 1 && ind === 0) || ind === 1)
+			? this.styles.propsAndStateChanged
+			: this.styles.propsAndStateUnchanged;
 		// this.props.children may contain circular references
 		return (
 			<div

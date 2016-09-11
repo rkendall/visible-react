@@ -2,17 +2,13 @@
   "name": "life-insurance",
   "version": "0.0.1",
   "description": "Optimization and debugging for React lifecycle events",
-  "main": "build/Insure.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "bundle": "babel ./lib/insure --out-dir ./build --source-maps --presets es2015,stage-0,react --plugins babel-plugin-add-module-exports && browserify ./build/Insure.js -o ./dist/index.js --transform browserify-global-shim --standalone Insure"
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",
-  "browserify-global-shim": {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
   "dependencies": {
     "circular-json": "^0.3.1",
     "color": "^0.11.3",

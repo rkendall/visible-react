@@ -51,7 +51,13 @@ gulp.task('demo', ['insure'], function(callback) {
 			new webpack.optimize.DedupePlugin()
 			//new webpack.optimize.UglifyJsPlugin()
 
-		]
+		],
+		// To avoid duplicate copies of React being loaded
+		resolve: {
+			alias: {
+				react: path.resolve('./demo/node_modules/react')
+			}
+		}
 	};
 
 	// run webpack
