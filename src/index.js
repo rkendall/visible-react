@@ -6,10 +6,10 @@ import deepEqual from 'deep-equal';
 import shallowEqual from 'shallowequal';
 import uuid from 'node-uuid';
 
-import log from './log.js';
+import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
 
-function Insure(WrappedComponent) {
+function Visible(WrappedComponent) {
 
 	if (process.env.NODE_ENV === 'production') {
 
@@ -52,12 +52,11 @@ function Insure(WrappedComponent) {
 			// 	this.key = uuid.v1();
 			// }
 			this.componentName = getComponentName(WrappedComponent)
-			this.logEntryId = log.add({
+			this.logEntryId = root.add({
 				type: 'ADD_ENTRY',
 				key: props.id,
 				name: this.componentName
 			});
-			//this.consoleWindow.log[this.logEntryId] = clone(log.get(this.logEntryId));
 			this.isRenderingComplete = false;
 			this.lifecycleLocation = 'mounting';
 			this.clearCalled();
@@ -73,7 +72,7 @@ function Insure(WrappedComponent) {
 					isMethodOverridden: Boolean(super[methodName])
 				}
 			});
-			log.updateStore({
+			root.updateStore({
 				type: 'UPDATE_METHODS',
 				key: this.logEntryId,
 				value: methodObj
@@ -89,7 +88,7 @@ function Insure(WrappedComponent) {
 		}
 
 		componentDidMount() {
-			this.consoleWindow = log.getWindow();
+			this.consoleWindow = root.getWindow();
 			this.handleLifecycleEvent({
 				name: 'componentDidMount',
 				props: [this.props],
@@ -97,7 +96,7 @@ function Insure(WrappedComponent) {
 			});
 			this.isRenderingComplete = true;
 			this.setIsMounted(true);
-			log.updateWindow(this.logEntryId);
+			root.updateWindow(this.logEntryId);
 		}
 
 		componentWillReceiveProps(nextProps) {
@@ -163,7 +162,7 @@ function Insure(WrappedComponent) {
 			if (willUpdate) {
 				return true;
 			} else {
-				log.updateWindow(this.logEntryId);
+				root.updateWindow(this.logEntryId);
 				return false;
 			}
 
@@ -184,7 +183,7 @@ function Insure(WrappedComponent) {
 				props: [prevProps, this.props],
 				state: [prevState, this.state]
 			});
-			log.updateWindow(this.logEntryId);
+			root.updateWindow(this.logEntryId);
 		}
 
 		componentWillUnmount() {
@@ -197,11 +196,11 @@ function Insure(WrappedComponent) {
 				props: [this.props],
 				state: [this.state]
 			});
-			log.updateWindow(this.logEntryId);
+			root.updateWindow(this.logEntryId);
 		}
 
 		handleLifecycleEvent = (lifecycleData) => {
-			let count = log.getFromStore([
+			let count = root.getFromStore([
 				'entries',
 				this.logEntryId,
 				'methods',
@@ -221,7 +220,7 @@ function Insure(WrappedComponent) {
 				isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
 				lifecycleLocation: this.lifecycleLocation
 			};
-			log.updateStore({
+			root.updateStore({
 				type: 'UPDATE_METHOD',
 				entryId: this.logEntryId,
 				methodName: lifecycleData.name,
@@ -254,7 +253,7 @@ function Insure(WrappedComponent) {
 					called: false
 				};
 			});
-			log.updateStore({
+			root.updateStore({
 				type: 'UPDATE_METHODS',
 				key: this.logEntryId,
 				value: methodObj
@@ -263,14 +262,14 @@ function Insure(WrappedComponent) {
 
 		incrementRenderCount = () => {
 			this.autoRenderCount++;
-			log.updateStore({
+			root.updateStore({
 				type: 'INCREMENT_VALUE',
 				keyPath: [this.logEntryId, 'renderCount']
 			})
 		};
 
 		setIsMounted = (isMounted) => {
-			log.updateStore({
+			root.updateStore({
 				type: 'UPDATE_VALUE',
 				keyPath: [this.logEntryId, 'isMounted'],
 				value: isMounted
@@ -278,7 +277,7 @@ function Insure(WrappedComponent) {
 		};
 
 		incrementUnnecessaryUpdatesPrevented = () => {
-			log.updateStore({
+			root.updateStore({
 				type: 'INCREMENT_VALUE',
 				keyPath: [this.logEntryId, 'unnecessaryUpdatesPrevented']
 			});
@@ -306,4 +305,4 @@ const getComponentName = (component) => {
 		: ''
 };
 
-export default Insure;
+export default Visible;

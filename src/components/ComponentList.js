@@ -1,5 +1,6 @@
+'use strict';
+
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
 import Radium, {Style} from 'radium';
 import color from 'color';
 import {Table, Column} from 'fixed-data-table';
@@ -11,7 +12,7 @@ import Immutable from 'immutable';
 
 import TableCell from './TableCell';
 import DataIconCell from './DataIconCell';
-import log from '../log';
+import root from '../root.js';
 
 class ComponentList extends Component {
 
@@ -102,7 +103,7 @@ class ComponentList extends Component {
 			warningCount: 75
 		};
 		let tableWidth = 0;
-		for (name in columnWidths) {
+		for (let name in columnWidths) {
 			tableWidth += columnWidths[name];
 		}
 		const componentTableData = this.getComponentTableData(props.entries);
@@ -122,7 +123,7 @@ class ComponentList extends Component {
 	}
 
 	componentDidMount() {
-		log.getWindow().addEventListener("resize", this.updateDimensions);
+		root.getWindow().addEventListener("resize", this.updateDimensions);
 		setTimeout( () => {
 			this.setState({
 				maxTableHeight: this.getMaxTableHeight()
@@ -142,22 +143,21 @@ class ComponentList extends Component {
 	}
 
 	componentWillUnmount() {
-		log.getWindow().removeEventListener("resize", this.updateDimensions);
+		root.getWindow().removeEventListener("resize", this.updateDimensions);
 	}
 
 	updateDimensions = () => {
+
 		// Don't update state after initial rerender;
 		// causes UI to flash
+		let newState = {};
 		if (this.state.maxTableHeight !== null) {
-			this.setState({
-				maxTableHeight: this.getMaxTableHeight()
-			});
+			newState.maxTableHeight = this.getMaxTableHeight();
 		}
-		if (log.getWindow().innerWidth) {
-			this.setState({
-				tableWidth: this.state.tableWidth += (log.getWindow().innerWidth - 1350)
-			});
-		}
+		// if (root.getWindow().innerWidth) {
+		// 	newState.tableWidth = this.state.tableWidth += (root.getWindow().innerWidth - 900)
+		// }
+		this.setState(newState);
 	};
 
 	getComponentTableData = (immutableEntries) => {
@@ -270,7 +270,7 @@ class ComponentList extends Component {
 	};
 
 	getMaxTableHeight = () => {
-		return log.getWindow().innerHeight - 60;
+		return root.getWindow().innerHeight - 60;
 	};
 
 	getComponents = () => {
@@ -370,6 +370,3 @@ class ComponentList extends Component {
 }
 
 export default Radium(ComponentList);
-// export default connect(
-// 	(state) => ({entries: state.get('entries')})
-// )(Radium(ComponentList));

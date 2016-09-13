@@ -1,7 +1,6 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import Radium from 'radium';
 import color from 'color';
 import circularJson from 'circular-json';

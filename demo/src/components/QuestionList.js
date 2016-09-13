@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import deepcopy from 'deepcopy';
 import RaisedButton from 'material-ui/RaisedButton';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import Question from './Question';
 import styles from '../styles/styles';
@@ -49,4 +49,4 @@ export class QuestionList extends Component {
 
 export default connect(
 	(state) => deepcopy(state)
-)(Insure(QuestionList));
+)(Visible(QuestionList));

@@ -1,6 +1,6 @@
 'use strict';
 
-import log from '../log';
+import root from '../root.js';
 import Immutable from 'immutable';
 
 const entries = (state, action) => {

@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {StyleRoot} from 'radium';
-import clone from 'deep-copy';
 import Immutable from 'immutable';
 
 import PopoutWindow from './components/PopoutWindow.js';
@@ -17,41 +16,41 @@ let consoleWindow = null;
 const initialStore = Immutable.fromJS({entries: {}}).toMap();
 let store = createStore(entries, initialStore);
 
-const log = {
+const root = {
 
 	isTimerOn: false,
 
-	add: (action) => {
+	add(action) {
 		const {key, name} = action;
-		const id = log.makeId(key, name);
+		const id = this.makeId(key, name);
 		store.dispatch({
 			type: 'ADD',
 			key,
 			name,
 			id,
-			displayName: log.makeDisplayName(key, name)
+			displayName: this.makeDisplayName(key, name)
 		});
 		return id;
 	},
 
-	updateStore: (action) => {
+	updateStore(action) {
 		store.dispatch(action);
 	},
 
-	getFromStore: (keyPath) => {
+	getFromStore(keyPath) {
 		return store.getState().getIn(keyPath);
 	},
 
-	makeId: (key, name) => {
+	makeId(key, name) {
 		return key ? `${name}-${key}` : name;
 	},
 
-	makeDisplayName: (key, name) => {
-		const formattedName = log.removeComponentWrapperNames(name);
+	makeDisplayName(key, name) {
+		const formattedName = this.removeComponentWrapperNames(name);
 		return key ? `${formattedName} (${key})` : formattedName;
 	},
 
-	removeComponentWrapperNames: (name) => {
+	removeComponentWrapperNames(name) {
 		const wrapperPattern = /[^\(]+\(([^\)]+)\)/;
 		while (wrapperPattern.test(name)) {
 			name = name.replace(/[^\(]+\(([^\)]+)\)/, '$1')
@@ -59,7 +58,7 @@ const log = {
 		return name;
 	},
 
-	addCalculatedValues: () => {
+	addCalculatedValues() {
 		const entries = store.getState().get('entries');
 		return lifecycleConfig.addRemainingPropertiesToAllEntries(entries);
 	},
@@ -67,17 +66,16 @@ const log = {
 	// The timer returns control to the wrapped application while
 	// Visible React processes a batch of updates and does it's own rendering.
 	// This is necessary for performance.
-	updateWindow: (lifecycleId) => {
+	updateWindow(lifecycleId) {
 		if (consoleWindow === null || consoleWindow.closed) {
 			return;
 		}
-		if (log.isTimerOn) {
+		if (this.isTimerOn) {
 			return;
 		}
-		log.isTimerOn = true;
-		const self = this;
+		this.isTimerOn = true;
 		setTimeout(() => {
-			const entries = log.addCalculatedValues();
+			const entries = this.addCalculatedValues();
 			const container = consoleWindow.document.getElementById('visible-react');
 			ReactDOM.render((
 				<Provider store={store}>
@@ -88,11 +86,11 @@ const log = {
 					</StyleRoot>
 				</Provider>
 			), container);
-			log.isTimerOn = false;
+			this.isTimerOn = false;
 		}, 0);
 	},
 
-	getWindow: () => {
+	getWindow() {
 		if (window && consoleWindow === null || consoleWindow.closed) {
 			consoleWindow = window.open(
 				'',
@@ -107,7 +105,7 @@ const log = {
 			container.id = 'visible-react';
 			consoleWindow.document.body.appendChild(container);
 			consoleWindow.focus();
-			//log.updateWindow();
+			//this.updateWindow();
 			window.onbeforeunload = () => {
 				consoleWindow.close();
 			};
@@ -116,4 +114,4 @@ const log = {
 	}
 };
 
-export default log;
+export default root;

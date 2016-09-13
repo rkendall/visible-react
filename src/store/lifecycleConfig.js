@@ -3,22 +3,20 @@
 import deepEqual from 'deep-equal';
 import Immutable from 'immutable';
 
-// Refactor so 'this' can be used here
 const lifecycleConfig = {
 
-	// Remember to clear this each time
 	isPartnerChanged: {
 		props: null,
 		state: null
 	},
 
-	addRemainingPropertiesToAllEntries: function(entries) {
+	addRemainingPropertiesToAllEntries(entries) {
 		return entries.map((entry) => {
 			return this.addRemainingPropertiesToEntry(entry);
 		});
 	},
 
-	addRemainingPropertiesToEntry: function(entry) {
+	addRemainingPropertiesToEntry(entry) {
 
 		this.isPartnerChanged = {
 			props: null,
@@ -67,7 +65,7 @@ const lifecycleConfig = {
 
 	},
 
-	arePartnerPropsOrStatesDifferent: function(immutableItems, type) {
+	arePartnerPropsOrStatesDifferent(immutableItems, type) {
 		if (immutableItems.size < 2) {
 			return false;
 		}
@@ -80,7 +78,7 @@ const lifecycleConfig = {
 		return this.isPartnerChanged[type];
 	},
 
-	isPropsOrStateChanged: function(values, methodName, type, entry) {
+	isPropsOrStateChanged(values, methodName, type, entry) {
 		const method = entry.getIn(['methods', methodName]);
 		const lifecycleLocation = method.get('lifecycleLocation');
 		const isCalled = method.get('called');
@@ -165,6 +163,7 @@ const lifecycleConfig = {
 					names: ['this.state'],
 					values: []
 				},
+				terminal: true,
 				description: 'Avoid calling setState here because it will trigger an extra render.'
 			},
 			componentWillReceiveProps: {
@@ -240,7 +239,7 @@ const lifecycleConfig = {
 		};
 	},
 
-	getDisplayNames: function(methodName, type) {
+	getDisplayNames(methodName, type) {
 		return this.properties[methodName][type];
 	},
 

@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Radium from 'radium';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import * as questionActions from '../actions/actions';
 
@@ -65,7 +65,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(Insure(App));
+App = Radium(Visible(App));
 
 export default connect(
 	mapStateToProps,

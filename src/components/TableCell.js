@@ -36,8 +36,6 @@ class TableCell extends Component {
 
 	render() {
 
-		//console.debug('cell rendering', this.props.rowIndex, this.props.data);
-		
 		const {data, style, childStyle, ...props} = this.props;
 
 		return (

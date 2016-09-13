@@ -1,21 +1,17 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import {connect} from 'react-redux';
-import clone from 'deep-copy';
 import deepEqual from 'deep-equal';
 import Draggable from 'react-draggable';
 import {diffJson} from 'diff';
 import Radium from 'radium';
 import color from 'color';
-import circularJson from 'circular-json';
 import Immutable from 'immutable';
 
 import ComponentList from './ComponentList';
 import LifeCycle from './LifeCycle';
 import styles from '../styles/styles';
-import log from '../log';
+import root from '../root.js';
 
 class Console extends Component {
 
@@ -80,7 +76,7 @@ class Console extends Component {
 		},
 		windowContent: {
 			minWidth: '800px',
-			maxWidth: (log.getWindow().innerWidth - 50) + 'px',
+			maxWidth: (root.getWindow().innerWidth - 50) + 'px',
 			height: '600px',
 			margin: '0',
 			padding: '10px',
@@ -123,7 +119,6 @@ class Console extends Component {
 		this.setState(option);
 	};
 
-	// TODOD Clean this up
 	openDraggableWindow = (values) => {
 		let fullText = '';
 		const value1 = values[0];
@@ -152,14 +147,13 @@ class Console extends Component {
 			const color = part.added ? 'added' :
 				part.removed ? 'removed' : 'unchanged';
 			html.push(
-				<span id={'diff-'  + ind} style={self.styles[color]}>{part.value}</span>
+				<span key={'diff-' + ind} style={self.styles[color]}>{part.value}</span>
 			)
 		});
 		return html;
 	};
 
 	closeDraggableWindow = () => {
-		//const draggableWindow = ReactDOM.findDOMNode(this.refs.draggableWindow);
 		this.setState({
 			showFullText: false
 		});
@@ -202,7 +196,4 @@ class Console extends Component {
 
 }
 
-export default Radium(Console)
-// export default connect(
-// 	(state) => ({entries: state.get('entries')})
-// )(Radium(Console));
+export default Radium(Console);

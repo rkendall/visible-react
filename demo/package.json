@@ -4,14 +4,13 @@
   "description": "Demo of Visible React (part of Life Insurance)",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers js:babel-register --recursive"
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",
   "dependencies": {
     "color": "^0.11.3",
     "json-loader": "^0.5.4",
-    "life-insurance": "../life-insurance-0.0.1.tgz",
     "material-ui": "^0.15.3",
     "moment": "^2.14.1",
     "node-uuid": "^1.4.7",
@@ -23,7 +22,8 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-time": "^4.2.0",
     "redux": "^3.5.2",
-    "script-loader": "^0.7.0"
+    "script-loader": "^0.7.0",
+    "visible-react": "../visible-react-0.0.1.tgz"
   },
   "devDependencies": {
     "babel-core": "^6.13.2",
@@ -32,8 +32,16 @@
     "babel-preset-es2015": "^6.13.2",
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-register": "^6.11.6",
+    "babel-register": "^6.11.6",    "enzyme": "^2.4.1",
+    "expect": "^1.20.2",
     "html-webpack-plugin": "^2.22.0",
+    "karma": "^1.1.2",
+    "karma-cli": "^1.0.1",
+    "karma-mocha": "^1.1.1",
+    "karma-webpack": "^1.8.0",
+    "react-addons-test-utils": "^15.3.0",
+    "redux-devtools": "^3.3.1",
+    "sinon": "^1.17.5",
     "webpack": "^1.13.1"
   }
 }
