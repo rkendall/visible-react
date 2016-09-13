@@ -1,3 +1,5 @@
+'use strict';
+
 var path = require('path');
 var gulp = require('gulp');
 var babel = require('gulp-babel');
@@ -5,21 +7,34 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 
 gulp.task('default', [
-	'insure',
+	'visible',
 	'demo'
 ], function() {
-	gulp.watch('src/**/*', ['insure', 'demo']);
+	gulp.watch('src/**/*', ['visible', 'demo']);
 });
 
-gulp.task('insure', function() {
+gulp.task('build', [
+	'visible',
+	'demo'
+]);
+
+gulp.task('packagejson', function() {
+	return gulp
+		.src('package.json')
+		.pipe(gulp.dest('demo/node_modules/visible-react'));
+});
+
+gulp.task('visible', [
+	'packagejson'
+], function() {
 	return gulp
 		.src('src/**/*.js')
 		.pipe(babel())
 		.pipe(gulp.dest('lib'))
-		.pipe(gulp.dest('demo/node_modules/life-insurance/lib'));
+		.pipe(gulp.dest('demo/node_modules/visible-react/lib'));
 });
 
-gulp.task('demo', ['insure'], function(callback) {
+gulp.task('demo', ['visible'], function(callback) {
 	var webpackConfig = {
 		entry: path.join(__dirname, 'demo/src/index'),
 		output: {

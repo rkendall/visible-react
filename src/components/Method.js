@@ -3,7 +3,6 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import color from 'color';
-import circularJson from 'circular-json';
 import Immutable from 'immutable';
 
 import styles from '../styles/styles';
@@ -248,7 +247,7 @@ class Method extends Component {
 				onClick={this.handleShowFullText.bind(this, valuesToDisplay)}
 				style={[this.styles.value, styles[type], isChangedStyle]}
 			>
-				{value ? circularJson.stringify(value).substr(0, 300) : ''}
+				{value ? JSON.stringify(value).substr(0, 300) : ''}
 			</div>
 		);
 	};

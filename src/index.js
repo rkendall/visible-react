@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {clone} from 'deep';
 import deepEqual from 'deep-equal';
 import shallowEqual from 'shallowequal';
-import uuid from 'node-uuid';
 
 import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
