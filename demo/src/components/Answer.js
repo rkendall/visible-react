@@ -6,7 +6,7 @@ import Visible from 'visible-react';
 import Byline from './Byline';
 import styles from '../styles/styles';
 
-class Answer extends Component {
+export default class Answer extends Component {
 	
 	static propTypes = {
 		id: PropTypes.string,

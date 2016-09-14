@@ -54,16 +54,22 @@ class Method extends Component {
 			display: 'flex',
 			alignItems: 'center',
 			flex: '1',
+			position: 'relative',
 			fontWeight: 'bold',
 			wordBreak: 'break-word'
 		},
+		methodNameWithIcon: {
+			marginLeft: '21px'
+		},
 		methodIcon: {
+			position: 'absolute',
 			width: '16px',
 			height: '16px',
+			alignSelf: 'flex-start',
 			marginRight: '5px',
 			borderRadius: '50%',
 			cursor: 'default',
-			boxShadow: 'inset 0 -1px 1px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,1)',
+			boxShadow: 'rgba(0, 0, 0, 0.2) -1px -1px 1px inset, rgba(255, 255, 255, 0.5) 1px 1px 1px inset',
 			background: 'linear-gradient(to bottom, lightblue 0%, ' + color('lightblue').darken(0.5).hexString() + ' 100%)'
 		},
 		propsAndState: {
@@ -152,15 +158,18 @@ class Method extends Component {
 		const name = methodObj.name === 'constructorMethod'
 			? `constructor(${args}) or getInitialState()`
 			: `${methodObj.name}(${args})`;
-		const iconMessage = 'This method exists in the wrapped component';
-		const methodIcon = methodObj.isMethodOverridden ? (
-			<div style={this.styles.methodIcon} title={iconMessage}></div>
-		) : '';
+		let methodIcon = '';
+		let nameStyle = {};
+		if (methodObj.isMethodOverridden) {
+			const iconMessage = 'This method exists in the wrapped component';
+			methodIcon = (<div style={this.styles.methodIcon} title={iconMessage}></div>);
+			nameStyle = this.styles.methodNameWithIcon;
+		}
 		return (
 			<div id={name + '-name-icon'}>
 				<div style={this.styles.methodName}>
 					{methodIcon}
-					<div>{name}</div>
+					<div style={nameStyle}>{name}</div>
 				</div>
 			</div>
 		);
