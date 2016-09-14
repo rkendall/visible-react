@@ -5,6 +5,8 @@ See a visual representation of the component lifecycle events as they occur in y
 [Try out the demo](https://rawgit.com/rkendall/visible-react/master/demo/dist/demo.html)
 (Your popup blocker must be disabled)
 
+[This tool has not yet been tested on versions of React prior to 15 or on browsers other than Chrome and Firefox.]
+
 ## What Is Visible React?
 
 Include **Visible React** in your React project, and a monitor window will open whenever your project launches in dev mode. (You must disable your browser's popup blocker to enable the window.) The monitor provides a visualization of the lifecycle events in every component mounted in your app. It will also warn you about components that are rerendering uncessarily, potentially slowing performance. In production mode, it will provide a means for avoiding these unnecessary rerenders.
