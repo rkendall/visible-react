@@ -1,6 +1,13 @@
 .DS_Store
 .gitignore
 .idea/
-node_modules/
 *.tgz
+.babelrc
+build.sh
+gulpfile.js
+npm-debug.log
+node_modules/
 demo
+dist
+images
+src

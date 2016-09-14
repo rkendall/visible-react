@@ -1,4 +1,4 @@
-# Visible React
+# Visible React [Prerelease Version]
 
 See a visual representation of the component lifecycle events as they occur in your React application. Analyze and correct performance lags caused by unnecessary component rerenders.
 
