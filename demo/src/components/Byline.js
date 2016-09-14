@@ -2,7 +2,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import Time from 'react-time'
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 const Byline = React.createClass({
 
@@ -38,6 +38,14 @@ const Byline = React.createClass({
 		return {
 			user: this.props.user
 		};
+	},
+
+	componentWillMount() {
+
+	},
+
+	componentWillUnmount() {
+
 	},
 
 	getAnswerCount: function() {
@@ -76,4 +84,4 @@ const Byline = React.createClass({
 
 });
 
-export default Insure(Byline);
+export default Visible(Byline);

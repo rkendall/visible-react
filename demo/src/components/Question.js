@@ -3,7 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {hashHistory} from 'react-router';
 import Radium from 'radium';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import Keywords from './Keywords';
 import Byline from './Byline';
@@ -32,6 +32,10 @@ class Question extends Component {
 		}
 	};
 
+	componentWillMount() {
+		
+	}
+
 	handleQuestionClicked = () => {
 		hashHistory.push('question/' + this.props.id);
 	};
@@ -56,4 +60,4 @@ class Question extends Component {
 
 }
 
-export default Radium(Insure(Question));
+export default Radium(Visible(Question));

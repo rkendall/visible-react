@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {hashHistory} from 'react-router';
 import deepcopy from 'deepcopy';
 import RaisedButton from 'material-ui/RaisedButton';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import Keywords from './Keywords';
 import Byline from './Byline';
@@ -29,6 +29,10 @@ export class QuestionDetail extends Component {
 			fontSize: '14px'
 		}
 	};
+
+	componentWillReceiveProps() {
+		
+	}
 
 	componentWillMount() {
 		// If the question ID in the URL is invalid, go to main page
@@ -99,4 +103,4 @@ export class QuestionDetail extends Component {
 
 export default connect(
 	(state) => deepcopy(state)
-)(Insure(QuestionDetail));
+)(Visible(QuestionDetail));

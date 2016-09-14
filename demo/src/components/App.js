@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Radium from 'radium';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import * as questionActions from '../actions/actions';
 
@@ -42,7 +42,7 @@ class App extends Component {
 	render() {
 		return (
 			<div style={this.styles.app}>
-				<div style={this.styles.heading}>Community Questions</div>
+				<div style={this.styles.heading}>The Big Questions</div>
 				<div style={this.styles.container}>
 					{this.props.children}
 				</div>
@@ -65,7 +65,7 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(Insure(App));
+App = Radium(Visible(App));
 
 export default connect(
 	mapStateToProps,

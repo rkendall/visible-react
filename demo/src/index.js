@@ -19,6 +19,9 @@ import SubmitQuestion from './components/SubmitQuestion.js';
 import questionData from 'json!../fixtures/questions.json';
 import userData from 'json!../fixtures/user.json';
 
+// import Perf from 'react-addons-perf';
+// window.Perf = Perf;
+
 const initialStore = {
 	questions: questionData,
 	user: userData

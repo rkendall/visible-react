@@ -1,12 +1,12 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
-import Insure from 'life-insurance';
+import Visible from 'visible-react';
 
 import Byline from './Byline';
 import styles from '../styles/styles';
 
-class Answer extends Component {
+export default class Answer extends Component {
 	
 	static propTypes = {
 		id: PropTypes.string,
@@ -38,4 +38,4 @@ class Answer extends Component {
 
 }
 
-export default Insure(Answer);
+export default Visible(Answer);
