@@ -27,11 +27,11 @@ class DataIconCell extends Component {
 	
 	render() {
 		const {isChanged, ...props} = this.props;
-		const propsIcon = isChanged.props
-			? (<div style={styles.props}>•</div>)
+		const propsIcon = isChanged.get('props')
+			? (<div style={styles.props} className='propsIcon'>•</div>)
 			: '';
-		const stateIcon = isChanged.state
-			? (<div style={styles.state}>•</div>)
+		const stateIcon = isChanged.get('state')
+			? (<div style={styles.state} className='stateIcon'>•</div>)
 			: '';
 		let data = (
 			<div style={this.styles.icons}>

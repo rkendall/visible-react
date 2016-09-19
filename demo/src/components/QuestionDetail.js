@@ -103,4 +103,4 @@ export class QuestionDetail extends Component {
 
 export default connect(
 	(state) => deepcopy(state)
-)(Visible(QuestionDetail));
+)(Visible()(QuestionDetail));

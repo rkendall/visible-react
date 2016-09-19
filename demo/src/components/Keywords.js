@@ -48,4 +48,4 @@ class Keywords extends Component {
 
 }
 
-export default Visible(Keywords);
+export default Visible()(Keywords);

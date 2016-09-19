@@ -42,6 +42,12 @@ export class SubmitQuestion extends Component {
 		};
 	}
 
+	componentDidUpdate() {
+		this.setState({
+			mounted: true
+		});
+	}
+
 	onChange = (contentType, event) => {
 		this.setState({
 			[contentType]: event.target.value
@@ -110,4 +116,4 @@ export class SubmitQuestion extends Component {
 
 }
 
-export default connect()(Visible(SubmitQuestion));
+export default connect()(Visible()(SubmitQuestion));

@@ -38,4 +38,4 @@ class Answer extends Component {
 
 }
 
-export default Visible(Answer);
+export default Visible()(Answer);

@@ -3,296 +3,388 @@
 import React from 'react';
 import deepEqual from 'deep-equal';
 import shallowEqual from 'shallowequal';
+import deepCopy from 'deepcopy';
 
 import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
 
-function Visible(WrappedComponent) {
 
-	if (process.env.NODE_ENV === 'production') {
+function Visible(settings) {
 
-		return class ComponentWrapper extends WrappedComponent {
+	root.setSettings(settings);
+
+	const mode = process.env.NODE_ENV;
+
+	return function HOCFactory(WrappedComponent) {
+
+		if (mode === 'production') {
+
+			if ((mode === 'production' && !root.settings.controlRender.production)
+				|| (mode === 'development' && root.settings.comparison.development === 'none')) {
+
+				// Do nothing
+				return class ComponentWrapper extends WrappedComponent {
+
+				}
+
+			}
+
+			// Only prevent unnecessary rerenders
+			return class ComponentWrapper extends WrappedComponent {
+
+				shouldComponentUpdate(nextProps, nextState) {
+
+					if (super.shouldComponentUpdate) {
+						const isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
+						if (!isSuperAllowingUpdate) {
+							return false;
+						}
+					}
+
+					return (
+						!shallowEqual(nextState, this.state)
+						|| !shallowEqual(nextProps, this.props)
+					);
+
+				}
+
+			};
+
+		}
+
+		// Full set of features
+		return class DevComponentWrapper extends WrappedComponent {
+
+			static displayName = `Insure(${getComponentName(WrappedComponent)})`;
+
+			logEntryId = null;
+			autoRenderCount = 0;
+			isInfiniteLoop = false;
+			isRenderingComplete = true;
+			consoleWindow = null;
+			lifecycleLocation = '';
+			componentName = '';
+
+			constructor(props) {
+				super(...arguments);
+				// if (!this.key) {
+				// 	this.key = uuid.v1();
+				// }
+				this.componentName = getComponentName(WrappedComponent);
+				this.setStateSpy = this.spy(this, 'setState');
+				this.logEntryId = root.add({
+					type: 'ADD_ENTRY',
+					key: props.id,
+					name: this.componentName
+				});
+				this.isRenderingComplete = false;
+				this.lifecycleLocation = 'mounting';
+				this.clearCalled();
+				this.handleLifecycleEvent({
+					name: 'constructorMethod',
+					props: [props],
+					state: []
+				});
+				let methodObj = {};
+				lifecycleConfig.methodNames.forEach((name) => {
+					const methodName = name === 'constructorMethod' ? 'constructor' : name;
+					methodObj[name] = {
+						isMethodOverridden: Boolean(super[methodName])
+					}
+				});
+				root.updateStore({
+					type: 'UPDATE_METHODS',
+					key: this.logEntryId,
+					value: methodObj
+				});
+			}
+
+			componentWillMount() {
+				if (super.componentWillMount) {
+					super.componentWillMount();
+				}
+				this.handleLifecycleEvent({
+					name: 'componentWillMount',
+					props: [this.props],
+					state: [this.state]
+				});
+			}
+
+			componentDidMount() {
+				this.consoleWindow = root.getWindow();
+				let isSetStateCalled = false;
+				let setStateValue = null;
+				console.log(isSetStateCalled, setStateValue);
+				if (super.componentDidMount) {
+					({isSetStateCalled, setStateValue} = this.getSetState(super.componentDidMount.bind(this)));
+				}
+				const lifecycleData = {
+					name: 'componentDidMount',
+					props: [this.props],
+					state: [this.state],
+					setState: [setStateValue],
+					isSetStateCalled
+				};
+				this.handleLifecycleEvent(lifecycleData);
+				this.isRenderingComplete = !isSetStateCalled;
+				this.setIsMounted(true);
+				root.updateWindow(this.logEntryId);
+			}
+
+			componentWillReceiveProps(nextProps) {
+				if (super.componentWillReceiveProps) {
+					super.componentWillReceiveProps(nextProps);
+				}
+				this.lifecycleLocation = 'updating';
+				this.clearCalled();
+				this.handleLifecycleEvent({
+					name: 'componentWillReceiveProps',
+					props: [this.props, nextProps],
+					state: [this.state]
+				});
+				this.isRenderingComplete = false;
+			}
 
 			shouldComponentUpdate(nextProps, nextState) {
 
+				this.lifecycleLocation = 'updating';
+				this.isInfiniteLoop = this.autoRenderCount >= 10;
+
+				let shouldWrappedComponentUpdate;
+				let isSuperAllowingUpdate = null;
 				if (super.shouldComponentUpdate) {
-					const isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
-					if (!isSuperAllowingUpdate) {
-						return false;
-					}
+					// TODO If this is false (updated prevented by super) show message
+					isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
+				}
+				let arePropsEqual = nextProps === this.props;
+				let areStatesEqual = nextState === this.state;
+				let isWrappedComponentGoingToUpdate = !arePropsEqual || !areStatesEqual;
+				if (!isWrappedComponentGoingToUpdate) {
+					shouldWrappedComponentUpdate = false;
+				} else {
+					// TODO If one of these has already passed shallow compare don't do deep compare
+					arePropsEqual = deepEqual(nextProps, this.props, {strict: true});
+					areStatesEqual = deepEqual(nextState, this.state, {strict: true});
+					shouldWrappedComponentUpdate = !arePropsEqual || !areStatesEqual;
 				}
 
-				return (
-					!shallowEqual(nextState, this.state)
-					|| !shallowEqual(nextProps, this.props)
-				);
-
-			}
-
-		};
-	}
-
-	return class DevComponentWrapper extends WrappedComponent {
-
-		static displayName = `Insure(${getComponentName(WrappedComponent)})`;
-
-		logEntryId = null;
-		autoRenderCount = 0;
-		isInfiniteLoop = false;
-		isRenderingComplete = true;
-		consoleWindow = null;
-		lifecycleLocation = '';
-		componentName = '';
-
-		constructor(props) {
-			super(...arguments);
-			// if (!this.key) {
-			// 	this.key = uuid.v1();
-			// }
-			this.componentName = getComponentName(WrappedComponent)
-			this.logEntryId = root.add({
-				type: 'ADD_ENTRY',
-				key: props.id,
-				name: this.componentName
-			});
-			this.isRenderingComplete = false;
-			this.lifecycleLocation = 'mounting';
-			this.clearCalled();
-			this.handleLifecycleEvent({
-				name: 'constructorMethod',
-				props: [props],
-				state: []
-			});
-			let methodObj = {};
-			lifecycleConfig.methodNames.forEach((name) => {
-				const methodName = name === 'constructorMethod' ? 'constructor' : name;
-				methodObj[name] = {
-					isMethodOverridden: Boolean(super[methodName])
+				const isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate
+					&& !shouldWrappedComponentUpdate
+					&& isSuperAllowingUpdate !== false;
+				if (isUnnecessaryUpdatePrevented) {
+					this.incrementUnnecessaryUpdatesPrevented();
 				}
-			});
-			root.updateStore({
-				type: 'UPDATE_METHODS',
-				key: this.logEntryId,
-				value: methodObj
-			});
-		}
+				if (this.isRenderingComplete) {
+					this.clearCalled();
+				}
+				this.handleLifecycleEvent({
+					name: 'shouldComponentUpdate',
+					props: [this.props, nextProps],
+					state: [this.state, nextState],
+					isUnnecessaryUpdatePrevented
+				});
+				let willUpdate;
+				// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
+				if (this.isInfiniteLoop) {
+					willUpdate = false;
+				} else if (isSuperAllowingUpdate === false) {
+					willUpdate = false;
+				} else if (shouldWrappedComponentUpdate) {
+					this.isRenderingComplete = false;
+					willUpdate = true;
+				} else {
+					this.isRenderingComplete = true;
+					willUpdate = false;
+				}
+				if (willUpdate) {
+					return true;
+				} else {
+					root.updateWindow(this.logEntryId);
+					return false;
+				}
 
-		componentWillMount() {
-			this.handleLifecycleEvent({
-				name: 'componentWillMount',
-				props: [this.props],
-				state: [this.state]
-			});
-		}
-
-		componentDidMount() {
-			this.consoleWindow = root.getWindow();
-			this.handleLifecycleEvent({
-				name: 'componentDidMount',
-				props: [this.props],
-				state: [this.state]
-			});
-			this.isRenderingComplete = true;
-			this.setIsMounted(true);
-			root.updateWindow(this.logEntryId);
-		}
-
-		componentWillReceiveProps(nextProps) {
-			this.lifecycleLocation = 'updating';
-			this.clearCalled();
-			this.handleLifecycleEvent({
-				name: 'componentWillReceiveProps',
-				props: [this.props, nextProps],
-				state: [this.state]
-			});
-			this.isRenderingComplete = false;
-		}
-
-		shouldComponentUpdate(nextProps, nextState) {
-
-			this.lifecycleLocation = 'updating';
-			this.isInfiniteLoop = this.autoRenderCount >= 10;
-
-			let shouldWrappedComponentUpdate;
-			let isSuperAllowingUpdate = null;
-			if (super.shouldComponentUpdate) {
-				isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
-			}
-			let arePropsEqual = nextProps === this.props;
-			let areStatesEqual = nextState === this.state;
-			let isWrappedComponentGoingToUpdate = !arePropsEqual || !areStatesEqual;
-			if (!isWrappedComponentGoingToUpdate) {
-				shouldWrappedComponentUpdate = false;
-			} else {
-				arePropsEqual = deepEqual(nextProps, this.props, {strict: true});
-				areStatesEqual = deepEqual(nextState, this.state, {strict: true});
-				shouldWrappedComponentUpdate = !arePropsEqual || !areStatesEqual;
 			}
 
-			const isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate
-				&& !shouldWrappedComponentUpdate
-				&& isSuperAllowingUpdate !== false;
-			if (isUnnecessaryUpdatePrevented) {
-				this.incrementUnnecessaryUpdatesPrevented();
+			componentWillUpdate(nextProps, nextState) {
+				if (super.componentWillUpdate) {
+					super.componentWillUpdate(nextProps, nextState);
+				}
+				this.handleLifecycleEvent({
+					name: 'componentWillUpdate',
+					props: [this.props, nextProps],
+					state: [this.state, nextState]
+				});
 			}
-			if (this.isRenderingComplete) {
-				this.clearCalled();
-			}
-			this.handleLifecycleEvent({
-				name: 'shouldComponentUpdate',
-				props: [this.props, nextProps],
-				state: [this.state, nextState],
-				isUnnecessaryUpdatePrevented
-			});
-			let willUpdate;
-			// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
-			if (this.isInfiniteLoop) {
-				willUpdate = false;
-			} else if (isSuperAllowingUpdate === false) {
-				willUpdate = false;
-			} else if (shouldWrappedComponentUpdate) {
-				this.isRenderingComplete = false;
-				willUpdate = true;
-			} else {
+
+			componentDidUpdate(prevProps, prevState) {
+				let isSetStateCalled = false;
+				let setStateValue = null;
+				if (super.componentDidUpdate) {
+					({isSetStateCalled, setStateValue} = this.getSetState(super.componentDidUpdate.bind(this, prevProps, prevState)));
+				}
 				this.isRenderingComplete = true;
-				willUpdate = false;
-			}
-			if (willUpdate) {
-				return true;
-			} else {
+				this.handleLifecycleEvent({
+					name: 'componentDidUpdate',
+					props: [prevProps, this.props],
+					state: [prevState, this.state],
+					setState: [setStateValue],
+					isSetStateCalled
+				});
 				root.updateWindow(this.logEntryId);
-				return false;
 			}
 
-		}
-
-		componentWillUpdate(nextProps, nextState) {
-			this.handleLifecycleEvent({
-				name: 'componentWillUpdate',
-				props: [this.props, nextProps],
-				state: [this.state, nextState]
-			});
-		}
-
-		componentDidUpdate(prevProps, prevState) {
-			this.isRenderingComplete = true;
-			this.handleLifecycleEvent({
-				name: 'componentDidUpdate',
-				props: [prevProps, this.props],
-				state: [prevState, this.state]
-			});
-			root.updateWindow(this.logEntryId);
-		}
-
-		componentWillUnmount() {
-			this.lifecycleLocation = 'unmounting';
-			this.isRenderingComplete = true;
-			this.setIsMounted(false);
-			this.clearCalled();
-			this.handleLifecycleEvent({
-				name: 'componentWillUnmount',
-				props: [this.props],
-				state: [this.state]
-			});
-			root.updateWindow(this.logEntryId);
-		}
-
-		handleLifecycleEvent = (lifecycleData) => {
-			let count = root.getFromStore([
-				'entries',
-				this.logEntryId,
-				'methods',
-				lifecycleData.name,
-				'count'
-			]);
-			const cleanedProps = lifecycleData.props.map((propsValue) => {
-			    return this.removePropsChildren(propsValue);
-			});
-			const method = {
-				name: lifecycleData.name,
-				called: true,
-				count: count + 1,
-				props: cleanedProps || [],
-				state: lifecycleData.state || [],
-				isInfiniteLoop: this.isInfiniteLoop,
-				isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
-				lifecycleLocation: this.lifecycleLocation
-			};
-			root.updateStore({
-				type: 'UPDATE_METHOD',
-				entryId: this.logEntryId,
-				methodName: lifecycleData.name,
-				value: method
-			});
-			console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
-		};
-
-		// Remove props.children because they can contain
-		// circular references, which cause problems
-		// with cloning and stringifying;
-		// This prop value is meant to be opaque
-		// and used only internally
-		removePropsChildren = (props) => {
-			if (!props) {
-				return [];
+			componentWillUnmount() {
+				if (super.componentWillUnmount) {
+					super.componentWillUnmount();
+				}
+				this.lifecycleLocation = 'unmounting';
+				this.isRenderingComplete = true;
+				this.setIsMounted(false);
+				this.clearCalled();
+				this.handleLifecycleEvent({
+					name: 'componentWillUnmount',
+					props: [this.props],
+					state: [this.state]
+				});
+				root.updateWindow(this.logEntryId);
 			}
-			let newProps = Object.assign({}, props);
-			if (newProps.hasOwnProperty('children')) {
-				delete newProps.children;
-			}
-			return newProps;
-		};
 
-		clearCalled = () => {
-			this.autoRenderCount = 0;
-			let methodObj = {};
-			lifecycleConfig.methodNames.forEach((name) => {
-				methodObj[name] = {
-					called: false
+			spy(obj, method) {
+				const spy = {
+					calls: [],
+					callCount: 0,
+					lastCall: null
 				};
-			});
-			root.updateStore({
-				type: 'UPDATE_METHODS',
-				key: this.logEntryId,
-				value: methodObj
-			});
+				let original = obj[method];
+				obj[method] = function() {
+					spy.calls.push(arguments[0]);
+					spy.callCount++;
+					spy.lastCall = arguments[0];
+					return original.apply(obj, [...arguments]);
+				};
+				return spy;
+			};
+
+			getSetState = (superMethod) => {
+
+				let isSetStateCalled = false;
+				let setStateValue = null;
+				let setStateCallCount1 = this.setStateSpy.callCount;
+				superMethod();
+				let setStateCallCount2 = this.setStateSpy.callCount;
+				isSetStateCalled = setStateCallCount2 - setStateCallCount1 === 1;
+				if (isSetStateCalled) {
+					setStateValue = deepCopy(this.setStateSpy.lastCall);
+				}
+				return {
+					isSetStateCalled,
+					setStateValue
+				}
+
+			};
+
+			handleLifecycleEvent = (lifecycleData) => {
+				let count = root.getFromStore([
+					'entries',
+					this.logEntryId,
+					'methods',
+					lifecycleData.name,
+					'count'
+				]);
+				const cleanedProps = lifecycleData.props.map((propsValue) => {
+					return this.removePropsChildren(propsValue);
+				});
+				const method = {
+					name: lifecycleData.name,
+					called: true,
+					count: count + 1,
+					props: cleanedProps || [],
+					state: lifecycleData.state || [],
+					setState: lifecycleData.setState || [],
+					isSetStateCalled: lifecycleData.isSetStateCalled || false,
+					isInfiniteLoop: this.isInfiniteLoop,
+					isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
+					lifecycleLocation: this.lifecycleLocation
+				};
+				root.updateStore({
+					type: 'UPDATE_METHOD',
+					entryId: this.logEntryId,
+					methodName: lifecycleData.name,
+					value: method
+				});
+				if (root.settings.logging) {
+					console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
+				}
+			};
+
+			// Remove props.children because they can contain
+			// circular references, which cause problems
+			// with cloning and stringifying;
+			// This prop value is meant to be opaque
+			// and used only internally
+			removePropsChildren = (props) => {
+				if (!props) {
+					return [];
+				}
+				let newProps = Object.assign({}, props);
+				if (newProps.hasOwnProperty('children')) {
+					delete newProps.children;
+				}
+				return newProps;
+			};
+
+			clearCalled = () => {
+				this.autoRenderCount = 0;
+				let methodObj = {};
+				lifecycleConfig.methodNames.forEach((name) => {
+					methodObj[name] = {
+						called: false
+					};
+				});
+				root.updateStore({
+					type: 'UPDATE_METHODS',
+					key: this.logEntryId,
+					value: methodObj
+				});
+			};
+
+			incrementRenderCount = () => {
+				this.autoRenderCount++;
+				root.updateStore({
+					type: 'INCREMENT_VALUE',
+					keyPath: [this.logEntryId, 'renderCount']
+				})
+			};
+
+			setIsMounted = (isMounted) => {
+				root.updateStore({
+					type: 'UPDATE_VALUE',
+					keyPath: [this.logEntryId, 'isMounted'],
+					value: isMounted
+				});
+			};
+
+			incrementUnnecessaryUpdatesPrevented = () => {
+				root.updateStore({
+					type: 'INCREMENT_VALUE',
+					keyPath: [this.logEntryId, 'unnecessaryUpdatesPrevented']
+				});
+			};
+
+			render() {
+
+				this.incrementRenderCount();
+				this.handleLifecycleEvent({
+					name: 'render',
+					props: [this.props],
+					state: [this.state]
+				});
+				return super.render();
+
+			}
 		};
 
-		incrementRenderCount = () => {
-			this.autoRenderCount++;
-			root.updateStore({
-				type: 'INCREMENT_VALUE',
-				keyPath: [this.logEntryId, 'renderCount']
-			})
-		};
-
-		setIsMounted = (isMounted) => {
-			root.updateStore({
-				type: 'UPDATE_VALUE',
-				keyPath: [this.logEntryId, 'isMounted'],
-				value: isMounted
-			});
-		};
-
-		incrementUnnecessaryUpdatesPrevented = () => {
-			root.updateStore({
-				type: 'INCREMENT_VALUE',
-				keyPath: [this.logEntryId, 'unnecessaryUpdatesPrevented']
-			});
-		};
-
-		render() {
-
-			this.incrementRenderCount();
-			this.handleLifecycleEvent({
-				name: 'render',
-				props: [this.props],
-				state: [this.state]
-			});
-			return super.render();
-
-		}
-	};
+	}
 
 }
 
@@ -301,6 +393,10 @@ const getComponentName = (component) => {
 	|| component.name
 	|| 'Component'
 		: ''
+};
+
+Visible.setup = function(settings) {
+	root.setSettings(settings);
 };
 
 export default Visible;

@@ -44,11 +44,11 @@ or
 
 Wrap the component's export in the `Visible` function.
  
-`export default Visible(MyWidget);`
+`export default Visible()(MyWidget);`
 
 If the component has other wrappers, wrap it with Visible first.
 
-`export default Radium(Visible(MyWidget));`
+`export default Radium(Visible()(MyWidget));`
 
 
 ## The Visible React Monitor
@@ -89,6 +89,25 @@ If `process.env.NODE_ENV` is set to `'production'` instead of `'development'`, t
 * The **Visible React** Monitor will be disabled, so there will be no warnings.
  
 This functionality is the same as that provided by React's pureRenderMixin, except that Life Insurance doesn't override a false value that is returned from an existing `shouldComponentUpdate` method.
+
+## Configuring Visible React
+
+You can configure Visible React in development mode by passing a configuration object as an argument to `Visible()`. Include the argument the first time `Visible()` is called--that is, when wrapping the first-loaded component.
+ 
+```javascript
+const options = {
+    monitor: false,
+    logging: false
+}
+export default Visible(options)(MyWidget);
+```
+
+The possible configuration options are as follows.
+
+**monitor:** *true|false*
+Whether or not to display the Monitor Window in development mode. The Monitor Window is never displayed in production mode.
+**logging:** *true|false*
+Whether to log messages for each lifecycle event to the browser console.
 
 ### License
 

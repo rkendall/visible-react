@@ -20,6 +20,36 @@ const root = {
 
 	isTimerOn: false,
 
+	settings: {
+		// Always false in prod
+		monitor: true,
+		// Always false in prod
+		logging: false,
+		comparison: {
+			// deep|shallow|both|none
+			development: 'both',
+			// deep|shallow
+			production: 'shallow'
+		},
+		controlRender: {
+			development: true,
+			production: false
+		},
+		// map: [
+		// 	{
+		// 		component: 'name',
+		// 		controlRerender: true,
+		// 		comparison: 'shallow'
+		// 	}
+		// ]
+		map: []
+	},
+
+	// scope = global|local
+	setSettings(settings) {
+		Object.assign(this.settings, settings);
+	},
+
 	add(action) {
 		const {key, name} = action;
 		const id = this.makeId(key, name);
@@ -67,7 +97,7 @@ const root = {
 	// Visible React processes a batch of updates and does it's own rendering.
 	// This is necessary for performance.
 	updateWindow(lifecycleId) {
-		if (consoleWindow === null || consoleWindow.closed) {
+		if (consoleWindow === null || consoleWindow.closed || !root.settings.monitor) {
 			return;
 		}
 		if (this.isTimerOn) {
@@ -91,7 +121,7 @@ const root = {
 	},
 
 	getWindow() {
-		if (window && consoleWindow === null || consoleWindow.closed) {
+		if (root.settings.monitor && ((window && consoleWindow === null) || consoleWindow.closed)) {
 			consoleWindow = window.open(
 				'',
 				'console',

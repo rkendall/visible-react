@@ -49,4 +49,4 @@ export class QuestionList extends Component {
 
 export default connect(
 	(state) => deepcopy(state)
-)(Visible(QuestionList));
+)(Visible()(QuestionList));

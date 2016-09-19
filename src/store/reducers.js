@@ -67,8 +67,10 @@ const initMethods = () => {
 			called: false,
 			count: 0,
 			isInfiniteLoop: false,
+			isSetStateCalled: false,
 			props: [],
-			state: []
+			state: [],
+			setState: []
 		}
 	});
 	return logObj;

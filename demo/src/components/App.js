@@ -52,7 +52,6 @@ class App extends Component {
 
 }
 
-
 function mapStateToProps(state) {
 	return {
 		questions: state.questions
@@ -65,7 +64,12 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-App = Radium(Visible(App));
+const visibleReactSettings = {
+	monitor: true,
+	logging: false
+};
+
+App = Radium(Visible(visibleReactSettings)(App));
 
 export default connect(
 	mapStateToProps,

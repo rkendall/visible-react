@@ -1,0 +1,2908 @@
+{
+  "App": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": true
+    },
+    "name": "App",
+    "displayName": "App",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              },
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "childRoutes": [
+                  {
+                    "path": "/"
+                  },
+                  {
+                    "path": "question/:id"
+                  },
+                  {
+                    "path": "new-question"
+                  },
+                  {
+                    "path": "*"
+                  }
+                ]
+              },
+              "routeParams": {},
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "actions": {}
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "_radiumStyleState": {}
+            }
+          ],
+          "isChanged": true
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              },
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "childRoutes": [
+                  {
+                    "path": "/"
+                  },
+                  {
+                    "path": "question/:id"
+                  },
+                  {
+                    "path": "new-question"
+                  },
+                  {
+                    "path": "*"
+                  }
+                ]
+              },
+              "routeParams": {},
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "actions": {}
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "_radiumStyleState": {}
+            }
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              },
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "childRoutes": [
+                  {
+                    "path": "/"
+                  },
+                  {
+                    "path": "question/:id"
+                  },
+                  {
+                    "path": "new-question"
+                  },
+                  {
+                    "path": "*"
+                  }
+                ]
+              },
+              "routeParams": {},
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "actions": {}
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "_radiumStyleState": {}
+            }
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              },
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "childRoutes": [
+                  {
+                    "path": "/"
+                  },
+                  {
+                    "path": "question/:id"
+                  },
+                  {
+                    "path": "new-question"
+                  },
+                  {
+                    "path": "*"
+                  }
+                ]
+              },
+              "routeParams": {},
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "actions": {}
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      }
+    },
+    "renderCount": 1,
+    "id": "App",
+    "lifecycleLocation": ""
+  },
+  "QuestionDetail": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": false
+    },
+    "name": "QuestionDetail",
+    "displayName": "QuestionDetail",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "path": "question/:id"
+              },
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "user": {
+                "name": "me"
+              },
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "routeParams": {
+                "id": "2"
+              },
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              }
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "path": "question/:id"
+              },
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "user": {
+                "name": "me"
+              },
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "routeParams": {
+                "id": "2"
+              },
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              }
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "path": "question/:id"
+              },
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "user": {
+                "name": "me"
+              },
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "routeParams": {
+                "id": "2"
+              },
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              }
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "params": {
+                "id": "2"
+              },
+              "route": {
+                "path": "question/:id"
+              },
+              "routes": [
+                {
+                  "childRoutes": [
+                    {
+                      "path": "/"
+                    },
+                    {
+                      "path": "question/:id"
+                    },
+                    {
+                      "path": "new-question"
+                    },
+                    {
+                      "path": "*"
+                    }
+                  ]
+                },
+                {
+                  "path": "question/:id"
+                }
+              ],
+              "user": {
+                "name": "me"
+              },
+              "questions": [
+                {
+                  "id": "1",
+                  "title": "What is the quickest way to double my money?",
+                  "description": "I need expert financial advice on this matter.",
+                  "user": "Jane Doe",
+                  "date": 1450016214776,
+                  "keywords": [
+                    "money",
+                    "finance",
+                    "investment"
+                  ],
+                  "answers": [
+                    {
+                      "text": "The experts are all in agreement: Just fold it in half.",
+                      "user": "Joe Blow",
+                      "date": 1470716314876
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "title": "What language do they speak in Cuba?",
+                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
+                  "user": "John Smith",
+                  "date": 1470716315776,
+                  "keywords": [
+                    "language",
+                    "Cuba",
+                    "travel"
+                  ],
+                  "answers": [
+                    {
+                      "text": "Everyone knows that they speak Cubic in Cuba.",
+                      "user": "Juan",
+                      "date": 1470716316776
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "title": "What's black and white and red all over?",
+                  "description": "I've searched the forum and couldn't find an answer.",
+                  "user": "May Brown",
+                  "date": 1470716319776,
+                  "keywords": [
+                    "colors",
+                    "riddles"
+                  ],
+                  "answers": [
+                    {
+                      "text": "A newspaper.",
+                      "user": "Rupert Murdoch",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "What's a newspaper?",
+                      "user": "Mark Zuckerberg",
+                      "date": 1472742254565
+                    },
+                    {
+                      "text": "A sunburned zebra.",
+                      "user": "May",
+                      "date": 1472771242555
+                    },
+                    {
+                      "text": "An old picture of Lenin.",
+                      "user": "Vladimir",
+                      "date": 1472772252565
+                    }
+                  ]
+                }
+              ],
+              "routeParams": {
+                "id": "2"
+              },
+              "history": {},
+              "location": {
+                "pathname": "/question/2",
+                "search": "",
+                "hash": "",
+                "state": null,
+                "action": "POP",
+                "key": "txnfwp",
+                "query": {},
+                "$searchBase": {
+                  "search": "",
+                  "searchBase": ""
+                }
+              }
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": true
+      }
+    },
+    "renderCount": 1,
+    "id": "QuestionDetail",
+    "lifecycleLocation": ""
+  },
+  "Keywords-question-details": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": false
+    },
+    "name": "Keywords",
+    "displayName": "Keywords (question-details)",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "keywords": [
+                "language",
+                "Cuba",
+                "travel"
+              ]
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "keywords": [
+                "language",
+                "Cuba",
+                "travel"
+              ]
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "keywords": [
+                "language",
+                "Cuba",
+                "travel"
+              ]
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "keywords": [
+                "language",
+                "Cuba",
+                "travel"
+              ]
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      }
+    },
+    "renderCount": 1,
+    "id": "Keywords-question-details",
+    "lifecycleLocation": "",
+    "key": "question-details"
+  },
+  "Byline-question-details": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": true
+    },
+    "name": "Byline",
+    "displayName": "Byline (question-details)",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "user": "John Smith",
+              "date": 1470716315776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "John Smith"
+            }
+          ],
+          "isChanged": true
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": true
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "user": "John Smith",
+              "date": 1470716315776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "John Smith"
+            }
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "user": "John Smith",
+              "date": 1470716315776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "John Smith"
+            }
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "id": "question-details",
+              "user": "John Smith",
+              "date": 1470716315776,
+              "answerCount": null
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      }
+    },
+    "renderCount": 1,
+    "id": "Byline-question-details",
+    "lifecycleLocation": "",
+    "key": "question-details"
+  },
+  "Answer-answer-0": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": false
+    },
+    "name": "Answer",
+    "displayName": "Answer (answer-0)",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "text": "Everyone knows that they speak Cubic in Cuba.",
+              "user": "Juan",
+              "date": 1470716316776,
+              "id": "answer-0"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "text": "Everyone knows that they speak Cubic in Cuba.",
+              "user": "Juan",
+              "date": 1470716316776,
+              "id": "answer-0"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "text": "Everyone knows that they speak Cubic in Cuba.",
+              "user": "Juan",
+              "date": 1470716316776,
+              "id": "answer-0"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            null
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "text": "Everyone knows that they speak Cubic in Cuba.",
+              "user": "Juan",
+              "date": 1470716316776,
+              "id": "answer-0"
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      }
+    },
+    "renderCount": 1,
+    "id": "Answer-answer-0",
+    "lifecycleLocation": "",
+    "key": "answer-0"
+  },
+  "Byline-answer-answer-0": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": true
+    },
+    "name": "Byline",
+    "displayName": "Byline (answer-answer-0)",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "answer-answer-0",
+              "user": "Juan",
+              "date": 1470716316776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "Juan"
+            }
+          ],
+          "isChanged": true
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": true
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "answer-answer-0",
+              "user": "Juan",
+              "date": 1470716316776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "Juan"
+            }
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "id": "answer-answer-0",
+              "user": "Juan",
+              "date": 1470716316776,
+              "answerCount": null
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "user": "Juan"
+            }
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "id": "answer-answer-0",
+              "user": "Juan",
+              "date": 1470716316776,
+              "answerCount": null
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      }
+    },
+    "renderCount": 1,
+    "id": "Byline-answer-answer-0",
+    "lifecycleLocation": "",
+    "key": "answer-answer-0"
+  },
+  "SubmitAnswer": {
+    "unnecessaryUpdatesPrevented": 0,
+    "isChanged": {
+      "props": true,
+      "state": true
+    },
+    "name": "SubmitAnswer",
+    "displayName": "SubmitAnswer",
+    "isMounted": true,
+    "methods": {
+      "componentWillMount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "questionId": "2"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "answerText": ""
+            }
+          ],
+          "isChanged": true
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentDidUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentDidUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "prevProps",
+            "this.props"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "prevState",
+            "this.state"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [
+          "prevProps",
+          "prevState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "componentWillUnmount": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUnmount",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": []
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": true,
+        "args": [],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "shouldComponentUpdate": {
+        "isInfiniteLoop": false,
+        "name": "shouldComponentUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "isChanged": false,
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": true
+      },
+      "render": {
+        "isInfiniteLoop": false,
+        "name": "render",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "questionId": "2"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "answerText": ""
+            }
+          ],
+          "isChanged": false
+        },
+        "terminal": false,
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentDidMount": {
+        "isInfiniteLoop": false,
+        "name": "componentDidMount",
+        "count": 1,
+        "props": {
+          "names": [
+            "this.props"
+          ],
+          "values": [
+            {
+              "questionId": "2"
+            }
+          ]
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": [
+            {
+              "answerText": ""
+            }
+          ]
+        },
+        "terminal": true,
+        "description": "Avoid calling setState here because it will trigger an extra render.",
+        "args": [],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": false
+      },
+      "componentWillUpdate": {
+        "isInfiniteLoop": false,
+        "name": "componentWillUpdate",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "state": {
+          "names": [
+            "this.state",
+            "nextState"
+          ],
+          "values": [],
+          "arePartnersDifferent": false
+        },
+        "terminal": false,
+        "args": [
+          "nextProps",
+          "nextState"
+        ],
+        "called": false,
+        "isMethodOverridden": false
+      },
+      "constructorMethod": {
+        "isInfiniteLoop": false,
+        "name": "constructorMethod",
+        "count": 1,
+        "props": {
+          "names": [
+            "props"
+          ],
+          "values": [
+            {
+              "questionId": "2"
+            }
+          ],
+          "isChanged": true
+        },
+        "state": {
+          "names": [],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "props"
+        ],
+        "called": true,
+        "lifecycleLocation": "mounting",
+        "isMethodOverridden": true
+      },
+      "componentWillReceiveProps": {
+        "isInfiniteLoop": false,
+        "name": "componentWillReceiveProps",
+        "count": 0,
+        "props": {
+          "names": [
+            "this.props",
+            "nextProps"
+          ],
+          "values": [],
+          "arePartnersDifferent": false,
+          "isChanged": false
+        },
+        "state": {
+          "names": [
+            "this.state"
+          ],
+          "values": []
+        },
+        "terminal": false,
+        "args": [
+          "nextProps"
+        ],
+        "called": false,
+        "isMethodOverridden": true
+      }
+    },
+    "renderCount": 1,
+    "id": "SubmitAnswer",
+    "lifecycleLocation": ""
+  }
+}

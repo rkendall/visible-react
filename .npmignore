@@ -8,6 +8,6 @@ gulpfile.js
 npm-debug.log
 node_modules/
 demo
-dist
 images
 src
+lib

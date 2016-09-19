@@ -84,4 +84,4 @@ const Byline = React.createClass({
 
 });
 
-export default Visible(Byline);
+export default Visible()(Byline);

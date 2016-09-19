@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {StyleRoot} from 'radium';
+import Visible from 'visible-react';
 
 import questions from './reducers/reducers.js';
 import App from './components/App.js';

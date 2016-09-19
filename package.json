@@ -1,17 +1,16 @@
 {
   "name": "visible-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Optimization and debugging for React lifecycle events",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/rkendall/visible-react.git"
+    "type": "git",
+    "url": "https://github.com/rkendall/visible-react.git"
   },
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "./build.sh",
     "gulp": "gulp build",
-    "test": "mocha --compilers js:babel-register --recursive",
-    "bundle": "babel ./lib/insure --out-dir ./build --source-maps --presets es2015,stage-0,react --plugins babel-plugin-add-module-exports && browserify ./build/Insure.js -o ./dist/index.js --transform browserify-global-shim --standalone Insure"
+    "test": "mocha --compilers js:babel-register --recursive"
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",
@@ -22,12 +21,11 @@
     "color": "^0.11.3",
     "colors": "^1.1.2",
     "deep-equal": "^1.0.1",
+    "deepcopy": "^0.6.3",
     "diff": "^3.0.0",
     "fixed-data-table": "^0.6.3",
     "immutable": "^3.8.1",
     "radium": "^0.18.1",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
     "react-draggable": "^2.2.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
@@ -52,16 +50,20 @@
     "gulp-babel": "^6.1.2",
     "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.22.0",
+    "jsdom": "9.5.0",
     "karma": "^1.1.2",
     "karma-cli": "^1.0.1",
     "karma-mocha": "^1.1.1",
     "karma-webpack": "^1.8.0",
+    "mocha": "^3.0.2",
+    "react": "^15.3.0",
     "react-addons-perf": "^15.3.1",
     "react-addons-test-utils": "^15.3.0",
+    "react-dom": "^15.3.0",
     "redux-devtools": "^3.3.1",
     "sinon": "^1.17.5",
     "uglifyjs": "^2.4.10",
-    "webpack": "^1.13.1",
+    "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.1"
   }
 }
