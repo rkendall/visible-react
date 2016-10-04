@@ -42,12 +42,6 @@ export class SubmitQuestion extends Component {
 		};
 	}
 
-	componentDidUpdate() {
-		this.setState({
-			mounted: true
-		});
-	}
-
 	onChange = (contentType, event) => {
 		this.setState({
 			[contentType]: event.target.value

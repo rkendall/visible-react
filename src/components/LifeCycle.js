@@ -4,6 +4,7 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 
 import Method from './Method';
+import Utf8Char from './Utf8Char';
 import styles from '../styles/styles';
 
 class LifeCycle extends Component {
@@ -71,12 +72,13 @@ class LifeCycle extends Component {
 	};
 
 	getArrows = () => {
+		const arrow = (<Utf8Char char='downArrow' />);
 		if (!this.props.isCompactView) {
 			return (
 				<div style={this.styles.arrows}>
-					<div>↓</div>
-					<div>↓</div>
-					<div>↓</div>
+					<div>{arrow}</div>
+					<div>{arrow}</div>
+					<div>{arrow}</div>
 				</div>
 			);
 		} else {

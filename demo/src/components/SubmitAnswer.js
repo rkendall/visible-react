@@ -48,15 +48,11 @@ class SubmitAnswer extends Component {
 	}
 
 	componentWillReceiveProps() {
-		console.log('componentWillReceiveProps called in Q&A');
+
 	};
 
-	// shouldComponentUpdate(nextProps, nextState) {
-	// 	return nextState.answerText !== this.state.answerText;
-	// }
-
 	componentDidUpate() {
-		console.log('componentDidUpate called in Q&A');
+		
 	};
 
 	updateEntry = (event) => {

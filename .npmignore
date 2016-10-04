@@ -10,4 +10,5 @@ node_modules/
 demo
 images
 src
-lib
+test
+scripts

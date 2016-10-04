@@ -33,7 +33,6 @@ const Byline = React.createClass({
 		}
 	},
 
-	// For Testing
 	getInitialState: function() {
 		return {
 			user: this.props.user

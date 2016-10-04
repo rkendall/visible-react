@@ -5,6 +5,7 @@ import Radium from 'radium';
 import color from 'color';
 import Immutable from 'immutable';
 
+import Utf8Char from './Utf8Char';
 import styles from '../styles/styles';
 
 class Method extends Component {
@@ -237,7 +238,7 @@ class Method extends Component {
 
 	getPropAndStateName = (name, type, ind) => {
 		const isSecond = ind > 0;
-		const arrow = isSecond ? '↳' : '';
+		const arrow = isSecond ? (<Utf8Char char='rightArrow' />) : '';
 		return (
 			<div key={`${name}-${ind}`} style={this.styles.line}>
 				<div>{arrow}{name}:</div>
@@ -342,19 +343,20 @@ class Method extends Component {
 	};
 
 	getArrow = (methodObj) => {
+		const arrow = (<Utf8Char char='downArrow' />);
 		if (this.props.isCompactView) {
 			return (<div style={this.styles.arrow}></div>);
 		} else if (methodObj.name === 'render') {
 			return (
 				<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>
-					<div>↓</div>
-					<div>↓</div>
+					<div>{arrow}</div>
+					<div>{arrow}</div>
 				</div>
 			)
 		} else if (!methodObj.terminal) {
-			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>{arrow}</div>);
 		} else {
-			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>{arrow}</div>);
 		}
 	};
 

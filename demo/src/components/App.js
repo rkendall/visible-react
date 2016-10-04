@@ -58,20 +58,8 @@ function mapStateToProps(state) {
 	};
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: bindActionCreators(questionActions, dispatch)
-	};
-}
-
-const visibleReactSettings = {
-	monitor: true,
-	logging: false
-};
-
-App = Radium(Visible(visibleReactSettings)(App));
+App = Radium(Visible()(App));
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+	mapStateToProps
 )(App);

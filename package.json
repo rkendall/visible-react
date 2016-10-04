@@ -1,6 +1,6 @@
 {
   "name": "visible-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Optimization and debugging for React lifecycle events",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "./build.sh",
-    "gulp": "gulp build",
+    "gulp": "gulp default",
     "test": "mocha --compilers js:babel-register --recursive"
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
@@ -33,6 +33,10 @@
     "script-loader": "^0.7.0",
     "shallowequal": "^0.2.2"
   },
+  "peerDependencies": {
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0"
+  },
   "devDependencies": {
     "babel-core": "^6.13.2",
     "babel-loader": "^6.2.4",
@@ -48,6 +52,7 @@
     "expect": "^1.20.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-replace": "^0.5.4",
     "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.22.0",
     "jsdom": "9.5.0",
@@ -61,8 +66,8 @@
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
     "redux-devtools": "^3.3.1",
+    "run-sequence": "^1.2.2",
     "sinon": "^1.17.5",
-    "uglifyjs": "^2.4.10",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.15.1"
   }

@@ -7,27 +7,30 @@ import deepCopy from 'deepcopy';
 
 import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
+import settings from './settingsManager';
 
 
-function Visible(settings) {
+function Visible(wrapperParams) {
 
-	root.setSettings(settings);
+	console.log('wrapperParams at top level of Visible()', JSON.stringify(wrapperParams, null, 2));
 
-	const mode = process.env.NODE_ENV;
+	settings.set(wrapperParams);
 
 	return function HOCFactory(WrappedComponent) {
 
-		if (mode === 'production') {
+		console.log('wrapperParams.enabled',  JSON.stringify(wrapperParams, null, 2));
 
-			if ((mode === 'production' && !root.settings.controlRender.production)
-				|| (mode === 'development' && root.settings.comparison.development === 'none')) {
+		if (!settings.enabled || (!settings.monitor && !settings.logging && settings.compare === 'none')) {
 
-				// Do nothing
-				return class ComponentWrapper extends WrappedComponent {
-
-				}
+			// Do nothing
+			return class ComponentWrapper extends WrappedComponent {
 
 			}
+
+		}
+
+		if (!settings.monitor && !settings.logging && settings.compare !== 'none') {
+
 
 			// Only prevent unnecessary rerenders
 			return class ComponentWrapper extends WrappedComponent {
@@ -40,11 +43,15 @@ function Visible(settings) {
 							return false;
 						}
 					}
-
-					return (
-						!shallowEqual(nextState, this.state)
-						|| !shallowEqual(nextProps, this.props)
-					);
+					let isChanged;
+					if (settings.compare === 'shallow') {
+						isChanged = !shallowEqual(nextState, this.state)
+							|| !shallowEqual(nextProps, this.props);
+					} else if (settings.compare == 'deep') {
+						isChanged = !deepEqual(nextState, this.state, {strict: true})
+							|| !deepEqual(nextProps, this.props, {strict: true});
+					}
+					return isChanged;
 
 				}
 
@@ -85,6 +92,9 @@ function Visible(settings) {
 					props: [props],
 					state: []
 				});
+				if (!settings.monitor) {
+					return;
+				}
 				let methodObj = {};
 				lifecycleConfig.methodNames.forEach((name) => {
 					const methodName = name === 'constructorMethod' ? 'constructor' : name;
@@ -114,7 +124,6 @@ function Visible(settings) {
 				this.consoleWindow = root.getWindow();
 				let isSetStateCalled = false;
 				let setStateValue = null;
-				console.log(isSetStateCalled, setStateValue);
 				if (super.componentDidMount) {
 					({isSetStateCalled, setStateValue} = this.getSetState(super.componentDidMount.bind(this)));
 				}
@@ -126,6 +135,9 @@ function Visible(settings) {
 					isSetStateCalled
 				};
 				this.handleLifecycleEvent(lifecycleData);
+				if (!settings.monitor) {
+					return;
+				}
 				this.isRenderingComplete = !isSetStateCalled;
 				this.setIsMounted(true);
 				root.updateWindow(this.logEntryId);
@@ -150,27 +162,22 @@ function Visible(settings) {
 				this.lifecycleLocation = 'updating';
 				this.isInfiniteLoop = this.autoRenderCount >= 10;
 
-				let shouldWrappedComponentUpdate;
-				let isSuperAllowingUpdate = null;
+				let isSuperAllowingUpdate = true;
+				// TODO Show warning if super is preventing update when value has changed
 				if (super.shouldComponentUpdate) {
 					// TODO If this is false (updated prevented by super) show message
 					isSuperAllowingUpdate = super.shouldComponentUpdate(nextProps, nextState);
 				}
-				let arePropsEqual = nextProps === this.props;
-				let areStatesEqual = nextState === this.state;
-				let isWrappedComponentGoingToUpdate = !arePropsEqual || !areStatesEqual;
-				if (!isWrappedComponentGoingToUpdate) {
-					shouldWrappedComponentUpdate = false;
-				} else {
-					// TODO If one of these has already passed shallow compare don't do deep compare
-					arePropsEqual = deepEqual(nextProps, this.props, {strict: true});
-					areStatesEqual = deepEqual(nextState, this.state, {strict: true});
-					shouldWrappedComponentUpdate = !arePropsEqual || !areStatesEqual;
+				let isChanged = null;
+				if (settings.compare === 'shallow') {
+					isChanged = !shallowEqual(nextState, this.state)
+						|| !shallowEqual(nextProps, this.props);
+				} else if (settings.compare == 'deep') {
+					isChanged = !deepEqual(nextState, this.state, {strict: true})
+						|| !deepEqual(nextProps, this.props, {strict: true});
 				}
-
-				const isUnnecessaryUpdatePrevented = isWrappedComponentGoingToUpdate
-					&& !shouldWrappedComponentUpdate
-					&& isSuperAllowingUpdate !== false;
+				const isUnnecessaryUpdatePrevented = isSuperAllowingUpdate
+					&& isChanged === false;
 				if (isUnnecessaryUpdatePrevented) {
 					this.incrementUnnecessaryUpdatesPrevented();
 				}
@@ -183,23 +190,19 @@ function Visible(settings) {
 					state: [this.state, nextState],
 					isUnnecessaryUpdatePrevented
 				});
-				let willUpdate;
+				let willUpdate = isSuperAllowingUpdate && isChanged !== false;
 				// TODO Will there be cases where desired behavior sets isInfiniteLoop to true?
 				if (this.isInfiniteLoop) {
 					willUpdate = false;
-				} else if (isSuperAllowingUpdate === false) {
-					willUpdate = false;
-				} else if (shouldWrappedComponentUpdate) {
-					this.isRenderingComplete = false;
-					willUpdate = true;
-				} else {
-					this.isRenderingComplete = true;
-					willUpdate = false;
 				}
 				if (willUpdate) {
+					this.isRenderingComplete = false;
 					return true;
 				} else {
-					root.updateWindow(this.logEntryId);
+					this.isRenderingComplete = true;
+					if (settings.monitor) {
+						root.updateWindow(this.logEntryId);
+					}
 					return false;
 				}
 
@@ -230,6 +233,9 @@ function Visible(settings) {
 					setState: [setStateValue],
 					isSetStateCalled
 				});
+				if (!settings.monitor) {
+					return;
+				}
 				root.updateWindow(this.logEntryId);
 			}
 
@@ -246,6 +252,9 @@ function Visible(settings) {
 					props: [this.props],
 					state: [this.state]
 				});
+				if (!settings.monitor) {
+					return;
+				}
 				root.updateWindow(this.logEntryId);
 			}
 
@@ -260,6 +269,9 @@ function Visible(settings) {
 					spy.calls.push(arguments[0]);
 					spy.callCount++;
 					spy.lastCall = arguments[0];
+					if (settings.logging) {
+						console.log(`%csetState called in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
+					}
 					return original.apply(obj, [...arguments]);
 				};
 				return spy;
@@ -284,6 +296,9 @@ function Visible(settings) {
 			};
 
 			handleLifecycleEvent = (lifecycleData) => {
+				if (settings.logging) {
+					console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
+				}
 				let count = root.getFromStore([
 					'entries',
 					this.logEntryId,
@@ -312,9 +327,6 @@ function Visible(settings) {
 					methodName: lifecycleData.name,
 					value: method
 				});
-				if (root.settings.logging) {
-					console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
-				}
 			};
 
 			// Remove props.children because they can contain
@@ -396,6 +408,7 @@ const getComponentName = (component) => {
 };
 
 Visible.setup = function(settings) {
+	console.log('setup called');
 	root.setSettings(settings);
 };
 

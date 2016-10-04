@@ -21,6 +21,7 @@ const root = {
 	isTimerOn: false,
 
 	settings: {
+		disabled: false,
 		// Always false in prod
 		monitor: true,
 		// Always false in prod
@@ -34,20 +35,13 @@ const root = {
 		controlRender: {
 			development: true,
 			production: false
-		},
-		// map: [
-		// 	{
-		// 		component: 'name',
-		// 		controlRerender: true,
-		// 		comparison: 'shallow'
-		// 	}
-		// ]
-		map: []
+		}
 	},
 
 	// scope = global|local
 	setSettings(settings) {
 		Object.assign(this.settings, settings);
+		console.log('set settings', settings);
 	},
 
 	add(action) {
@@ -121,7 +115,9 @@ const root = {
 	},
 
 	getWindow() {
+
 		if (root.settings.monitor && ((window && consoleWindow === null) || consoleWindow.closed)) {
+
 			consoleWindow = window.open(
 				'',
 				'console',
@@ -130,10 +126,18 @@ const root = {
 			if (!consoleWindow) {
 				alert('You must disable your popup blocker to use the Visible React Console.');
 			}
+
 			consoleWindow.document.title = 'Visible React';
 			const container = consoleWindow.document.createElement('div');
 			container.id = 'visible-react';
 			consoleWindow.document.body.appendChild(container);
+
+			const meta = consoleWindow.document.createElement('meta');
+			const charset = document.createAttribute("charset");
+			charset.value = 'UTF-8';
+			meta.setAttributeNode(charset);
+			consoleWindow.document.head.appendChild(meta);
+			
 			consoleWindow.focus();
 			//this.updateWindow();
 			window.onbeforeunload = () => {
@@ -142,6 +146,7 @@ const root = {
 		}
 		return consoleWindow;
 	}
+
 };
 
 export default root;
