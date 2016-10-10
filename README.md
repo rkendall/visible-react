@@ -9,7 +9,7 @@ See a visual representation of the component lifecycle events as they occur in y
 
 ## What Is Visible React?
 
-Include **Visible React** in your React project, and a monitor window will open whenever your project launches in dev mode. (You must disable your browser's popup blocker to enable the window.) The monitor provides a visualization of the lifecycle events in every component mounted in your app. It will also warn you about components that are rerendering uncessarily, potentially slowing performance. In production mode, it will provide a means for avoiding these unnecessary rerenders.
+Include **Visible React** in your React project, and a monitor window will open whenever your project launches in a development environment. (You must disable your browser's popup blocker to enable the window.) The monitor provides a visualization of the lifecycle events in every component mounted in your app. It will also warn you about components that are rerendering uncessarily, potentially slowing performance. In a production environment, it optionally provides a means for avoiding these unnecessary rerenders.
 
 ## Why Visible React?
 
@@ -32,7 +32,7 @@ Your app can be slowed by unnecessary rerenders that are normally very difficult
 
 Install from NPM.
 
-`npm install visible-react --save`
+`npm install visible-react`
 
 Import **Visible React** into each component you want to monitor.
 
@@ -66,143 +66,134 @@ The Lifecycle Pane on the right side of the monitor provides a visualization of 
 * At the bottom of the **shouldComponentUpdate** card a warning will appear if **Visible React** has prevented a component from unnecessarily rerendering when its props and state have not changed.
 * At the bottom of the **componentDidMount** and **componentDidUpdate** cards a warning will appear if `setState` was called within these methods, indicating that the extra rerender this causes may have been unnecessary.
 
-## Life Insurance
+## Managing Rerenders with Life Insurance
 
 By default, React rerenders a component every time the props or state are updated, even if the actual data hasn’t changed. These unnecessary rerenders can slow performance if the component is large or has a lot of children (which will also rerender), or if multiple rerenders occur in quick succession.
 
 React provides a preventative measure for this 'rerenderitis' in the form of the `shouldComponentUpdate` method. You can use it to evaluate the component’s state and props, and if nothing has changed, you can return false from the method to prevent a rerender.
 
-There are complications, though. If the data structure is deeply nested you’ll have to do a deep comparison to avoid a false negative, unless you’re using immutable data structures. A deep compare on a very large data structure could potentially take longer than the rerender it is potentially preventing.
+There are complications, though. If the data structure is deeply nested you’ll have to do a deep comparison to avoid a false negative, unless you’re using immutable data structures. A deep compare on a very large data structure could potentially take longer than the rerender it is preventing.
 
-This is where **Visible React** comes in. It provides a feature called Life Insurance, which by default performs the following functions.
+This is where **Visible React** comes in. It provides a feature called Life Insurance, which by default performs the following functions in a development environment.
 
 1. Overrides `shouldComponentUpdate` in every wrapped component
 1. Intercepts the returned value
 1. If an existing `shouldComponentUpdate` method returns false, Life Insurance returns false
 1. Otherwise it deep compares the new and old props and states
-1. Returns false if there are no changes
+1. Returns false if there are no changes (preventing a rerender)
 1. Provides warnings in the Visible React Monitor if unnecessary rerenders have been prevented
 
-You can gain very fine-tuned control over Life Insurance behavior by setting variables in your build. (See below.)
+Life Insurance is disabled by default in production environments, but you can enable to prevent unnecessary rerenders. See below for instructions on configuring **Visible React**.
 
 ## Configuring Visible React
 
 ### Quick Start
 
-If you include the following line in a Gulp task in your build, **Visible React** will determine 'development' or 'production' mode from your NODE_ENV variable or from the default value you pass to the `stringify` function ('development' in the example below). By default, monitoring and preventive comparison will be active in 'development' and everything will be disabled in 'production.' 
+To specify a development or production environment for **Visible React**, you must include a task in your build process to replace `process.env.NODE_ENV` in your build with the appropriate value. (This is also the recommended method for specifying the environment to React.) The following example sets the environemnt to 'production' in a Gulp build. (Requires `gulp-replace`.) If no environment is specified, **Visible React** defaults to 'development.'
 
 ```javascript
 gulp.task('set-vr', function() {
-	gulp.src('dist/index.js')
-        .pipe(replace('process.env.NODE_ENV', process.env.NODE_ENV || JSON.stringify('development')))
+	gulp.src('build/bundle.js')
+        .pipe(replace('process.env.NODE_ENV', JSON.stringify('production')))
         .pipe(gulp.dest('dist'));
+});
 ```
 
-To activate preventive comparison in 'production' mode, make the following addition.
+To activate preventive comparison in a 'production' environment, make the following addition. This will trigger a shallow comparison on the data going into each component and prevent any unnecessary rerenders. This is the same functionality as that provided by React's pureRenderMixin, except that Life Insurance doesn't override a false value that is returned from an existing `shouldComponentUpdate` method. See below for more configuration details.
 
 ```javascript
 gulp.task('set-vr', function() {
-	gulp.src('dist/index.js')
-        .pipe(replace('process.env.NODE_ENV', process.env.NODE_ENV || JSON.stringify('development')))
-        .pipe(replace('process.env.VR_PROD_CONTROL', JSON.stringify('all')))
+	gulp.src('build/bundle.js')
+        .pipe(replace('process.env.NODE_ENV', JSON.stringify('production')))
+        .pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all')))
         .pipe(gulp.dest('dist'));
+});
 ```
-
-When Life Insurance is active in production, by default it will perform a preventive shallow compare on each component. This is the same functionality as that provided by React's pureRenderMixin, except that Life Insurance doesn't override a false value that is returned from an existing `shouldComponentUpdate` method. See below for more configuration details.
 
 ### Global Configuration
 
-You can use a build tool such as Gulp to pass variables to **Visible React** to configure its features. The following four variables determine which features are active in which components, and they all accept the same three values. A value of *'all'* will enable the feature in all components; *'none'* will disable it in all components; *'seletected'* will enable it only where specified by a local configuration setting. (See below for setting local configuration options.)
+The following variables can be set with a build tool, as shown above. Each variable name must be prefixed with either `VR_DEV_` or `VR_PROD_` to determine which environment (development or production) it will take effect in. For example, `VR_DEV_ENABLED` determines whether **Visible React** is enabled in a development environment. The first three variables listed below all accept the same three values: *'all'* enables the feature in all components; *'none'* disables it in all components; *'seletected'* enables it only where specified by a component configuration setting. (See below for setting component configuration options.)
 
-**enabled** *'all'|'selected'|'none'*
-Whether **Visible React** is enabled. If set to *'none'*, the following features will all be disabled and the `Visible` function will noninvasively pass values through to the wrapped component.
-**monitor:** *'all'|'selected'|'none'*
+**ENABLED**
+*'all'|'selected'|'none'*
+Whether **Visible React** is enabled. If set to *'none'*, the following features will all be disabled and the `Visible` function will noninvasively pass values through to the wrapped component without overriding any methods.
+**MONITOR**
+*'all'|'selected'|'none'*
 Whether or not to display the Monitor Window.
-**logging:** *'all'|'selected'|'none'*
+**LOGGING**
+*'all'|'selected'|'none'*
 Whether to log messages to the browser console for each lifecycle event and setState call.
-**controlRender** *'all'|'selected'|'none'*
-Whether to prevent component rerenders if props or state have not changed.
+**CONTROL**
+*'all'|'none'*
+Whether to prevent component rerenders if props or state have not changed. 'selected' is not an option for this variable.
+**COMPARE**
+*'none'|'shallow'|'deep'*
+The type of comparison to perform. If CONTROL is false, no comparison will be performed.
 
-An additional variable determines the type of comparison that **Visible React** performs.
+#### Setting Variables in a Build
 
-**comparison** *'none'|'shallow'|'deep'*
-
-There are two ways of passing these variables to **Visible React.** 
-
-#### Setting Development/Production Values
-
-Normally you will want to have one configuration for development and one for production that disables the dev tools. It's easy to accomplish a conditional configuration with a Grunt task, and you can set the relevant configuration options either in environement variables or directly in Grunt. The following Grunt task will configure **Visible React** using the values found in the specified environement variables. If the variables are not set, it will use the default values specified in the task. (Requires `gulp-replace`.) The default values shown below are the ones that **Visible React** currently defaults to, so you need only include pipes for values you wish to depart from the built-in defaults;
+Normally you will want to have one configuration for development that enables the dev tools and one for production that disables them. It's easy to accomplish a conditional configuration with a Gulp task, and you can set the relevant configuration options either in environement variables or directly in Gulp. The following Gulp task will configure **Visible React** using the values found in any existing Node environment variables. If any variable is undefined, **Visible React** will use its default value. The following example will set the environment to 'production,' enabling logging for all components in 'development,' and enable **Visible React** in 'production.'
 
 ```javascript
 var replace = require('gulp-replace');
 
+process.env.NODE_ENV = 'production';
+process.env.VR_DEV_LOGGING = 'all';
+process.env.VR_PROD_ENABLED = 'all';
+
 gulp.task('set-vr', function() {
 
-	gulp.src('dist/index.js')
+	gulp.src('build/bundle.js')
 	
-	    // Sets Visible React's mode to either the value of NODE_ENV or 'development'
-		.pipe(replace('process.env.NODE_ENV', process.env.NODE_ENV || JSON.stringify('development')))
-		
-		// These values take effect if NODE_ENV === 'development'
-		.pipe(replace('process.env.VR_DEV_ENABLED', process.env.VR_DEV_ENABLED || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_DEV_MONITOR', process.env.VR_DEV_MONITOR || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_DEV_LOGGING', process.env.VR_DEV_LOGGING || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_DEV_CONTROL', process.env.VR_DEV_CONTROL || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_DEV_COMPARE', process.env.VR_DEV_COMPARE || JSON.stringify('deep')))
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify(process.env.NODE_ENV) || null))
 
-        // These values take effect if NODE_ENV === 'production'
-		.pipe(replace('process.env.VR_PROD_ENABLED', process.env.VR_PROD_ENABLED || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_PROD_MONITOR', process.env.VR_PROD_MONITOR || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_PROD_LOGGING', process.env.VR_PROD_LOGGING || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_PROD_CONTROL', process.env.VR_PROD_CONTROL || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_PROD_COMPARE', process.env.VR_PROD_COMPARE || JSON.stringify('shallow')))
+		.pipe(replace('process.env.VR_DEV_ENABLED', JSON.stringify(process.env.VR_DEV_ENABLED) || null))
+		.pipe(replace('process.env.VR_DEV_MONITOR', JSON.stringify(process.env.VR_DEV_MONITOR) || null))
+		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify(process.env.VR_DEV_LOGGING) || null))
+		.pipe(replace('process.env.VR_DEV_CONTROL', JSON.stringify(process.env.VR_DEV_CONTROL) || null))
+		.pipe(replace('process.env.VR_DEV_COMPARE', JSON.stringify(process.env.VR_DEV_COMPARE) || null))
+
+		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify(process.env.VR_PROD_ENABLED) || null))
+		.pipe(replace('process.env.VR_PROD_MONITOR', JSON.stringify(process.env.VR_PROD_MONITOR) || null))
+		.pipe(replace('process.env.VR_PROD_LOGGING', JSON.stringify(process.env.VR_PROD_LOGGING) || null))
+		.pipe(replace('process.env.VR_PROD_CONTROL', JSON.stringify(process.env.VR_PROD_CONTROL) || null))
+		.pipe(replace('process.env.VR_PROD_COMPARE', JSON.stringify(process.env.VR_PROD_COMPARE) || null))
 	
 		.pipe(gulp.dest('dist'));
 		
 });
 ```
 
-If there are no environement variables, you can just directly specify the values as follows:
+If you don't wish to set environment variables, you can accomplish the same configuration as above with the following more-concise syntax.
 
 ```javascript
-.pipe(replace('process.env.VR_DEV_ENABLED', JSON.stringify('all')))
-.pipe(replace('process.env.VR_DEV_MONITOR', JSON.stringify('all')))
-```
-
-#### Setting Absolute Values
-
-An alternative approach to configuration is hardcode values into each of your builds. The following Gulp task sets values that don't depend on NODE_ENV and will in fact override any settings connected specifically with 'development' or 'production'.
-
-```javascript
-gulp.task('vr-settings', function() {
-
-	gulp.src('dist/index.js')
-
-		.pipe(replace('process.env.VR_ENABLED', process.env.VR_ENABLED || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_MONITOR', process.env.VR_MONITOR || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_LOGGING', process.env.VR_LOGGING || JSON.stringify('none')))
-		.pipe(replace('process.env.VR_CONTROL', process.env.VR_CONTROL || JSON.stringify('all')))
-		.pipe(replace('process.env.VR_COMPARE', process.env.VR_COMPARE || JSON.stringify('shallow')))
-		
+gulp.task('set-vr', function() {
+	gulp.src('build/bundle.js')
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
+		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify('all')))
+		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all'))
 		.pipe(gulp.dest('dist'));
-		
 });
 ```
 
-### Local Configuration
+### Component Configuration
 
-For more fine-grained control, you can pass arguments to the `Visible` wrapper function to control how **Visible React** handles individual components. You can configure a component by passing a configuration object as an argument to the `Visible` function. The supported variables correspond to the build-level variables, but most of them accept boolean values, since they apply only to a single component.
+For more fine-grained control, you can pass arguments to the `Visible` wrapper function to control how **Visible React** handles individual components. You can configure a component by passing a configuration object as an argument to the `Visible` function. The supported variables correspond to the global configuration variables, but most of them accept boolean values, since they apply only to a single component.
 
-**enabled** *true|false*
+**enabled**
+*true|false*
 Whether **Visible React** is enabled for the component.
-**monitor:** *true|false*
+**monitor:**
+*true|false*
 Whether or not to include the component in the Monitor Window display.
-**logging:** *true|false*
+**logging:**
+*true|false*
 Whether to log messages to the browser console for the component.
-**compare** *'none'|'shallow'|'deep'*
-Type of comparison to perform for the component.
+**compare**
+*'none'|'shallow'|'deep'*
+Type of comparison to perform for the component. This value will override any `compare` value specified in a build variable.
 
-Local configuration is useful to log calls only from selected components. If you notice that **Visible React** is degrading the performance of your application, you can improve performance by including only selected components in the monitoring. Below is an example.
+Component configuration lets you optimize performance by specifying which type of preventive comparison to perform for each component. Shallow compares can return false negatives. Deep compares, while always accurate, are not always cost effective. Logging can be quite verbose, so it can be useful to log calls from only selected components. Enabling **Visible React** only for selected components can be useful if you find that the Monitor Window is degrading the performance of your app. Below is an example of a component configuration.
  
 ```javascript
 const options = {
@@ -211,43 +202,66 @@ const options = {
     logging: true,
     compare: 'shallow'
 }
-export default Visible(options)(MyWidget);
+export default Visible(options)(MyComponent);
 ```
 
 ### Configuration Examples
 
-Enables logging in development mode (monitoring is enabled by default) and does a shallow preventive compare in production mode.
-
-```javascript
-gulp.task('set-vr', function() {
-	gulp.src('dist/index.js')
-		.pipe(replace('process.env.NODE_ENV', process.env.NODE_ENV || JSON.stringify('development')))
-		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify('all')))
-		.pipe(replace('process.env.VR_PROD_CONTROL', JSON.stringify('all')))
-		.pipe(replace('process.env.VR_PROD_COMPARE', JSON.stringify('shallow')))
-		.pipe(gulp.dest('dist'));
-});
-```
-
-Disables monitoring regardless of mode and performs a preventive deep compare in MyWidget.js
+Sets environment to 'development' and enables logging and monitoring only for MyComponent in that environment.
 
 ```javascript
 // In gulpfile.js
 gulp.task('set-vr', function() {
-	gulp.src('dist/index.js')
-		.pipe(replace('process.env.VR_MONITOR', JSON.stringify('none')))
-		.pipe(replace('process.env.VR_CONTROL', JSON.stringify('selected')))
+	gulp.src('build/bundle.js')
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('development)))
+		.pipe(replace('process.env.VR_DEV_MONITOR', JSON.stringify('selected'))
+		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify('selected')))
 		.pipe(gulp.dest('dist'));
 });
 
-// In MyWidget.js
+// In MyComponent.js
 const options = {
-    enabled: true,
-    compare: 'deep'
+    monitor: true,
+    logging: true
 }
-export default Visible(options)(MyWidget);
+export default Visible(options)(MyComponent);
 ```
 
+Sets environment to 'production' and enables **Visible React** in production to do a only preventive shallow compare (the default) for every component except MyComponent, which undergoes a deep compare.
+
+```javascript
+// In gulpfile.js
+gulp.task('set-vr', function() {
+	gulp.src('build/bundle.js')
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
+		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all))
+		.pipe(gulp.dest('dist'));
+});
+
+// In MyComponent.js
+const options = {
+    compare: 'deep'
+}
+export default Visible(options)(MyComponent);
+```
+
+Sets environment to 'production' and prevents comparison in production in every component except MyComponent, which undergoes a shallow compare.
+
+```javascript
+// In gulpfile.js
+gulp.task('set-vr', function() {
+	gulp.src('build/bundle.js')
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
+		.pipe(replace('process.env.VR_PROD_COMPARE', JSON.stringify('none')))
+		.pipe(gulp.dest('dist'));
+});
+
+// In MyComponent.js
+const options = {
+    compare: 'shallow'
+}
+export default Visible(options)(MyComponent);
+```
 
 ### License
 

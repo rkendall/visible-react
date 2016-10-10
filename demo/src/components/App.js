@@ -58,7 +58,12 @@ function mapStateToProps(state) {
 	};
 }
 
-App = Radium(Visible()(App));
+const visibleSettings = {
+	enabled: true,
+	monitor: true
+};
+
+App = Radium(Visible(visibleSettings)(App));
 
 export default connect(
 	mapStateToProps

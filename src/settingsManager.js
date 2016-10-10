@@ -1,103 +1,108 @@
 'use strict';
 
-import root from './root.js';
-
 const settingsManager = {
 
 	settings: {},
 
 	set(wrapperParams = {}) {
 
+		let process = process ? process : {};
+		process.env = process.env ? process.env : {};
+		let buildVars = null;
+
+		try {
+			buildVars = {
+				mode: process.env.NODE_ENV,
+				development: {
+					enabled: process.env.VR_DEV_ENABLED,
+					monitor: process.env.VR_DEV_MONITOR,
+					logging: process.env.VR_DEV_LOGGING,
+					control: process.env.VR_DEV_CONTROL,
+					compare: process.env.VR_DEV_COMPARE
+				},
+				production: {
+					enabled: process.env.VR_PROD_ENABLED,
+					monitor: process.env.VR_PROD_MONITOR,
+					logging: process.env.VR_PROD_LOGGING,
+					control: process.env.VR_PROD_CONTROL,
+					compare: process.env.VR_PROD_COMPARE
+				}
+			};
+		} catch(error) {
+			console.error('Error setting environment variables from build -- ' + error);
+		}
+
+		const isBuildVarsValid = Boolean(buildVars);
+
+		let defaultValues = {
+			development: {
+				enabled: 'all',
+				monitor: 'all',
+				logging: 'selected',
+				control: 'all',
+				compare: 'deep'
+			},
+			production: {
+				enabled: 'none',
+				monitor: 'none',
+				logging: 'none',
+				control: 'all',
+				compare: 'shallow'
+			}
+		};
+
 		let envVars = {};
+		if (isBuildVarsValid) {
+			envVars = this.getValueFromBuildVar(buildVars, defaultValues);
+		} else {
+			envVars = defaultValues;
+		}
+		envVars.mode = (isBuildVarsValid && buildVars.mode === 'production') ? 'production' : 'development';
+
 		let localVars = {
 			enabled: wrapperParams.enabled !== undefined ? wrapperParams.enabled : false,
 			monitor: wrapperParams.monitor !== undefined ? wrapperParams.monitor : false,
 			logging: wrapperParams.logging !== undefined ? wrapperParams.logging : false,
-			compare: wrapperParams.compare !== undefined ? wrapperParams.compare : 'none'
+			compare: wrapperParams.compare !== undefined ? wrapperParams.compare : null
 		};
 
-		let process = process ? process : {};
-		process.env = process.env ? process.env : {};
-
-		envVars.mode = process.env.NODE_ENV || 'development';
-
-		envVars.devEnabled = process.env.VR_DEV_ENABLED || 'all';
-		envVars.devMonitor = process.env.VR_DEV_MONITOR || 'all';
-		envVars.devLogging = process.env.VR_DEV_LOGGING || 'selected';
-		envVars.devControlRender = process.env.VR_DEV_CONTROL || 'all';
-		envVars.devCompare = process.env.VR_DEV_COMPARE || 'deep';
-
-		envVars.prodEnabled = process.env.VR_PROD_ENABLED || 'none';
-		envVars.prodMonitor = process.env.VR_PROD_MONITOR || 'none';
-		envVars.prodLogging = process.env.VR_PROD_LOGGING || 'none';
-		envVars.prodControlRender = process.env.VR_PROD_CONTROL || 'selected';
-		envVars.prodCompare = process.env.VR_PROD_COMPARE || 'shallow';
-
-		envVars.enabled = process.env.VR_ENABLED || 'all';
-		envVars.monitor = process.env.VR_MONITOR || 'all';
-		envVars.logging = process.env.VR_LOGGING || 'none';
-		envVars.controlRender = process.env.VR_CONTROL || 'selected';
-		envVars.compare = process.env.VR_COMPARE || 'shallow';
-
 		let settingValues = {};
+
+		const mode = envVars.mode;
 
 		const envProperties = [
 			'enabled',
 			'monitor',
 			'logging',
-			'controlRender'
+			'control'
 		];
 
 		envProperties.forEach((prop) => {
-			let defaultValue = true;
-			if (prop === 'logging') {
-				defaultValue = false;
-			}
-			const propSuffix = prop[0].toUpperCase() + prop.substr(1);
-			const devProp = 'dev' + propSuffix;
-			const prodProp = 'prod' + propSuffix;
-			if (prop !== 'enabled' && !settingValues.enabled) {
-				settingValues[prop] = false;
-			} else if (envVars[prop] === 'all') {
+			let value = envVars[mode][prop];
+			if (value === 'all') {
 				settingValues[prop] = true;
-			} else if (envVars[prop] === 'selected') {
-				settingValues[prop] = wrapperParams[prop] !== undefined ? wrapperParams[prop] : false;
-			} else if (envVars[prop] === 'none') {
+			} else if (value === 'selected') {
+				const localValue = localVars[prop];
+				if ([true, false].includes(localValue)) {
+					settingValues[prop] = localValue;
+				} else {
+					settingValues[prop] = false;
+					console.error(`Illegal Visible React configuration value "${localValue}" for "${prop}" passed to Visible function`);
+				}
+			} else if (value === 'none') {
 				settingValues[prop] = false;
-			} else if (envVars.mode === 'development') {
-				if (envVars[devProp] === 'all') {
-					settingValues[prop] = true;
-				} else if (envVars[devProp] === 'selected') {
-					settingValues[prop] = wrapperParams[prop] !== undefined ? wrapperParams[prop] : false;
-				} else if (envVars[devProp] === 'none') {
-					settingValues[prop] = false;
-				}
-			} else if (envVars.mode === 'production') {
-				if (envVars[prodProp] === 'all') {
-					settingValues[prop] = true;
-				} else if (envVars[prodProp] === 'selected') {
-					settingValues[prop] = wrapperParams[prop] !== undefined ? wrapperParams[prop] : false;
-				} else if (envVars[prodProp] === 'none') {
-					settingValues[prop] = false;
-				}
-			} else {
-				settingValues[prop] = defaultValue;
 			}
 		});
 
 		// compare
-		if (!settingValues.enabled || !settingValues.controlRender || envVars.compare === 'none') {
+		// If control is false, no comparison will be done
+		if (!settingValues.control) {
 			settingValues.compare = 'none';
-		} else if (wrapperParams.compare !== undefined) {
-			settingValues.compare = wrapperParams.compare;
-		} else if (envVars.compare !== 'none') {
-			settingValues.compare = envVars.compare;
-		} else if (envVars.mode === 'development') {
-			settingValues.compare = envVars.devCompare;
-		} else if (envVars.mode === 'production') {
-			settingValues.compare = envVars.prodCompare;
-		} else {
-			settingValues.compare = 'none';
+		// Local compare settings will always override global compare settings
+		} else if (localVars.compare !== null && this.isValueValid('compare', localVars.compare)) {
+			settingValues.compare = localVars.compare;
+		} else  {
+			settingValues.compare = envVars[mode].compare;
 		}
 
 		this.settings = {
@@ -107,24 +112,42 @@ const settingsManager = {
 			compare: settingValues.compare
 		};
 
-		root.setSettings({monitor: settingValues.monitor});
-
 	},
 
-	get enabled() {
-		return this.settings.enabled;
+	getValueFromBuildVar(buildVars, defaultValues) {
+		let envVars = {};
+		for (let category in defaultValues) {
+			envVars[category] = {};
+			for (let prop in defaultValues[category]) {
+				let value = buildVars[category][prop];
+				if (value === null || value === undefined || !this.isValueValid(prop, value)) {
+					value = defaultValues[category][prop];
+				}
+				envVars[category][prop] = value;
+			}
+		}
+		return envVars;
 	},
 
-	get monitor() {
-		return this.settings.monitor;
+	isValueValid(prop, value) {
+		let isValid = false;
+		if (['enabled', 'monitor', 'logging'].includes(prop)) {
+			isValid = ['all', 'selected', 'none'].includes(value);
+		} else if (prop === 'control') {
+			isValid = ['all', 'none'].includes(value);
+		} else if (prop === 'compare') {
+			isValid = ['none', 'shallow', 'deep'].includes(value);
+		}
+		if (!isValid) {
+			console.error(`Illegal Visible React configuration value "${value}" for "${prop}"`);
+			return false;
+		} else {
+			return true;
+		}
 	},
 
-	get logging() {
-		return this.settings.logging;
-	},
-
-	get compare() {
-		return this.settings.compare;
+	get() {
+		return Object.assign({}, this.settings);
 	}
 
 };

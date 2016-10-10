@@ -20,30 +20,6 @@ const root = {
 
 	isTimerOn: false,
 
-	settings: {
-		disabled: false,
-		// Always false in prod
-		monitor: true,
-		// Always false in prod
-		logging: false,
-		comparison: {
-			// deep|shallow|both|none
-			development: 'both',
-			// deep|shallow
-			production: 'shallow'
-		},
-		controlRender: {
-			development: true,
-			production: false
-		}
-	},
-
-	// scope = global|local
-	setSettings(settings) {
-		Object.assign(this.settings, settings);
-		console.log('set settings', settings);
-	},
-
 	add(action) {
 		const {key, name} = action;
 		const id = this.makeId(key, name);
@@ -91,7 +67,7 @@ const root = {
 	// Visible React processes a batch of updates and does it's own rendering.
 	// This is necessary for performance.
 	updateWindow(lifecycleId) {
-		if (consoleWindow === null || consoleWindow.closed || !root.settings.monitor) {
+		if (consoleWindow === null || consoleWindow.closed) {
 			return;
 		}
 		if (this.isTimerOn) {
@@ -116,7 +92,7 @@ const root = {
 
 	getWindow() {
 
-		if (root.settings.monitor && ((window && consoleWindow === null) || consoleWindow.closed)) {
+		if ((window && consoleWindow === null) || consoleWindow.closed) {
 
 			consoleWindow = window.open(
 				'',
@@ -132,12 +108,6 @@ const root = {
 			container.id = 'visible-react';
 			consoleWindow.document.body.appendChild(container);
 
-			const meta = consoleWindow.document.createElement('meta');
-			const charset = document.createAttribute("charset");
-			charset.value = 'UTF-8';
-			meta.setAttributeNode(charset);
-			consoleWindow.document.head.appendChild(meta);
-			
 			consoleWindow.focus();
 			//this.updateWindow();
 			window.onbeforeunload = () => {

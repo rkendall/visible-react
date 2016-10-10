@@ -23,8 +23,6 @@ import userData from 'json!../fixtures/user.json';
 // import Perf from 'react-addons-perf';
 // window.Perf = Perf;
 
-Visible.setup();
-
 const WrappedApp = Visible()(App);
 
 const initialStore = {

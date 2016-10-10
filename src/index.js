@@ -7,18 +7,15 @@ import deepCopy from 'deepcopy';
 
 import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
-import settings from './settingsManager';
+import settingsManager from './settingsManager';
 
 
 function Visible(wrapperParams) {
 
-	console.log('wrapperParams at top level of Visible()', JSON.stringify(wrapperParams, null, 2));
-
-	settings.set(wrapperParams);
+	settingsManager.set(wrapperParams);
+	const settings = settingsManager.get();
 
 	return function HOCFactory(WrappedComponent) {
-
-		console.log('wrapperParams.enabled',  JSON.stringify(wrapperParams, null, 2));
 
 		if (!settings.enabled || (!settings.monitor && !settings.logging && settings.compare === 'none')) {
 
@@ -79,14 +76,16 @@ function Visible(wrapperParams) {
 				// }
 				this.componentName = getComponentName(WrappedComponent);
 				this.setStateSpy = this.spy(this, 'setState');
-				this.logEntryId = root.add({
-					type: 'ADD_ENTRY',
-					key: props.id,
-					name: this.componentName
-				});
-				this.isRenderingComplete = false;
-				this.lifecycleLocation = 'mounting';
-				this.clearCalled();
+				if (settings.monitor) {
+					this.logEntryId = root.add({
+						type: 'ADD_ENTRY',
+						key: props.id,
+						name: this.componentName
+					});
+					this.isRenderingComplete = false;
+					this.lifecycleLocation = 'mounting';
+					this.clearCalled();
+				}
 				this.handleLifecycleEvent({
 					name: 'constructorMethod',
 					props: [props],
@@ -121,7 +120,9 @@ function Visible(wrapperParams) {
 			}
 
 			componentDidMount() {
-				this.consoleWindow = root.getWindow();
+				if (settings.monitor) {
+					this.consoleWindow = root.getWindow();
+				}
 				let isSetStateCalled = false;
 				let setStateValue = null;
 				if (super.componentDidMount) {
@@ -270,7 +271,7 @@ function Visible(wrapperParams) {
 					spy.callCount++;
 					spy.lastCall = arguments[0];
 					if (settings.logging) {
-						console.log(`%csetState called in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
+						console.log(`%csetState %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
 					}
 					return original.apply(obj, [...arguments]);
 				};
@@ -298,6 +299,9 @@ function Visible(wrapperParams) {
 			handleLifecycleEvent = (lifecycleData) => {
 				if (settings.logging) {
 					console.log(`%c${lifecycleData.name} %ccalled in component %c${this.componentName}`, 'color: green; font-weight: bold;', 'color: black; font-weight: normal;', 'color: blue; font-weight: bold;');
+				}
+				if (!settings.monitor) {
+					return;
 				}
 				let count = root.getFromStore([
 					'entries',
@@ -346,6 +350,9 @@ function Visible(wrapperParams) {
 			};
 
 			clearCalled = () => {
+				if (!settings.monitor) {
+					return;
+				}
 				this.autoRenderCount = 0;
 				let methodObj = {};
 				lifecycleConfig.methodNames.forEach((name) => {
@@ -361,6 +368,9 @@ function Visible(wrapperParams) {
 			};
 
 			incrementRenderCount = () => {
+				if (!settings.monitor) {
+					return;
+				}
 				this.autoRenderCount++;
 				root.updateStore({
 					type: 'INCREMENT_VALUE',
@@ -369,6 +379,9 @@ function Visible(wrapperParams) {
 			};
 
 			setIsMounted = (isMounted) => {
+				if (!settings.monitor) {
+					return;
+				}
 				root.updateStore({
 					type: 'UPDATE_VALUE',
 					keyPath: [this.logEntryId, 'isMounted'],
@@ -377,6 +390,9 @@ function Visible(wrapperParams) {
 			};
 
 			incrementUnnecessaryUpdatesPrevented = () => {
+				if (!settings.monitor) {
+					return;
+				}
 				root.updateStore({
 					type: 'INCREMENT_VALUE',
 					keyPath: [this.logEntryId, 'unnecessaryUpdatesPrevented']
@@ -407,9 +423,8 @@ const getComponentName = (component) => {
 		: ''
 };
 
-Visible.setup = function(settings) {
-	console.log('setup called');
-	root.setSettings(settings);
-};
+// Visible.setup = function(settings) {
+// 	root.setSettings(settings);
+// };
 
 export default Visible;
