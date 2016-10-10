@@ -155,8 +155,6 @@ gulp.task('demo', function(callback) {
 	});
 });
 
-process.env.NODE_ENV = 'production';
-
 gulp.task('vr-settings', function() {
 
 	gulp.src(path.join(demoBuild, 'index.js'))
