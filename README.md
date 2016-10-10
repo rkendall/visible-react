@@ -169,7 +169,7 @@ If you don't wish to set environment variables, you can accomplish the same conf
 ```javascript
 gulp.task('set-vr', function() {
 	gulp.src('build/bundle.js')
-		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production')))
 		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify('all')))
 		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all'))
 		.pipe(gulp.dest('dist'));
@@ -213,7 +213,7 @@ Sets environment to 'development' and enables logging and monitoring only for My
 // In gulpfile.js
 gulp.task('set-vr', function() {
 	gulp.src('build/bundle.js')
-		.pipe(replace('process.env.NODE_ENV', JSON.stringify('development)))
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('development')))
 		.pipe(replace('process.env.VR_DEV_MONITOR', JSON.stringify('selected'))
 		.pipe(replace('process.env.VR_DEV_LOGGING', JSON.stringify('selected')))
 		.pipe(gulp.dest('dist'));
@@ -233,8 +233,8 @@ Sets environment to 'production' and enables **Visible React** in production to 
 // In gulpfile.js
 gulp.task('set-vr', function() {
 	gulp.src('build/bundle.js')
-		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
-		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all))
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production')))
+		.pipe(replace('process.env.VR_PROD_ENABLED', JSON.stringify('all'))
 		.pipe(gulp.dest('dist'));
 });
 
@@ -251,7 +251,7 @@ Sets environment to 'production' and prevents comparison in production in every 
 // In gulpfile.js
 gulp.task('set-vr', function() {
 	gulp.src('build/bundle.js')
-		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production)))
+		.pipe(replace('process.env.NODE_ENV', JSON.stringify('production')))
 		.pipe(replace('process.env.VR_PROD_COMPARE', JSON.stringify('none')))
 		.pipe(gulp.dest('dist'));
 });
