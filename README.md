@@ -114,21 +114,21 @@ gulp.task('set-vr', function() {
 
 The following variables can be set with a build tool, as shown above. Each variable name must be prefixed with either `VR_DEV_` or `VR_PROD_` to determine which environment (development or production) it will take effect in. For example, `VR_DEV_ENABLED` determines whether **Visible React** is enabled in a development environment. The first three variables listed below all accept the same three values: *'all'* enables the feature in all components; *'none'* disables it in all components; *'seletected'* enables it only where specified by a component configuration setting. (See below for setting component configuration options.)
 
-**ENABLED**
-*'all'|'selected'|'none'*
-Whether **Visible React** is enabled. If set to *'none'*, the following features will all be disabled and the `Visible` function will noninvasively pass values through to the wrapped component without overriding any methods.
-**MONITOR**
-*'all'|'selected'|'none'*
-Whether or not to display the Monitor Window.
-**LOGGING**
-*'all'|'selected'|'none'*
-Whether to log messages to the browser console for each lifecycle event and setState call.
-**CONTROL**
-*'all'|'none'*
-Whether to prevent component rerenders if props or state have not changed. 'selected' is not an option for this variable.
-**COMPARE**
-*'none'|'shallow'|'deep'*
-The type of comparison to perform. If CONTROL is false, no comparison will be performed.
+**ENABLED**  
+*'all'|'selected'|'none'*  
+Whether **Visible React** is enabled. If set to *'none'*, the following features will all be disabled and the `Visible` function will noninvasively pass values through to the wrapped component without overriding any methods.  
+**MONITOR**  
+*'all'|'selected'|'none'*  
+Whether or not to display the Monitor Window.  
+**LOGGING**  
+*'all'|'selected'|'none'*  
+Whether to log messages to the browser console for each lifecycle event and setState call.  
+**CONTROL**  
+*'all'|'none'*  
+Whether to prevent component rerenders if props or state have not changed. 'selected' is not an option for this variable.  
+**COMPARE**  
+*'none'|'shallow'|'deep'*  
+The type of comparison to perform. If CONTROL is false, no comparison will be performed.  
 
 #### Setting Variables in a Build
 
@@ -180,18 +180,18 @@ gulp.task('set-vr', function() {
 
 For more fine-grained control, you can pass arguments to the `Visible` wrapper function to control how **Visible React** handles individual components. You can configure a component by passing a configuration object as an argument to the `Visible` function. The supported variables correspond to the global configuration variables, but most of them accept boolean values, since they apply only to a single component.
 
-**enabled**
-*true|false*
-Whether **Visible React** is enabled for the component.
-**monitor:**
-*true|false*
-Whether or not to include the component in the Monitor Window display.
-**logging:**
-*true|false*
-Whether to log messages to the browser console for the component.
-**compare**
-*'none'|'shallow'|'deep'*
-Type of comparison to perform for the component. This value will override any `compare` value specified in a build variable.
+**enabled**  
+*true|false*  
+Whether **Visible React** is enabled for the component.  
+**monitor:**  
+*true|false*  
+Whether or not to include the component in the Monitor Window display.  
+**logging:**  
+*true|false*  
+Whether to log messages to the browser console for the component.  
+**compare**  
+*'none'|'shallow'|'deep'*  
+Type of comparison to perform for the component. This value will override any `compare` value specified in a build variable.  
 
 Component configuration lets you optimize performance by specifying which type of preventive comparison to perform for each component. Shallow compares can return false negatives. Deep compares, while always accurate, are not always cost effective. Logging can be quite verbose, so it can be useful to log calls from only selected components. Enabling **Visible React** only for selected components can be useful if you find that the Monitor Window is degrading the performance of your app. Below is an example of a component configuration.
  
