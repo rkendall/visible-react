@@ -124,7 +124,8 @@ class ComponentList extends Component {
 
 	componentDidMount() {
 		root.getWindow().addEventListener("resize", this.updateDimensions);
-		setTimeout( () => {
+		// TODO Is this timeout still necessary?
+		setTimeout(() => {
 			this.setState({
 				maxTableHeight: this.getMaxTableHeight()
 			});
@@ -198,6 +199,7 @@ class ComponentList extends Component {
 
 		return (
 			<DataIconCell
+				id={'is-changed-cell-' + props.rowIndex}
 				isChanged={isChanged}
 				{...props}
 				style={this.mergeStyles(changedStyle)}
@@ -214,15 +216,19 @@ class ComponentList extends Component {
 			componentStyle.push(this.styles.unmountedComponent);
 		}
 		componentStyle.push(this.getRowSelectedStyle(row.id));
+		let childStyle = this.mergeStyles([this.styles.methodName, {width: this.state.columnWidths.name - 8}]);
 		const data = row.name;
 		return (
-			<TableCell
-				data={data}
-				{...props}
-				style={this.mergeStyles(componentStyle)}
-				childStyle={this.styles.methodName}
-			>
-			</TableCell>
+			<div title={data}>
+				<TableCell
+					id={'name-cell-' + props.rowIndex}
+					data={data}
+					{...props}
+					style={this.mergeStyles(componentStyle)}
+					childStyle={childStyle}
+				>
+				</TableCell>
+			</div>
 		);
 	};
 

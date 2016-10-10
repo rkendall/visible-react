@@ -91,7 +91,9 @@ const root = {
 	},
 
 	getWindow() {
-		if (window && consoleWindow === null || consoleWindow.closed) {
+
+		if ((window && consoleWindow === null) || consoleWindow.closed) {
+
 			consoleWindow = window.open(
 				'',
 				'console',
@@ -100,10 +102,12 @@ const root = {
 			if (!consoleWindow) {
 				alert('You must disable your popup blocker to use the Visible React Console.');
 			}
+
 			consoleWindow.document.title = 'Visible React';
 			const container = consoleWindow.document.createElement('div');
 			container.id = 'visible-react';
 			consoleWindow.document.body.appendChild(container);
+
 			consoleWindow.focus();
 			//this.updateWindow();
 			window.onbeforeunload = () => {
@@ -112,6 +116,7 @@ const root = {
 		}
 		return consoleWindow;
 	}
+
 };
 
 export default root;

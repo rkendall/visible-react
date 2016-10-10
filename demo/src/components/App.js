@@ -52,22 +52,19 @@ class App extends Component {
 
 }
 
-
 function mapStateToProps(state) {
 	return {
 		questions: state.questions
 	};
 }
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: bindActionCreators(questionActions, dispatch)
-	};
-}
+const visibleSettings = {
+	enabled: true,
+	monitor: true
+};
 
-App = Radium(Visible(App));
+App = Radium(Visible(visibleSettings)(App));
 
 export default connect(
-	mapStateToProps,
-	mapDispatchToProps
+	mapStateToProps
 )(App);

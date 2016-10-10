@@ -10,6 +10,8 @@ const lifecycleConfig = {
 		state: null
 	},
 
+	setStateWarningMessage: 'setState was called to change the state after the component rendered. Avoid calling setState here because it triggers an extra render. If possible, call it earlier in the lifecycle.',
+
 	addRemainingPropertiesToAllEntries(entries) {
 		return entries.map((entry) => {
 			return this.addRemainingPropertiesToEntry(entry);
@@ -57,11 +59,17 @@ const lifecycleConfig = {
 					isChanged.state = true;
 				}
 			}
-			return method.merge(Immutable.Map(remainingPropertiesForMethod));
+
+			if (methodName === 'componentDidMount' || methodName == 'componentDidUpdate') {
+				remainingPropertiesForMethod.setState.values = method.get('setState');
+				remainingPropertiesForMethod.setState.isChanged = method.get('isSetStateCalled');
+			}
+
+			return method.merge(Immutable.fromJS(remainingPropertiesForMethod));
 
 		});
 
-		return entry.set('methods', newMethods).set('isChanged', isChanged);
+		return entry.set('methods', newMethods).set('isChanged', Immutable.fromJS(isChanged));
 
 	},
 
@@ -98,9 +106,9 @@ const lifecycleConfig = {
 			} else {
 				return false;
 			}
-		} else if (methodName === 'componentWillReceiveProps' && type === 'props') {
-			precedingValue = values.first();
-		} else if (methodName === 'shouldComponentUpdate' && type === 'state') {
+		} else if (methodName === 'componentWillReceiveProps' && type === 'props'
+			|| methodName === 'shouldComponentUpdate' && type === 'state'
+		) {
 			precedingValue = values.first();
 		} else {
 			return false;
@@ -163,8 +171,13 @@ const lifecycleConfig = {
 					names: ['this.state'],
 					values: []
 				},
+				setState: {
+					names: ['setState value'],
+					values: [],
+					isChanged: false
+				},
 				terminal: true,
-				description: 'Avoid calling setState here because it will trigger an extra render.'
+				description: this.setStateWarningMessage
 			},
 			componentWillReceiveProps: {
 				args: ['nextProps'],
@@ -221,8 +234,13 @@ const lifecycleConfig = {
 					values: [],
 					arePartnersDifferent: false
 				},
+				setState: {
+					names: ['setState value'],
+					values: [],
+					isChanged: false
+				},
 				terminal: true,
-				description: 'Avoid calling setState here because it will trigger an extra render.'
+				description: this.setStateWarningMessage
 			},
 			componentWillUnmount: {
 				args: [],

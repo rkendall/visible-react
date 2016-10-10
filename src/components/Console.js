@@ -16,7 +16,8 @@ import root from '../root.js';
 class Console extends Component {
 
 	static propTypes = {
-		entries: PropTypes.instanceOf(Immutable.Map).isRequired
+		entries: PropTypes.instanceOf(Immutable.Map).isRequired,
+		windowWidth: PropTypes.number.isRequired
 	};
 
 	styles = {
@@ -76,7 +77,7 @@ class Console extends Component {
 		},
 		windowContent: {
 			minWidth: '800px',
-			maxWidth: (root.getWindow().innerWidth - 50) + 'px',
+			maxWidth: (this.props.windowWidth - 50) + 'px',
 			height: '600px',
 			margin: '0',
 			padding: '10px',

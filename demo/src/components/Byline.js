@@ -33,7 +33,6 @@ const Byline = React.createClass({
 		}
 	},
 
-	// For Testing
 	getInitialState: function() {
 		return {
 			user: this.props.user
@@ -84,4 +83,4 @@ const Byline = React.createClass({
 
 });
 
-export default Visible(Byline);
+export default Visible()(Byline);

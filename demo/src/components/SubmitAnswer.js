@@ -40,17 +40,19 @@ class SubmitAnswer extends Component {
 		};
 	}
 
-	componentWillReceiveProps() {
-		console.log('componentWillReceiveProps called in Q&A');
-	};
-
-	shouldComponentUpdate(nextProps, nextState) {
-		console.log('shouldComponentUpdate called in Q&A');
-		return nextState.answerText !== this.state.answerText;
+	componentDidMount() {
+		console.log('CDM called in submit');
+		this.setState({
+			mounted: true
+		});
 	}
 
+	componentWillReceiveProps() {
+
+	};
+
 	componentDidUpate() {
-		console.log('componentDidUpate called in Q&A');
+		
 	};
 
 	updateEntry = (event) => {
@@ -67,6 +69,7 @@ class SubmitAnswer extends Component {
 	};
 
 	render() {
+		const mounted = this.state.mounted;
 		return (
 			<div style={this.styles.container}>
 				<div style={styles.heading}>Post an Answer</div>
@@ -92,4 +95,4 @@ class SubmitAnswer extends Component {
 
 }
 
-export default connect()(Visible(SubmitAnswer));
+export default connect()(Visible()(SubmitAnswer));

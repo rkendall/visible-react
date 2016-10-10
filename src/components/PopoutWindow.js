@@ -3,6 +3,7 @@
 import React, {Component, PropTypes} from 'react';
 import {render} from 'react-dom';
 import Immutable from 'immutable';
+import root from '../root';
 
 import Console from './Console';
 
@@ -17,10 +18,10 @@ class PopoutWindow extends Component {
 	}
 
 	render() {
-
+		const windowWidth = root.getWindow().innerWidth;
 
 		return (
-			<Console entries={this.props.entries} />
+			<Console entries={this.props.entries} windowWidth={windowWidth} />
 		);
 
 	}

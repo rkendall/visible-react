@@ -60,4 +60,4 @@ class Question extends Component {
 
 }
 
-export default Radium(Visible(Question));
+export default Radium(Visible()(Question));

@@ -5,6 +5,7 @@ import Radium from 'radium';
 import shallowEqual from 'shallowequal';
 
 import TableCell from './TableCell';
+import Utf8Char from './Utf8Char';
 import styles from '../styles/styles';
 
 class DataIconCell extends Component {
@@ -26,12 +27,13 @@ class DataIconCell extends Component {
 	}
 	
 	render() {
+		const dot = (<Utf8Char char='dot' />);
 		const {isChanged, ...props} = this.props;
-		const propsIcon = isChanged.props
-			? (<div style={styles.props}>•</div>)
+		const propsIcon = isChanged.get('props')
+			? (<div style={styles.props} className='propsIcon'>{dot}</div>)
 			: '';
-		const stateIcon = isChanged.state
-			? (<div style={styles.state}>•</div>)
+		const stateIcon = isChanged.get('state')
+			? (<div style={styles.state} className='stateIcon'>{dot}</div>)
 			: '';
 		let data = (
 			<div style={this.styles.icons}>

@@ -9,6 +9,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {StyleRoot} from 'radium';
+import Visible from 'visible-react';
 
 import questions from './reducers/reducers.js';
 import App from './components/App.js';
@@ -22,6 +23,8 @@ import userData from 'json!../fixtures/user.json';
 // import Perf from 'react-addons-perf';
 // window.Perf = Perf;
 
+const WrappedApp = Visible()(App);
+
 const initialStore = {
 	questions: questionData,
 	user: userData
@@ -33,7 +36,7 @@ render((
 		<StyleRoot>
 			<MuiThemeProvider>
 				<Router history={hashHistory}>
-						<Route component={App}>
+						<Route component={WrappedApp}>
 							<Route path='/' component={QuestionList}/>
 							<Route path='question/:id' component={QuestionDetail}/>
 							<Route path='new-question' component={SubmitQuestion}/>

@@ -5,6 +5,7 @@ import Radium from 'radium';
 import color from 'color';
 import Immutable from 'immutable';
 
+import Utf8Char from './Utf8Char';
 import styles from '../styles/styles';
 
 class Method extends Component {
@@ -122,6 +123,9 @@ class Method extends Component {
 			padding: '5px',
 			backgroundColor: 'rgba(76, 175, 80, .5)'
 		},
+		setStateValue: {
+			marginTop: '5px'
+		},
 		arrow: {
 			display: 'flex',
 			justifyContent: 'space-around',
@@ -207,12 +211,9 @@ class Method extends Component {
 		let types = ['props', 'state'];
 		return types.map((type) => {
 			const propsOrState = methodObj[type];
-			// TODO This should be converted to JS Array when mothodObj is converted toJS()
-			// but for some reason it isn't
-			const values = propsOrState.values.toJS();
+			const values = propsOrState.values;
 			const nameComponents = propsOrState.names.map((name, ind) => {
-				const isSecond = ind > 0;
-				return this.getPropAndStateName(name, type, isSecond);
+				return this.getPropAndStateName(name, type, ind);
 			});
 			// Display both values only if one has changed
 			let valueComponents = false;
@@ -225,20 +226,21 @@ class Method extends Component {
 					return this.getPropAndStateValues(valuesToDisplay, ind, type, propsOrState.isChanged);
 				});
 			}
-			const baseKey = `${methodObj.name}-${type}`;
-			return (
-				<div key={baseKey} style={this.styles.propsAndState}>
-					<div key={baseKey + '-label'} style={this.styles.label}>{nameComponents}</div>
-					<div key={baseKey + '-value'} style={this.styles.valueContainer}>{valueComponents}</div>
-				</div>
-			);
+
+			return this.getPropAndStateComponents({
+				name:methodObj.name,
+				type,
+				nameComponents,
+				valueComponents
+			});
 		});
 	};
 
-	getPropAndStateName = (name, type, isSecond) => {
-		const arrow = isSecond ? '↳' : '';
+	getPropAndStateName = (name, type, ind) => {
+		const isSecond = ind > 0;
+		const arrow = isSecond ? (<Utf8Char char='rightArrow' />) : '';
 		return (
-			<div key={name} style={this.styles.line}>
+			<div key={`${name}-${ind}`} style={this.styles.line}>
 				<div>{arrow}{name}:</div>
 			</div>
 		);
@@ -249,7 +251,6 @@ class Method extends Component {
 		const isChangedStyle = isChanged && ((valuesToDisplay.length === 1 && ind === 0) || ind === 1)
 			? this.styles.propsAndStateChanged
 			: this.styles.propsAndStateUnchanged;
-		// this.props.children may contain circular references
 		return (
 			<div
 				key={'value-' + ind}
@@ -292,34 +293,70 @@ class Method extends Component {
 			'componentDidUpdate'
 		];
 		const name = methodObj.name;
-		if (!validMethods.includes(name)) {
+		if (validMethods.indexOf(name) === -1) {
 			return false;
 		}
 		const label = methodObj.name === 'constructorMethod' ? 'this.state = x' : 'this.setState(x)';
+		let stateToDisplay = false;
+		let description = false;
+		if (methodObj.isSetStateCalled) {
+			stateToDisplay = this.getSetStateNameAndValues(methodObj);
+			description = this.getDescription(methodObj);
+		}
 		return (
 			<div key={label}>
 				<div style={this.styles.setState}>
 					{label}
 				</div>
-				{this.getDescription(methodObj)}
+				<div style={this.styles.setStateValue}>
+					{stateToDisplay}
+					{description}
+				</div>
 			</div>
 		);
 	};
 
+	getSetStateNameAndValues = (methodObj) => {
+		const name = methodObj.setState.names[0]
+		const ind = 0;
+		const nameComponents = this.getPropAndStateName(name, 'state', ind);
+		const valueToDisplay = methodObj.setState.values;
+		const valueComponents =  this.getPropAndStateValues(valueToDisplay, ind, 'state', methodObj.setState.isChanged);
+		return this.getPropAndStateComponents({
+			name,
+			type: 'state',
+			nameComponents,
+			valueComponents
+		});
+	};
+
+	getPropAndStateComponents = (dataObj) => {
+
+		const baseKey = `${dataObj.name}-${dataObj.type}`;
+		return (
+			<div key={baseKey} style={this.styles.propsAndState}>
+				<div key={baseKey + '-label'} style={this.styles.label}>{dataObj.nameComponents}</div>
+				<div key={baseKey + '-value'} style={this.styles.valueContainer}>{dataObj.valueComponents}</div>
+			</div>
+		);
+
+	};
+
 	getArrow = (methodObj) => {
+		const arrow = (<Utf8Char char='downArrow' />);
 		if (this.props.isCompactView) {
 			return (<div style={this.styles.arrow}></div>);
 		} else if (methodObj.name === 'render') {
 			return (
 				<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>
-					<div>↓</div>
-					<div>↓</div>
+					<div>{arrow}</div>
+					<div>{arrow}</div>
 				</div>
 			)
 		} else if (!methodObj.terminal) {
-			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>{arrow}</div>);
 		} else {
-			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>↓</div>);
+			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>{arrow}</div>);
 		}
 	};
 

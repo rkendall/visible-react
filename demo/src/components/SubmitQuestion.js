@@ -110,4 +110,4 @@ export class SubmitQuestion extends Component {
 
 }
 
-export default connect()(Visible(SubmitQuestion));
+export default connect()(Visible()(SubmitQuestion));
