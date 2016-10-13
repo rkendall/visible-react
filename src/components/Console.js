@@ -10,8 +10,8 @@ import Immutable from 'immutable';
 
 import ComponentList from './ComponentList';
 import LifeCycle from './LifeCycle';
+import Controls from './Controls';
 import styles from '../styles/styles';
-import root from '../root.js';
 
 class Console extends Component {
 
@@ -27,6 +27,9 @@ class Console extends Component {
 			height: '100%',
 			overflow: 'hidden',
 			...styles.base
+		},
+		leftPanel: {
+			padding: '10px'
 		},
 		lifeCycle: {
 			height: '100%',
@@ -164,15 +167,18 @@ class Console extends Component {
 	render() {
 		const draggableWindowStyle = this.state.showFullText
 			? this.styles.draggableWindow
-			:this.styles.draggableWindowHidden;
+			: this.styles.draggableWindowHidden;
 		const entry = this.props.entries.get(this.state.selectedComponentId);
 		return (
 			<div>
 				<div style={this.styles.container}>
-					<ComponentList
-						entries={this.props.entries}
-						onChange={this.handleConfigChange}
-					/>
+					<div style={this.styles.leftPanel}>
+						<Controls/>
+						<ComponentList
+							entries={this.props.entries}
+							onChange={this.handleConfigChange}
+						/>
+					</div>
 					<div style={this.styles.lifeCycle}>
 						<LifeCycle
 							entry={entry}

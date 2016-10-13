@@ -19,6 +19,8 @@ let store = createStore(entries, initialStore);
 const root = {
 
 	isTimerOn: false,
+	isWindowInitialized: false,
+	_autoRefresh: true,
 
 	add(action) {
 		const {key, name} = action;
@@ -63,20 +65,32 @@ const root = {
 		return lifecycleConfig.addRemainingPropertiesToAllEntries(entries);
 	},
 
+	set autoRefresh(value) {
+		this._autoRefresh = value;
+	},
+
+	get autoRefresh() {
+		return this._autoRefresh;
+	},
+
 	// The timer returns control to the wrapped application while
 	// Visible React processes a batch of updates and does it's own rendering.
 	// This is necessary for performance.
-	updateWindow(lifecycleId) {
-		if (consoleWindow === null || consoleWindow.closed) {
+	updateWindow(isManualRefresh = false) {
+		if (this.isWindowInitialized && !this.autoRefresh && !isManualRefresh) {
 			return;
 		}
-		if (this.isTimerOn) {
+		if (this.isTimerOn || consoleWindow === null || consoleWindow.closed) {
 			return;
 		}
 		this.isTimerOn = true;
 		setTimeout(() => {
+			console.log('timer called');
 			const entries = this.addCalculatedValues();
 			const container = consoleWindow.document.getElementById('visible-react');
+			if (!this.isWindowInitialized) {
+				this.isWindowInitialized = true;
+			}
 			ReactDOM.render((
 				<Provider store={store}>
 					<StyleRoot>
@@ -109,7 +123,6 @@ const root = {
 			consoleWindow.document.body.appendChild(container);
 
 			consoleWindow.focus();
-			//this.updateWindow();
 			window.onbeforeunload = () => {
 				consoleWindow.close();
 			};

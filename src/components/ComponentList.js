@@ -26,8 +26,7 @@ class ComponentList extends Component {
 
 	styles = {
 		container: {
-			position: 'relative',
-			padding: '10px'
+			position: 'relative'
 		},
 		heading: {
 			marginBottom: '10px',
@@ -276,7 +275,7 @@ class ComponentList extends Component {
 	};
 
 	getMaxTableHeight = () => {
-		return root.getWindow().innerHeight - 60;
+		return root.getWindow().innerHeight - 100;
 	};
 
 	getComponents = () => {

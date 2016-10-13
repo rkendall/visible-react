@@ -4,6 +4,7 @@ import React from 'react';
 import deepEqual from 'deep-equal';
 import shallowEqual from 'shallowequal';
 import deepCopy from 'deepcopy';
+import Immutable from 'immutable';
 
 import root from './root.js';
 import lifecycleConfig from './store/lifecycleConfig';
@@ -141,7 +142,7 @@ function Visible(wrapperParams) {
 				}
 				this.isRenderingComplete = !isSetStateCalled;
 				this.setIsMounted(true);
-				root.updateWindow(this.logEntryId);
+				root.updateWindow();
 			}
 
 			componentWillReceiveProps(nextProps) {
@@ -202,7 +203,7 @@ function Visible(wrapperParams) {
 				} else {
 					this.isRenderingComplete = true;
 					if (settings.monitor) {
-						root.updateWindow(this.logEntryId);
+						root.updateWindow();
 					}
 					return false;
 				}
@@ -237,7 +238,7 @@ function Visible(wrapperParams) {
 				if (!settings.monitor) {
 					return;
 				}
-				root.updateWindow(this.logEntryId);
+				root.updateWindow();
 			}
 
 			componentWillUnmount() {
@@ -256,7 +257,7 @@ function Visible(wrapperParams) {
 				if (!settings.monitor) {
 					return;
 				}
-				root.updateWindow(this.logEntryId);
+				root.updateWindow();
 			}
 
 			spy(obj, method) {
@@ -313,18 +314,18 @@ function Visible(wrapperParams) {
 				const cleanedProps = lifecycleData.props.map((propsValue) => {
 					return this.removePropsChildren(propsValue);
 				});
-				const method = {
+				const method = Immutable.Map({
 					name: lifecycleData.name,
 					called: true,
 					count: count + 1,
-					props: cleanedProps || [],
-					state: lifecycleData.state || [],
-					setState: lifecycleData.setState || [],
+					props: Immutable.fromJS(cleanedProps || []),
+					state: Immutable.fromJS(lifecycleData.state || []),
+					setState: Immutable.fromJS(lifecycleData.setState || []),
 					isSetStateCalled: lifecycleData.isSetStateCalled || false,
 					isInfiniteLoop: this.isInfiniteLoop,
 					isUnnecessaryUpdatePrevented: lifecycleData.isUnnecessaryUpdatePrevented,
 					lifecycleLocation: this.lifecycleLocation
-				};
+				});
 				root.updateStore({
 					type: 'UPDATE_METHOD',
 					entryId: this.logEntryId,
