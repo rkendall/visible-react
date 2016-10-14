@@ -23,8 +23,6 @@ import userData from 'json!../fixtures/user.json';
 // import Perf from 'react-addons-perf';
 // window.Perf = Perf;
 
-const WrappedApp = Visible()(App);
-
 const initialStore = {
 	questions: questionData,
 	user: userData
@@ -36,7 +34,7 @@ render((
 		<StyleRoot>
 			<MuiThemeProvider>
 				<Router history={hashHistory}>
-						<Route component={WrappedApp}>
+						<Route component={App}>
 							<Route path='/' component={QuestionList}/>
 							<Route path='question/:id' component={QuestionDetail}/>
 							<Route path='new-question' component={SubmitQuestion}/>

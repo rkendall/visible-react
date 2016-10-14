@@ -3,10 +3,9 @@
 import React, {Component, PropTypes} from 'react';
 import Radium, {Style} from 'radium';
 import color from 'color';
-import {Table, Column} from 'fixed-data-table';
-let Cell = require('fixed-data-table').Cell;
-Cell = Radium(Cell);
-import dataTableStyles from '../vendor/dataTableStyle.js';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import tableStyles from 'radium!css!../vendor/react-bootstrap-table-all.min.css';
+import bootstrapStyles from 'radium!css!../vendor/bootstrap.css';
 import shallowEqual from 'shallowequal';
 import Immutable from 'immutable';
 
@@ -21,25 +20,42 @@ class ComponentList extends Component {
 		onChange: PropTypes.func.isRequired
 	};
 
-	rowHeight = 25;
-	headerHeight = 25;
+	rowHeight = 28;
+	headerHeight = 32;
 
 	styles = {
 		container: {
-			position: 'relative'
+			position: 'relative',
+			maxHeight: 'calc(100% - 60px)',
+			boxSizing: 'border-box',
+			padding: '10px',
+			boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
 		},
 		heading: {
-			marginBottom: '10px',
+			marginBottom: '20px',
 			fontSize: '14px',
 			fontWeight: 'bold'
 		},
-		tableContainer: {
-			boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.5)'
-		},
 		table: {
-			zIndex: '0'
+			'.data-table-row': {
+				fontSize: '12px',
+				cursor: 'pointer',
+				height: this.rowHeight + 'px'
+			},
+			'.data-table-header': {
+				fontSize: '12px',
+				height: this.headerHeight + 'px',
+				textAlign: 'left !important'
+			},
+			'.react-bs-table-tool-bar': {
+				width: '200px',
+				marginBottom: '10px'
+			},
+			'.form-group-sm input.form-control': {
+				height: '25px'
+			}
 		},
-		cell: {
+		name: {
 			display: 'flex',
 			alignItems: 'center',
 			flex: '1',
@@ -51,16 +67,7 @@ class ComponentList extends Component {
 				'0%': {opacity: '0'},
 				'60%': {opacity: '0.7'},
 				'100%': {opacity: '1'}
-			})
-		},
-		changed: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			margin: '-6px',
-			fontSize: '20px'
-		},
-		component: {
+			}),
 			overflow: 'hidden',
 			whiteSpace: 'nowrap',
 			textOverflow: 'ellipsis',
@@ -69,9 +76,6 @@ class ComponentList extends Component {
 		unmountedComponent: {
 			fontWeight: 'normal',
 			color: 'gray'
-		},
-		selectedCell: {
-			backgroundColor: color('lightblue').lighten(.1).hexString()
 		},
 		methodName: {
 			overflow: 'hidden',
@@ -84,10 +88,7 @@ class ComponentList extends Component {
 			textAlign: 'right'
 		},
 		warning: {
-			justifyContent: 'flex-end',
-			width: '100%',
-			//minWidth: '20px',
-			padding: '3px 0',
+			paddingRight: '20px',
 			color: 'red',
 			fontWeight: 'bold'
 		}
@@ -98,42 +99,36 @@ class ComponentList extends Component {
 		const columnWidths = {
 			changed: 20,
 			name: 175,
-			renderCount: 85,
-			warningCount: 75
+			renderCount: 90,
+			warningCount: 90
 		};
 		let tableWidth = 0;
 		for (let name in columnWidths) {
 			tableWidth += columnWidths[name];
 		}
+		tableWidth = tableWidth - 10;
 		const componentTableData = this.getComponentTableData(props.entries);
+		const rowsCount = componentTableData.length;
+		const tableHeight = (this.rowHeight * rowsCount) + 5;
+		const nativeTableHeight = this.headerHeight + (this.rowHeight * rowsCount);
 		this.state = {
 			selectedComponentId: props.entries.first().get('id'),
 			componentTableData,
 			tableWidth,
-			columnWidths,
-			// The height must be set again
-			// after the component has mounted and the window height is available
-			maxTableHeight: null
+			tableBottom: 0,
+			nativeTableHeight,
+			tableHeight,
+			columnWidths
 		};
 	}
 
-	componentWillMount() {
-		this.updateDimensions();
-	}
-
-	componentDidMount() {
-		root.getWindow().addEventListener("resize", this.updateDimensions);
-		// TODO Is this timeout still necessary?
-		setTimeout(() => {
-			this.setState({
-				maxTableHeight: this.getMaxTableHeight()
-			});
-		}, 0);
-	}
-
 	componentWillReceiveProps(nextProps) {
+		const componentTableData = this.getComponentTableData(nextProps.entries);
+		const rowsCount = componentTableData.length;
+		const tableHeight = (this.rowHeight * rowsCount) + 5;
 		this.setState({
-			componentTableData: this.getComponentTableData(nextProps.entries)
+			componentTableData,
+			tableHeight
 		});
 	}
 
@@ -145,20 +140,6 @@ class ComponentList extends Component {
 	componentWillUnmount() {
 		root.getWindow().removeEventListener("resize", this.updateDimensions);
 	}
-
-	updateDimensions = () => {
-
-		// Don't update state after initial rerender;
-		// causes UI to flash
-		let newState = {};
-		if (this.state.maxTableHeight !== null) {
-			newState.maxTableHeight = this.getMaxTableHeight();
-		}
-		// if (root.getWindow().innerWidth) {
-		// 	newState.tableWidth = this.state.tableWidth += (root.getWindow().innerWidth - 900)
-		// }
-		this.setState(newState);
-	};
 
 	getComponentTableData = (immutableEntries) => {
 		// TODO Keep these as immutables for better performance?
@@ -181,48 +162,31 @@ class ComponentList extends Component {
 		return Object.assign(...stylesArray);
 	};
 
-	getRowSelectedStyle = (id) => {
-		if (this.state.selectedComponentId === id) {
-			return this.styles.selectedCell;
-		}
-		return {};
-	};
-
-	getChangedCell = (props) => {
-		const row = this.state.componentTableData[props.rowIndex];
-		let changedStyle = [
-			this.styles.cell,
-			this.getRowSelectedStyle(row.id)
-		];
+	getChangedCell = (cell, row) => {
 		const isChanged = this.props.entries.getIn([row.id, 'isChanged']);
+		const key = 'is-changed-cell-' + row.id;
 
 		return (
 			<DataIconCell
-				id={'is-changed-cell-' + props.rowIndex}
+				id={key}
+				key={key}
 				isChanged={isChanged}
-				{...props}
-				style={this.mergeStyles(changedStyle)}
-				childStyle={this.styles.changed}
 			/>
 		);
 	};
 
-	getComponentNameCell = (props) => {
-		const row = this.state.componentTableData[props.rowIndex];
-		let componentStyle = [this.styles.component, this.styles.cell];
+	getComponentNameCell = (cell, row) => {
+		let componentStyle = [this.styles.name];
 		const isMounted = this.props.entries.getIn([row.id, 'isMounted']);
 		if (!isMounted) {
 			componentStyle.push(this.styles.unmountedComponent);
 		}
-		componentStyle.push(this.getRowSelectedStyle(row.id));
 		let childStyle = this.mergeStyles([this.styles.methodName, {width: this.state.columnWidths.name - 8}]);
-		const data = row.name;
 		return (
-			<div title={data}>
+			<div title={cell}>
 				<TableCell
-					id={'name-cell-' + props.rowIndex}
-					data={data}
-					{...props}
+					id={'name-cell-' + row.id}
+					data={cell}
 					style={this.mergeStyles(componentStyle)}
 					childStyle={childStyle}
 				>
@@ -231,107 +195,83 @@ class ComponentList extends Component {
 		);
 	};
 
-	getRenderCountCell = (props) => {
-		const row = this.state.componentTableData[props.rowIndex];
-		let renderCountStyle = this.mergeStyles([
-			this.styles.cell,
-			this.styles.renderCount,
-			this.getRowSelectedStyle(row.id)
-		]);
-		const data = row.renderCount;
-		return (
-			<TableCell
-				data={data}
-				style={renderCountStyle}
-			>
-			</TableCell>
-		)
-	};
-
-	getWarningCountCell = (props) => {
-		const row = this.state.componentTableData[props.rowIndex];
+	getWarningCountCell = (cell, row) => {
 		const warningCount = row.warningCount || '';
-		let warningStyle = [this.styles.cell, this.getRowSelectedStyle(row.id), this.styles.warning];
 		const tooltip = warningCount ? warningCount + ' unnecessary rerenders prevented' : '';
-		const data = warningCount;
 
 		return (
-			<TableCell
-				data={data}
-				style={this.mergeStyles(warningStyle)}
-				title={tooltip}
-			>
-			</TableCell>
+			<div title={tooltip} style={this.styles.warning}>{warningCount}</div>
 		)
-	};
-
-	onColumnResizeEnd = (newColumnWidth, columnKey) => {
-		this.setState(({columnWidths}) => ({
-			columnWidths: {
-				...columnWidths,
-				[columnKey]: newColumnWidth
-			}
-		}));
-	};
-
-	getMaxTableHeight = () => {
-		return root.getWindow().innerHeight - 100;
 	};
 
 	getComponents = () => {
+		const selectRowSettings = {
+			clickToSelect: true,
+			mode: 'radio',
+			hideSelectColumn: true,
+			bgColor: color('lightblue').lighten(.1).hexString(),
+			onSelect: this.handleComponentSelected,
+			selected: [this.state.selectedComponentId]
+		};
+		const scrollbarOffset = 10;
+		const tableWidth = this.state.tableWidth + scrollbarOffset;
 		const rowsCount = this.state.componentTableData.length;
-		let tableHeight = this.headerHeight + (this.rowHeight * rowsCount) + 2;
-		const maxTableHeight = this.state.maxTableHeight;
-		if (maxTableHeight && tableHeight > maxTableHeight) {
-			tableHeight = maxTableHeight;
-		}
 		return (
-			<div style={this.styles.tableContainer}>
-				<Table
-					rowsCount={this.state.componentTableData.length}
-					rowHeight={this.rowHeight}
-					headerHeight={this.headerHeight}
-					width={this.state.tableWidth}
-					overflowY='auto'
-					overflowX='hidden'
-					height={tableHeight}
-					onRowMouseDown={this.handleComponentSelected}
-					onColumnResizeEndCallback={this.onColumnResizeEnd}
-					isColumnResizing={false}
-					style={this.styles.table}
+			<BootstrapTable
+				data={this.state.componentTableData}
+				height={this.state.tableHeight + this.headerHeight}
+				striped={true}
+				hover={true}
+				condensed={true}
+				search={true}
+				searchPlaceholder='Filter'
+				clearSearch={true}
+				selectRow={selectRowSettings}
+				trClassName='data-table-row'
+			>
+				<TableHeaderColumn
+					dataField="id"
+					isKey={true}
+					hidden={true}
 				>
-					<Column
-						columnKey='changed'
-						header={<Cell></Cell>}
-						cell={this.getChangedCell}
-						width={this.state.columnWidths.changed}
-						isResizable={true}
-					/>
-					<Column
-						columnKey='name'
-						header={<Cell>Name</Cell>}
-						cell={this.getComponentNameCell}
-						width={this.state.columnWidths.name}
-						isResizable={true}
-						flexGrow={2}
-					/>
-					<Column
-						columnKey='renderCount'
-						header={<Cell>Rendered</Cell>}
-						cell={this.getRenderCountCell}
-						width={this.state.columnWidths.renderCount}
-						isResizable={true}
-						flexGrow={1}
-					/>
-					<Column
-						columnKey='warningCount'
-						header={<Cell>Warnings</Cell>}
-						cell={this.getWarningCountCell}
-						width={this.state.columnWidths.warningCount}
-						isResizable={true}
-					/>
-				</Table>
-			</div>
+					Name
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="changed"
+					dataFormat={this.getChangedCell}
+					width={String(this.state.columnWidths.changed)}
+					dataAlign='center'
+				>
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="name"
+					dataFormat={this.getComponentNameCell}
+					width={String(this.state.columnWidths.name)}
+					dataSort={true}
+					className='data-table-header'
+				>
+					Name
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="renderCount"
+					width={String(this.state.columnWidths.renderCount)}
+					dataAlign='right'
+					dataSort={true}
+					className='data-table-header'
+				>
+					Rendered
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="warningCount"
+					dataFormat={this.getWarningCountCell}
+					width={String(this.state.columnWidths.warningCount)}
+					dataAlign='right'
+					dataSort={true}
+					className='data-table-header'
+				>
+					Warnings
+				</TableHeaderColumn>
+			</BootstrapTable>
 		);
 	};
 
@@ -349,8 +289,7 @@ class ComponentList extends Component {
 		});
 	};
 
-	handleComponentSelected = (event, rowIndex) => {
-		const row = this.state.componentTableData[rowIndex];
+	handleComponentSelected = (row) => {
 		this.setState({
 			selectedComponentId: row.id
 		});
@@ -358,12 +297,41 @@ class ComponentList extends Component {
 		this.props.onChange(option);
 	};
 
+	onMeasure = (dimensions) => {
+		console.log('onMeasure', dimensions.top);
+		this.setState({
+			tableBottom: dimensions.top + dimensions.height
+		});
+	};
+
 	render() {
 
-		const stylesheets = Object.assign({}, dataTableStyles);
+		const heightStyle = {
+			'.react-bs-table-container': {
+				height: this.state.tableHeight + this.headerHeight + 60 + 'px',
+				maxHeight: 'calc(100% - 40px)'
+			},
+			'.react-bs-table': {
+				height: this.state.tableHeight + this.headerHeight + 'px',
+				maxHeight: 'calc(100% - 35px)',
+				margin: '0',
+				borderTop: '1px lightgray solid',
+				borderRight: '1px lightgray solid'
+			},
+			'.react-bs-container-body': {
+				height: this.state.tableHeight + 'px',
+				maxHeight: 'calc(100% - 30px)',
+				overflowY: 'auto',
+				overflowX: 'hidden'
+			}
+		};
+		const stylesheets = Object.assign({}, tableStyles, bootstrapStyles, this.styles.table, heightStyle);
+		const scrollbarOffset = 30;
+		const tableWidth = this.state.tableWidth + scrollbarOffset;
+		const containerStyle = [this.styles.container, {width: tableWidth + 'px', height: this.state.tableHeight + this.headerHeight + 100 + 'px'}];
 
 		return (
-			<div style={this.styles.container}>
+			<div style={containerStyle}>
 				<Style rules={stylesheets}/>
 				<div style={this.styles.heading}>Available Components</div>
 				{this.getComponents()}

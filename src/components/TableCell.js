@@ -2,8 +2,6 @@
 
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-let Cell = require('fixed-data-table').Cell;
-Cell = Radium(Cell);
 import shallowEqual from 'shallowequal';
 
 class TableCell extends Component {
@@ -14,7 +12,6 @@ class TableCell extends Component {
 			PropTypes.number,
 			PropTypes.element
 		]).isRequired,
-		rowIndex: PropTypes.number,
 		style: PropTypes.object.isRequired,
 		childStyle: PropTypes.object
 	};
@@ -28,21 +25,20 @@ class TableCell extends Component {
 		if (nextProps.isScrolling) {
 			return false;
 		}
-		return this.props.rowIndex !== nextProps.rowIndex
-			|| this.props.data !== nextProps.data
+		return this.props.data !== nextProps.data
 			|| !shallowEqual(this.props.style, nextProps.style)
 			|| !shallowEqual(this.props.childStyle, nextProps.childStyle);
 	}
 
 	render() {
 
-		const {data, style, childStyle, ...props} = this.props;
+		const {data, style, childStyle} = this.props;
 
 		return (
 
-			<Cell {...props} style={style}>
+			<div style={style}>
 				<div style={childStyle}>{data}</div>
-			</Cell>
+			</div>
 		)
 
 	}

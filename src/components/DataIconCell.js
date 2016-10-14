@@ -19,6 +19,13 @@ class DataIconCell extends Component {
 	styles = {
 		icons: {
 			display: 'flex'
+		},
+		container: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			margin: '-6px',
+			fontSize: '20px'
 		}
 	};
 
@@ -42,11 +49,7 @@ class DataIconCell extends Component {
 			</div>
 		);
 		return (
-			<TableCell
-				data={data}
-				{...props}
-			>
-			</TableCell>
+			<div style={this.styles.container}>{data}</div>
 		);
 
 	}
