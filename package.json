@@ -10,7 +10,8 @@
   "scripts": {
     "build": "./build.sh",
     "gulp": "gulp default",
-    "test": "mocha --compilers js:babel-register --recursive"
+    "test-config": "mocha test/ConfigureSpec.js --compilers js:babel-register --recursive",
+    "test": "mocha test/ConfigureSpec.js --compilers js:babel-register --recursive && mocha-webpack --webpack-config webpack.config-test.js \"test/MonitorSpec.js\""
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",
@@ -26,6 +27,7 @@
     "diff": "^3.0.0",
     "immutable": "^3.8.1",
     "radium": "^0.18.1",
+    "radium-loader": "^1.0.10",
     "react-bootstrap-table": "^2.5.5",
     "react-draggable": "^2.2.1",
     "react-redux": "^4.4.5",
@@ -46,6 +48,7 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.11.6",
+    "computed-style": "^0.3.0",
     "copy-webpack-plugin": "^3.0.1",
     "css-to-radium": "^1.0.3",
     "del": "^2.2.2",
@@ -57,11 +60,13 @@
     "gulp-util": "^3.0.7",
     "html-webpack-plugin": "^2.22.0",
     "jsdom": "9.5.0",
+    "json-loader": "^0.5.4",
     "karma": "^1.1.2",
     "karma-cli": "^1.0.1",
     "karma-mocha": "^1.1.1",
     "karma-webpack": "^1.8.0",
     "mocha": "^3.0.2",
+    "mocha-webpack": "^0.7.0",
     "radium-loader": "^1.0.10",
     "react": "^15.3.0",
     "react-addons-perf": "^15.3.1",
@@ -71,6 +76,7 @@
     "run-sequence": "^1.2.2",
     "sinon": "^1.17.5",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.15.1"
+    "webpack-dev-server": "^1.15.1",
+    "webpack-node-externals": "^1.5.4"
   }
 }

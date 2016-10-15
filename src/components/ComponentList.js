@@ -1,17 +1,18 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import Radium, {Style} from 'radium';
 import color from 'color';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import tableStyles from 'radium!css!../vendor/react-bootstrap-table-all.min.css';
 import bootstrapStyles from 'radium!css!../vendor/bootstrap.css';
+// import tableStyles from '../vendor/bootstrapTableStyles';
+// import bootstrapStyles from '../vendor/bootstrapStyles';
 import shallowEqual from 'shallowequal';
 import Immutable from 'immutable';
 
-import TableCell from './TableCell';
 import DataIconCell from './DataIconCell';
-import root from '../root.js';
 
 class ComponentList extends Component {
 
@@ -24,46 +25,12 @@ class ComponentList extends Component {
 	headerHeight = 28;
 
 	styles = {
-		container: {
-			position: 'relative',
-			maxHeight: 'calc(100% - 60px)',
-			boxSizing: 'border-box',
-			padding: '10px',
-			background: 'white',
-			boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
-		},
 		heading: {
 			marginBottom: '20px',
 			fontSize: '14px',
 			fontWeight: 'bold'
 		},
-		table: {
-			'.data-table-row': {
-				fontSize: '12px',
-				cursor: 'pointer',
-				height: this.rowHeight + 'px'
-			},
-			'.data-table-header': {
-				fontSize: '12px',
-				textAlign: 'left !important',
-				background: 'linear-gradient(to bottom, ' + color('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
-			},
-			'.react-bs-container-header, .react-bs-container-header .table': {
-				height: this.headerHeight + 'px'
-			},
-			'.react-bs-table-tool-bar': {
-				width: '200px',
-				marginBottom: '10px'
-			},
-			'.form-group-sm input.form-control': {
-				height: '25px'
-			}
-		},
 		name: {
-			display: 'flex',
-			alignItems: 'center',
-			flex: '1',
-			height: '100%',
 			cursor: 'pointer',
 			opacity: '1',
 			animation: 'x 1s ease-out',
@@ -92,7 +59,6 @@ class ComponentList extends Component {
 			textAlign: 'right'
 		},
 		warning: {
-			paddingRight: '20px',
 			color: 'red',
 			fontWeight: 'bold'
 		}
@@ -104,32 +70,36 @@ class ComponentList extends Component {
 			changed: 20,
 			name: 175,
 			renderCount: 90,
-			warningCount: 90
+			warningCount: 90,
+			scrollbarPadding: 20
 		};
 		let tableWidth = 0;
 		for (let name in columnWidths) {
 			tableWidth += columnWidths[name];
 		}
-		tableWidth = tableWidth - 10;
 		const componentTableData = this.getComponentTableData(props.entries);
-		const rowsCount = componentTableData.length;
-		const tableHeight = (this.rowHeight * rowsCount) + 5;
-		const nativeTableHeight = this.headerHeight + (this.rowHeight * rowsCount);
+		const tableHeight = this.getTableHeight(componentTableData);
 		this.state = {
 			selectedComponentId: props.entries.first().get('id'),
 			componentTableData,
 			tableWidth,
 			tableBottom: 0,
-			nativeTableHeight,
 			tableHeight,
-			columnWidths
+			columnWidths,
+			tableOffsetTop: 0
 		};
 	}
 
+	componentDidMount() {
+		const tableElement = findDOMNode(this.refs.table);
+		this.setState({
+			tableOffsetTop: tableElement.offsetParent.offsetTop
+		});
+		console.log('to top of parent', tableElement.offsetTop, tableElement.offsetParent.offsetTop, tableElement.offsetParent.offsetParent.offsetTop);
+	}
+
 	componentWillReceiveProps(nextProps) {
-		const componentTableData = this.getComponentTableData(nextProps.entries);
-		const rowsCount = componentTableData.length;
-		const tableHeight = (this.rowHeight * rowsCount) + 5;
+		const tableHeight = this.getTableHeight(componentTableData);
 		this.setState({
 			componentTableData,
 			tableHeight
@@ -141,15 +111,11 @@ class ComponentList extends Component {
 			|| !shallowEqual(this.state, nextState);
 	}
 
-	componentWillUnmount() {
-		root.getWindow().removeEventListener("resize", this.updateDimensions);
-	}
-
 	getComponentTableData = (immutableEntries) => {
 		// TODO Keep these as immutables for better performance?
 		const entries = immutableEntries.toJS();
 		const sortedComponentIds = this.getSortedComponentIds(entries);
-		return sortedComponentIds.map((id, ind) => {
+		return sortedComponentIds.map((id) => {
 			const entry = entries[id];
 			return {
 				isChanged: entry.isChanged,
@@ -161,12 +127,20 @@ class ComponentList extends Component {
 		});
 	};
 
+	getTableHeight = (componentTableData) => {
+		const rowsCount = componentTableData.length;
+		const paddingOffset = 5;
+		const tableHeight = (this.rowHeight * rowsCount) + paddingOffset;
+		return tableHeight;
+	};
+
 	mergeStyles = (stylesArray) => {
 		stylesArray.unshift({});
 		return Object.assign(...stylesArray);
 	};
 
 	getChangedCell = (cell, row) => {
+
 		const isChanged = this.props.entries.getIn([row.id, 'isChanged']);
 		const key = 'is-changed-cell-' + row.id;
 
@@ -177,6 +151,7 @@ class ComponentList extends Component {
 				isChanged={isChanged}
 			/>
 		);
+
 	};
 
 	getComponentNameCell = (cell, row) => {
@@ -185,30 +160,27 @@ class ComponentList extends Component {
 		if (!isMounted) {
 			componentStyle.push(this.styles.unmountedComponent);
 		}
+		// Need to manually merge styles because Radium can't access these elements
+		// inside a custom component
 		let childStyle = this.mergeStyles([this.styles.methodName, {width: this.state.columnWidths.name - 8}]);
 		return (
-			<div title={cell}>
-				<TableCell
-					id={'name-cell-' + row.id}
-					data={cell}
-					style={this.mergeStyles(componentStyle)}
-					childStyle={childStyle}
-				>
-				</TableCell>
+			<div id={'name-cell-' + row.id} title={cell}>
+				<div style={this.mergeStyles(componentStyle)}>
+					<div style={childStyle}>{cell}</div>
+				</div>
 			</div>
 		);
 	};
 
-	getWarningCountCell = (cell, row) => {
-		const warningCount = row.warningCount || '';
+	getWarningCountCell = (cell) => {
+		const warningCount = cell || '';
 		const tooltip = warningCount ? warningCount + ' unnecessary rerenders prevented' : '';
-
 		return (
 			<div title={tooltip} style={this.styles.warning}>{warningCount}</div>
 		)
 	};
 
-	getComponents = () => {
+	makeTable = () => {
 		const selectRowSettings = {
 			clickToSelect: true,
 			mode: 'radio',
@@ -217,11 +189,10 @@ class ComponentList extends Component {
 			onSelect: this.handleComponentSelected,
 			selected: [this.state.selectedComponentId]
 		};
-		const scrollbarOffset = 10;
-		const tableWidth = this.state.tableWidth + scrollbarOffset;
-		const rowsCount = this.state.componentTableData.length;
 		return (
 			<BootstrapTable
+				ref='table'
+				keyField='id'
 				data={this.state.componentTableData}
 				height={this.state.tableHeight + this.headerHeight}
 				striped={true}
@@ -235,15 +206,13 @@ class ComponentList extends Component {
 			>
 				<TableHeaderColumn
 					dataField="id"
-					isKey={true}
 					hidden={true}
 				>
-					Name
 				</TableHeaderColumn>
 				<TableHeaderColumn
 					dataField="changed"
 					dataFormat={this.getChangedCell}
-					width={String(this.state.columnWidths.changed)}
+					width={this.state.columnWidths.changed + 'px'}
 					dataAlign='center'
 					className='data-table-header'
 				>
@@ -251,7 +220,7 @@ class ComponentList extends Component {
 				<TableHeaderColumn
 					dataField="name"
 					dataFormat={this.getComponentNameCell}
-					width={String(this.state.columnWidths.name)}
+					width={this.state.columnWidths.name + 'px'}
 					dataSort={true}
 					className='data-table-header'
 				>
@@ -259,8 +228,9 @@ class ComponentList extends Component {
 				</TableHeaderColumn>
 				<TableHeaderColumn
 					dataField="renderCount"
-					width={String(this.state.columnWidths.renderCount)}
+					width={this.state.columnWidths.renderCount + 'px'}
 					dataAlign='right'
+					headerAlign='left'
 					dataSort={true}
 					className='data-table-header'
 				>
@@ -269,12 +239,20 @@ class ComponentList extends Component {
 				<TableHeaderColumn
 					dataField="warningCount"
 					dataFormat={this.getWarningCountCell}
-					width={String(this.state.columnWidths.warningCount)}
+					width={this.state.columnWidths.warningCount + 'px'}
 					dataAlign='right'
+					headerAlign='left'
 					dataSort={true}
+					columnClassName=''
 					className='data-table-header'
 				>
 					Warnings
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="scrollbarPadding"
+					width={this.state.columnWidths.scrollbarPadding + 'px'}
+					className='data-table-header'
+				>
 				</TableHeaderColumn>
 			</BootstrapTable>
 		);
@@ -302,44 +280,74 @@ class ComponentList extends Component {
 		this.props.onChange(option);
 	};
 
-	onMeasure = (dimensions) => {
-		console.log('onMeasure', dimensions.top);
-		this.setState({
-			tableBottom: dimensions.top + dimensions.height
-		});
-	};
+	getTableStyles = () => {
 
-	render() {
+		const heightOffset = 30;
 
-		const heightStyle = {
+		// TODO Assign these styles using the table API (e.g., 'containerStyle={}')
+		return {
 			'.react-bs-table-container': {
-				height: this.state.tableHeight + this.headerHeight + 60 + 'px',
-				maxHeight: 'calc(100% - 40px)'
+				height: this.state.tableHeight + this.headerHeight + this.state.tableOffsetTop + 'px',
+				maxHeight: `calc(100% - ${heightOffset + 10}px)`
 			},
 			'.react-bs-table': {
 				height: this.state.tableHeight + this.headerHeight + 'px',
-				maxHeight: 'calc(100% - 35px)',
+				maxHeight: `calc(100% - ${heightOffset + 5}px)`,
 				margin: '0',
 				borderTop: '1px lightgray solid',
 				borderRight: '1px lightgray solid'
 			},
 			'.react-bs-container-body': {
 				height: this.state.tableHeight + 'px',
-				maxHeight: 'calc(100% - 30px)',
+				maxHeight: `calc(100% - ${heightOffset}px)`,
 				overflowY: 'auto',
 				overflowX: 'hidden'
+			},
+			'.react-bs-container-header, .react-bs-container-header .table': {
+				height: this.headerHeight + 'px'
+			},
+			'.data-table-header': {
+				fontSize: '12px',
+				textAlign: 'left !important',
+				background: 'linear-gradient(to bottom, ' + color('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
+			},
+			'.data-table-row': {
+				fontSize: '12px',
+				cursor: 'pointer',
+				height: this.rowHeight + 'px'
+			},
+			'.react-bs-table-tool-bar': {
+				width: '200px',
+				marginBottom: '10px'
+			},
+			'.form-group-sm input.form-control': {
+				height: '25px'
 			}
 		};
-		const stylesheets = Object.assign({}, tableStyles, bootstrapStyles, this.styles.table, heightStyle);
-		const scrollbarOffset = 30;
+
+	};
+
+	render() {
+
+		const stylesheets = Object.assign({}, tableStyles, bootstrapStyles, this.getTableStyles());
+		const scrollbarOffset = 20;
 		const tableWidth = this.state.tableWidth + scrollbarOffset;
-		const containerStyle = [this.styles.container, {width: tableWidth + 'px', height: this.state.tableHeight + this.headerHeight + 100 + 'px'}];
+		const containerStyle = [this.styles.container, {
+			width: tableWidth + 'px',
+			height: this.state.tableHeight + this.headerHeight + this.state.tableOffsetTop + 40 + 'px',
+			maxHeight: `calc(100% - ${this.state.tableOffsetTop}px)`,
+			position: 'relative',
+			boxSizing: 'border-box',
+			padding: '10px',
+			background: 'white',
+			boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
+		}];
 
 		return (
 			<div style={containerStyle}>
 				<Style rules={stylesheets}/>
 				<div style={this.styles.heading}>Available Components</div>
-				{this.getComponents()}
+				{this.makeTable()}
 			</div>
 		)
 

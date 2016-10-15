@@ -39124,11 +39124,11 @@
 		
 		var _root2 = _interopRequireDefault(_root);
 		
-		var _lifecycleConfig = __webpack_require__(192);
+		var _lifecycleConfig = __webpack_require__(191);
 		
 		var _lifecycleConfig2 = _interopRequireDefault(_lifecycleConfig);
 		
-		var _settingsManager = __webpack_require__(193);
+		var _settingsManager = __webpack_require__(192);
 		
 		var _settingsManager2 = _interopRequireDefault(_settingsManager);
 		
@@ -47952,11 +47952,11 @@
 		
 		var _PopoutWindow2 = _interopRequireDefault(_PopoutWindow);
 		
-		var _reducers = __webpack_require__(191);
+		var _reducers = __webpack_require__(190);
 		
 		var _reducers2 = _interopRequireDefault(_reducers);
 		
-		var _lifecycleConfig = __webpack_require__(192);
+		var _lifecycleConfig = __webpack_require__(191);
 		
 		var _lifecycleConfig2 = _interopRequireDefault(_lifecycleConfig);
 		
@@ -54026,15 +54026,15 @@
 		
 		var _ComponentList2 = _interopRequireDefault(_ComponentList);
 		
-		var _LifeCycle = __webpack_require__(187);
+		var _LifeCycle = __webpack_require__(186);
 		
 		var _LifeCycle2 = _interopRequireDefault(_LifeCycle);
 		
-		var _Controls = __webpack_require__(189);
+		var _Controls = __webpack_require__(188);
 		
 		var _Controls2 = _interopRequireDefault(_Controls);
 		
-		var _styles = __webpack_require__(186);
+		var _styles = __webpack_require__(185);
 		
 		var _styles2 = _interopRequireDefault(_styles);
 		
@@ -59246,6 +59246,8 @@
 		
 		var _react2 = _interopRequireDefault(_react);
 		
+		var _reactDom = __webpack_require__(20);
+		
 		var _radium = __webpack_require__(46);
 		
 		var _radium2 = _interopRequireDefault(_radium);
@@ -59272,17 +59274,9 @@
 		
 		var _immutable2 = _interopRequireDefault(_immutable);
 		
-		var _TableCell = __webpack_require__(183);
-		
-		var _TableCell2 = _interopRequireDefault(_TableCell);
-		
-		var _DataIconCell = __webpack_require__(184);
+		var _DataIconCell = __webpack_require__(183);
 		
 		var _DataIconCell2 = _interopRequireDefault(_DataIconCell);
-		
-		var _root = __webpack_require__(19);
-		
-		var _root2 = _interopRequireDefault(_root);
 		
 		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 		
@@ -59293,6 +59287,9 @@
 		function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 		
 		function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+		// import tableStyles from '../vendor/bootstrapTableStyles';
+		// import bootstrapStyles from '../vendor/bootstrapStyles';
+		
 		
 		var ComponentList = function (_Component) {
 			_inherits(ComponentList, _Component);
@@ -59302,286 +59299,46 @@
 		
 				var _this = _possibleConstructorReturn(this, (ComponentList.__proto__ || Object.getPrototypeOf(ComponentList)).call(this, props));
 		
-				_this.rowHeight = 28;
-				_this.headerHeight = 28;
-				_this.styles = {
-					container: {
-						position: 'relative',
-						maxHeight: 'calc(100% - 60px)',
-						boxSizing: 'border-box',
-						padding: '10px',
-						background: 'white',
-						boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
-					},
-					heading: {
-						marginBottom: '20px',
-						fontSize: '14px',
-						fontWeight: 'bold'
-					},
-					table: {
-						'.data-table-row': {
-							fontSize: '12px',
-							cursor: 'pointer',
-							height: _this.rowHeight + 'px'
-						},
-						'.data-table-header': {
-							fontSize: '12px',
-							textAlign: 'left !important',
-							background: 'linear-gradient(to bottom, ' + (0, _color2.default)('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
-						},
-						'.react-bs-container-header, .react-bs-container-header .table': {
-							height: _this.headerHeight + 'px'
-						},
-						'.react-bs-table-tool-bar': {
-							width: '200px',
-							marginBottom: '10px'
-						},
-						'.form-group-sm input.form-control': {
-							height: '25px'
-						}
-					},
-					name: {
-						display: 'flex',
-						alignItems: 'center',
-						flex: '1',
-						height: '100%',
-						cursor: 'pointer',
-						opacity: '1',
-						animation: 'x 1s ease-out',
-						animationName: _radium2.default.keyframes({
-							'0%': { opacity: '0' },
-							'60%': { opacity: '0.7' },
-							'100%': { opacity: '1' }
-						}),
-						overflow: 'hidden',
-						whiteSpace: 'nowrap',
-						textOverflow: 'ellipsis',
-						fontWeight: 'bold'
-					},
-					unmountedComponent: {
-						fontWeight: 'normal',
-						color: 'gray'
-					},
-					methodName: {
-						overflow: 'hidden',
-						whiteSpace: 'nowrap',
-						textOverflow: 'ellipsis'
-					},
-					renderCount: {
-						justifyContent: 'flex-end',
-						width: '100%',
-						textAlign: 'right'
-					},
-					warning: {
-						paddingRight: '20px',
-						color: 'red',
-						fontWeight: 'bold'
-					}
-				};
-		
-				_this.getComponentTableData = function (immutableEntries) {
-					// TODO Keep these as immutables for better performance?
-					var entries = immutableEntries.toJS();
-					var sortedComponentIds = _this.getSortedComponentIds(entries);
-					return sortedComponentIds.map(function (id, ind) {
-						var entry = entries[id];
-						return {
-							isChanged: entry.isChanged,
-							name: entry.displayName,
-							renderCount: entry.renderCount,
-							warningCount: entry.unnecessaryUpdatesPrevented,
-							id: id
-						};
-					});
-				};
-		
-				_this.mergeStyles = function (stylesArray) {
-					stylesArray.unshift({});
-					return Object.assign.apply(Object, _toConsumableArray(stylesArray));
-				};
-		
-				_this.getChangedCell = function (cell, row) {
-					var isChanged = _this.props.entries.getIn([row.id, 'isChanged']);
-					var key = 'is-changed-cell-' + row.id;
-		
-					return _react2.default.createElement(_DataIconCell2.default, {
-						id: key,
-						key: key,
-						isChanged: isChanged
-					});
-				};
-		
-				_this.getComponentNameCell = function (cell, row) {
-					var componentStyle = [_this.styles.name];
-					var isMounted = _this.props.entries.getIn([row.id, 'isMounted']);
-					if (!isMounted) {
-						componentStyle.push(_this.styles.unmountedComponent);
-					}
-					var childStyle = _this.mergeStyles([_this.styles.methodName, { width: _this.state.columnWidths.name - 8 }]);
-					return _react2.default.createElement(
-						'div',
-						{ title: cell },
-						_react2.default.createElement(_TableCell2.default, {
-							id: 'name-cell-' + row.id,
-							data: cell,
-							style: _this.mergeStyles(componentStyle),
-							childStyle: childStyle
-						})
-					);
-				};
-		
-				_this.getWarningCountCell = function (cell, row) {
-					var warningCount = row.warningCount || '';
-					var tooltip = warningCount ? warningCount + ' unnecessary rerenders prevented' : '';
-		
-					return _react2.default.createElement(
-						'div',
-						{ title: tooltip, style: _this.styles.warning },
-						warningCount
-					);
-				};
-		
-				_this.getComponents = function () {
-					var selectRowSettings = {
-						clickToSelect: true,
-						mode: 'radio',
-						hideSelectColumn: true,
-						bgColor: (0, _color2.default)('lightblue').lighten(.1).hexString(),
-						onSelect: _this.handleComponentSelected,
-						selected: [_this.state.selectedComponentId]
-					};
-					var scrollbarOffset = 10;
-					var tableWidth = _this.state.tableWidth + scrollbarOffset;
-					var rowsCount = _this.state.componentTableData.length;
-					return _react2.default.createElement(
-						_reactBootstrapTable.BootstrapTable,
-						{
-							data: _this.state.componentTableData,
-							height: _this.state.tableHeight + _this.headerHeight,
-							striped: true,
-							hover: true,
-							condensed: true,
-							search: true,
-							searchPlaceholder: 'Filter',
-							clearSearch: true,
-							selectRow: selectRowSettings,
-							trClassName: 'data-table-row'
-						},
-						_react2.default.createElement(
-							_reactBootstrapTable.TableHeaderColumn,
-							{
-								dataField: 'id',
-								isKey: true,
-								hidden: true
-							},
-							'Name'
-						),
-						_react2.default.createElement(_reactBootstrapTable.TableHeaderColumn, {
-							dataField: 'changed',
-							dataFormat: _this.getChangedCell,
-							width: String(_this.state.columnWidths.changed),
-							dataAlign: 'center',
-							className: 'data-table-header'
-						}),
-						_react2.default.createElement(
-							_reactBootstrapTable.TableHeaderColumn,
-							{
-								dataField: 'name',
-								dataFormat: _this.getComponentNameCell,
-								width: String(_this.state.columnWidths.name),
-								dataSort: true,
-								className: 'data-table-header'
-							},
-							'Name'
-						),
-						_react2.default.createElement(
-							_reactBootstrapTable.TableHeaderColumn,
-							{
-								dataField: 'renderCount',
-								width: String(_this.state.columnWidths.renderCount),
-								dataAlign: 'right',
-								dataSort: true,
-								className: 'data-table-header'
-							},
-							'Rendered'
-						),
-						_react2.default.createElement(
-							_reactBootstrapTable.TableHeaderColumn,
-							{
-								dataField: 'warningCount',
-								dataFormat: _this.getWarningCountCell,
-								width: String(_this.state.columnWidths.warningCount),
-								dataAlign: 'right',
-								dataSort: true,
-								className: 'data-table-header'
-							},
-							'Warnings'
-						)
-					);
-				};
-		
-				_this.getSortedComponentIds = function (components) {
-					return Object.keys(components).sort(function (a, b) {
-						var nameA = components[a].displayName.toLowerCase();
-						var nameB = components[b].displayName.toLowerCase();
-						if (nameA < nameB) {
-							return -1;
-						}
-						if (nameA > nameB) {
-							return 1;
-						}
-						return 0;
-					});
-				};
-		
-				_this.handleComponentSelected = function (row) {
-					_this.setState({
-						selectedComponentId: row.id
-					});
-					var option = { selectedComponentId: row.id };
-					_this.props.onChange(option);
-				};
-		
-				_this.onMeasure = function (dimensions) {
-					console.log('onMeasure', dimensions.top);
-					_this.setState({
-						tableBottom: dimensions.top + dimensions.height
-					});
-				};
+				_initialiseProps.call(_this);
 		
 				var columnWidths = {
 					changed: 20,
 					name: 175,
 					renderCount: 90,
-					warningCount: 90
+					warningCount: 90,
+					scrollbarPadding: 20
 				};
 				var tableWidth = 0;
 				for (var name in columnWidths) {
 					tableWidth += columnWidths[name];
 				}
-				tableWidth = tableWidth - 10;
 				var componentTableData = _this.getComponentTableData(props.entries);
-				var rowsCount = componentTableData.length;
-				var tableHeight = _this.rowHeight * rowsCount + 5;
-				var nativeTableHeight = _this.headerHeight + _this.rowHeight * rowsCount;
+				var tableHeight = _this.getTableHeight(componentTableData);
 				_this.state = {
 					selectedComponentId: props.entries.first().get('id'),
 					componentTableData: componentTableData,
 					tableWidth: tableWidth,
 					tableBottom: 0,
-					nativeTableHeight: nativeTableHeight,
 					tableHeight: tableHeight,
-					columnWidths: columnWidths
+					columnWidths: columnWidths,
+					tableOffsetTop: 0
 				};
 				return _this;
 			}
 		
 			_createClass(ComponentList, [{
+				key: 'componentDidMount',
+				value: function componentDidMount() {
+					var tableElement = (0, _reactDom.findDOMNode)(this.refs.table);
+					this.setState({
+						tableOffsetTop: tableElement.offsetParent.offsetTop
+					});
+					console.log('to top of parent', tableElement.offsetTop, tableElement.offsetParent.offsetTop, tableElement.offsetParent.offsetParent.offsetTop);
+				}
+			}, {
 				key: 'componentWillReceiveProps',
 				value: function componentWillReceiveProps(nextProps) {
-					var componentTableData = this.getComponentTableData(nextProps.entries);
-					var rowsCount = componentTableData.length;
-					var tableHeight = this.rowHeight * rowsCount + 5;
+					var tableHeight = this.getTableHeight(componentTableData);
 					this.setState({
 						componentTableData: componentTableData,
 						tableHeight: tableHeight
@@ -59593,37 +59350,22 @@
 					return !(0, _shallowequal2.default)(this.props, nextProps) || !(0, _shallowequal2.default)(this.state, nextState);
 				}
 			}, {
-				key: 'componentWillUnmount',
-				value: function componentWillUnmount() {
-					_root2.default.getWindow().removeEventListener("resize", this.updateDimensions);
-				}
-			}, {
 				key: 'render',
 				value: function render() {
 		
-					var heightStyle = {
-						'.react-bs-table-container': {
-							height: this.state.tableHeight + this.headerHeight + 60 + 'px',
-							maxHeight: 'calc(100% - 40px)'
-						},
-						'.react-bs-table': {
-							height: this.state.tableHeight + this.headerHeight + 'px',
-							maxHeight: 'calc(100% - 35px)',
-							margin: '0',
-							borderTop: '1px lightgray solid',
-							borderRight: '1px lightgray solid'
-						},
-						'.react-bs-container-body': {
-							height: this.state.tableHeight + 'px',
-							maxHeight: 'calc(100% - 30px)',
-							overflowY: 'auto',
-							overflowX: 'hidden'
-						}
-					};
-					var stylesheets = Object.assign({}, _reactBootstrapTableAllMin2.default, _bootstrap2.default, this.styles.table, heightStyle);
-					var scrollbarOffset = 30;
+					var stylesheets = Object.assign({}, _reactBootstrapTableAllMin2.default, _bootstrap2.default, this.getTableStyles());
+					var scrollbarOffset = 20;
 					var tableWidth = this.state.tableWidth + scrollbarOffset;
-					var containerStyle = [this.styles.container, { width: tableWidth + 'px', height: this.state.tableHeight + this.headerHeight + 100 + 'px' }];
+					var containerStyle = [this.styles.container, {
+						width: tableWidth + 'px',
+						height: this.state.tableHeight + this.headerHeight + this.state.tableOffsetTop + 40 + 'px',
+						maxHeight: 'calc(100% - ' + this.state.tableOffsetTop + 'px)',
+						position: 'relative',
+						boxSizing: 'border-box',
+						padding: '10px',
+						background: 'white',
+						boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
+					}];
 		
 					return _react2.default.createElement(
 						'div',
@@ -59634,7 +59376,7 @@
 							{ style: this.styles.heading },
 							'Available Components'
 						),
-						this.getComponents()
+						this.makeTable()
 					);
 				}
 			}]);
@@ -59646,6 +59388,276 @@
 			entries: _react.PropTypes.instanceOf(_immutable2.default.Map).isRequired,
 			onChange: _react.PropTypes.func.isRequired
 		};
+		
+		var _initialiseProps = function _initialiseProps() {
+			var _this2 = this;
+		
+			this.rowHeight = 28;
+			this.headerHeight = 28;
+			this.styles = {
+				heading: {
+					marginBottom: '20px',
+					fontSize: '14px',
+					fontWeight: 'bold'
+				},
+				name: {
+					cursor: 'pointer',
+					opacity: '1',
+					animation: 'x 1s ease-out',
+					animationName: _radium2.default.keyframes({
+						'0%': { opacity: '0' },
+						'60%': { opacity: '0.7' },
+						'100%': { opacity: '1' }
+					}),
+					overflow: 'hidden',
+					whiteSpace: 'nowrap',
+					textOverflow: 'ellipsis',
+					fontWeight: 'bold'
+				},
+				unmountedComponent: {
+					fontWeight: 'normal',
+					color: 'gray'
+				},
+				methodName: {
+					overflow: 'hidden',
+					whiteSpace: 'nowrap',
+					textOverflow: 'ellipsis'
+				},
+				renderCount: {
+					justifyContent: 'flex-end',
+					width: '100%',
+					textAlign: 'right'
+				},
+				warning: {
+					color: 'red',
+					fontWeight: 'bold'
+				}
+			};
+		
+			this.getComponentTableData = function (immutableEntries) {
+				// TODO Keep these as immutables for better performance?
+				var entries = immutableEntries.toJS();
+				var sortedComponentIds = _this2.getSortedComponentIds(entries);
+				return sortedComponentIds.map(function (id) {
+					var entry = entries[id];
+					return {
+						isChanged: entry.isChanged,
+						name: entry.displayName,
+						renderCount: entry.renderCount,
+						warningCount: entry.unnecessaryUpdatesPrevented,
+						id: id
+					};
+				});
+			};
+		
+			this.getTableHeight = function (componentTableData) {
+				var rowsCount = componentTableData.length;
+				var paddingOffset = 5;
+				var tableHeight = _this2.rowHeight * rowsCount + paddingOffset;
+				return tableHeight;
+			};
+		
+			this.mergeStyles = function (stylesArray) {
+				stylesArray.unshift({});
+				return Object.assign.apply(Object, _toConsumableArray(stylesArray));
+			};
+		
+			this.getChangedCell = function (cell, row) {
+		
+				var isChanged = _this2.props.entries.getIn([row.id, 'isChanged']);
+				var key = 'is-changed-cell-' + row.id;
+		
+				return _react2.default.createElement(_DataIconCell2.default, {
+					id: key,
+					key: key,
+					isChanged: isChanged
+				});
+			};
+		
+			this.getComponentNameCell = function (cell, row) {
+				var componentStyle = [_this2.styles.name];
+				var isMounted = _this2.props.entries.getIn([row.id, 'isMounted']);
+				if (!isMounted) {
+					componentStyle.push(_this2.styles.unmountedComponent);
+				}
+				// Need to manually merge styles because Radium can't access these elements
+				// inside a custom component
+				var childStyle = _this2.mergeStyles([_this2.styles.methodName, { width: _this2.state.columnWidths.name - 8 }]);
+				return _react2.default.createElement(
+					'div',
+					{ id: 'name-cell-' + row.id, title: cell },
+					_react2.default.createElement(
+						'div',
+						{ style: _this2.mergeStyles(componentStyle) },
+						_react2.default.createElement(
+							'div',
+							{ style: childStyle },
+							cell
+						)
+					)
+				);
+			};
+		
+			this.getWarningCountCell = function (cell) {
+				var warningCount = cell || '';
+				var tooltip = warningCount ? warningCount + ' unnecessary rerenders prevented' : '';
+				return _react2.default.createElement(
+					'div',
+					{ title: tooltip, style: _this2.styles.warning },
+					warningCount
+				);
+			};
+		
+			this.makeTable = function () {
+				var selectRowSettings = {
+					clickToSelect: true,
+					mode: 'radio',
+					hideSelectColumn: true,
+					bgColor: (0, _color2.default)('lightblue').lighten(.1).hexString(),
+					onSelect: _this2.handleComponentSelected,
+					selected: [_this2.state.selectedComponentId]
+				};
+				return _react2.default.createElement(
+					_reactBootstrapTable.BootstrapTable,
+					{
+						ref: 'table',
+						keyField: 'id',
+						data: _this2.state.componentTableData,
+						height: _this2.state.tableHeight + _this2.headerHeight,
+						striped: true,
+						hover: true,
+						condensed: true,
+						search: true,
+						searchPlaceholder: 'Filter',
+						clearSearch: true,
+						selectRow: selectRowSettings,
+						trClassName: 'data-table-row'
+					},
+					_react2.default.createElement(_reactBootstrapTable.TableHeaderColumn, {
+						dataField: 'id',
+						hidden: true
+					}),
+					_react2.default.createElement(_reactBootstrapTable.TableHeaderColumn, {
+						dataField: 'changed',
+						dataFormat: _this2.getChangedCell,
+						width: _this2.state.columnWidths.changed + 'px',
+						dataAlign: 'center',
+						className: 'data-table-header'
+					}),
+					_react2.default.createElement(
+						_reactBootstrapTable.TableHeaderColumn,
+						{
+							dataField: 'name',
+							dataFormat: _this2.getComponentNameCell,
+							width: _this2.state.columnWidths.name + 'px',
+							dataSort: true,
+							className: 'data-table-header'
+						},
+						'Name'
+					),
+					_react2.default.createElement(
+						_reactBootstrapTable.TableHeaderColumn,
+						{
+							dataField: 'renderCount',
+							width: _this2.state.columnWidths.renderCount + 'px',
+							dataAlign: 'right',
+							headerAlign: 'left',
+							dataSort: true,
+							className: 'data-table-header'
+						},
+						'Rendered'
+					),
+					_react2.default.createElement(
+						_reactBootstrapTable.TableHeaderColumn,
+						{
+							dataField: 'warningCount',
+							dataFormat: _this2.getWarningCountCell,
+							width: _this2.state.columnWidths.warningCount + 'px',
+							dataAlign: 'right',
+							headerAlign: 'left',
+							dataSort: true,
+							columnClassName: '',
+							className: 'data-table-header'
+						},
+						'Warnings'
+					),
+					_react2.default.createElement(_reactBootstrapTable.TableHeaderColumn, {
+						dataField: 'scrollbarPadding',
+						width: _this2.state.columnWidths.scrollbarPadding + 'px',
+						className: 'data-table-header'
+					})
+				);
+			};
+		
+			this.getSortedComponentIds = function (components) {
+				return Object.keys(components).sort(function (a, b) {
+					var nameA = components[a].displayName.toLowerCase();
+					var nameB = components[b].displayName.toLowerCase();
+					if (nameA < nameB) {
+						return -1;
+					}
+					if (nameA > nameB) {
+						return 1;
+					}
+					return 0;
+				});
+			};
+		
+			this.handleComponentSelected = function (row) {
+				_this2.setState({
+					selectedComponentId: row.id
+				});
+				var option = { selectedComponentId: row.id };
+				_this2.props.onChange(option);
+			};
+		
+			this.getTableStyles = function () {
+		
+				var heightOffset = 30;
+		
+				// TODO Assign these styles using the table API (e.g., 'containerStyle={}')
+				return {
+					'.react-bs-table-container': {
+						height: _this2.state.tableHeight + _this2.headerHeight + _this2.state.tableOffsetTop + 'px',
+						maxHeight: 'calc(100% - ' + (heightOffset + 10) + 'px)'
+					},
+					'.react-bs-table': {
+						height: _this2.state.tableHeight + _this2.headerHeight + 'px',
+						maxHeight: 'calc(100% - ' + (heightOffset + 5) + 'px)',
+						margin: '0',
+						borderTop: '1px lightgray solid',
+						borderRight: '1px lightgray solid'
+					},
+					'.react-bs-container-body': {
+						height: _this2.state.tableHeight + 'px',
+						maxHeight: 'calc(100% - ' + heightOffset + 'px)',
+						overflowY: 'auto',
+						overflowX: 'hidden'
+					},
+					'.react-bs-container-header, .react-bs-container-header .table': {
+						height: _this2.headerHeight + 'px'
+					},
+					'.data-table-header': {
+						fontSize: '12px',
+						textAlign: 'left !important',
+						background: 'linear-gradient(to bottom, ' + (0, _color2.default)('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
+					},
+					'.data-table-row': {
+						fontSize: '12px',
+						cursor: 'pointer',
+						height: _this2.rowHeight + 'px'
+					},
+					'.react-bs-table-tool-bar': {
+						width: '200px',
+						marginBottom: '10px'
+					},
+					'.form-group-sm input.form-control': {
+						height: '25px'
+					}
+				};
+			};
+		};
+		
 		exports.default = (0, _radium2.default)(ComponentList);
 		module.exports = exports['default'];
 	
@@ -84263,100 +84275,11 @@
 		
 		var _shallowequal2 = _interopRequireDefault(_shallowequal);
 		
-		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-		
-		function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-		
-		function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-		
-		function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-		
-		var TableCell = function (_Component) {
-			_inherits(TableCell, _Component);
-		
-			function TableCell() {
-				_classCallCheck(this, TableCell);
-		
-				return _possibleConstructorReturn(this, (TableCell.__proto__ || Object.getPrototypeOf(TableCell)).apply(this, arguments));
-			}
-		
-			_createClass(TableCell, [{
-				key: 'shouldComponentUpdate',
-				value: function shouldComponentUpdate(nextProps) {
-					if (nextProps.isScrolling) {
-						return false;
-					}
-					return this.props.data !== nextProps.data || !(0, _shallowequal2.default)(this.props.style, nextProps.style) || !(0, _shallowequal2.default)(this.props.childStyle, nextProps.childStyle);
-				}
-			}, {
-				key: 'render',
-				value: function render() {
-					var _props = this.props;
-					var data = _props.data;
-					var style = _props.style;
-					var childStyle = _props.childStyle;
-		
-		
-					return _react2.default.createElement(
-						'div',
-						{ style: style },
-						_react2.default.createElement(
-							'div',
-							{ style: childStyle },
-							data
-						)
-					);
-				}
-			}]);
-		
-			return TableCell;
-		}(_react.Component);
-		
-		TableCell.propTypes = {
-			data: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number, _react.PropTypes.element]).isRequired,
-			style: _react.PropTypes.object.isRequired,
-			childStyle: _react.PropTypes.object
-		};
-		TableCell.defaultProps = {
-			rowIndex: 0,
-			childStyle: null
-		};
-		exports.default = (0, _radium2.default)(TableCell);
-		module.exports = exports['default'];
-	
-	/***/ },
-	/* 184 */
-	/***/ function(module, exports, __webpack_require__) {
-	
-		'use strict';
-		
-		Object.defineProperty(exports, "__esModule", {
-			value: true
-		});
-		
-		var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-		
-		var _react = __webpack_require__(1);
-		
-		var _react2 = _interopRequireDefault(_react);
-		
-		var _radium = __webpack_require__(46);
-		
-		var _radium2 = _interopRequireDefault(_radium);
-		
-		var _shallowequal = __webpack_require__(5);
-		
-		var _shallowequal2 = _interopRequireDefault(_shallowequal);
-		
-		var _TableCell = __webpack_require__(183);
-		
-		var _TableCell2 = _interopRequireDefault(_TableCell);
-		
-		var _Utf8Char = __webpack_require__(185);
+		var _Utf8Char = __webpack_require__(184);
 		
 		var _Utf8Char2 = _interopRequireDefault(_Utf8Char);
 		
-		var _styles = __webpack_require__(186);
+		var _styles = __webpack_require__(185);
 		
 		var _styles2 = _interopRequireDefault(_styles);
 		
@@ -84440,15 +84363,13 @@
 		}(_react.Component);
 		
 		DataIconCell.propTypes = {
-			isChanged: _react.PropTypes.object.isRequired,
-			style: _react.PropTypes.object.isRequired,
-			childStyle: _react.PropTypes.object.isRequired
+			isChanged: _react.PropTypes.object.isRequired
 		};
 		exports.default = (0, _radium2.default)(DataIconCell);
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 185 */
+	/* 184 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -84512,7 +84433,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 186 */
+	/* 185 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -84580,7 +84501,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 187 */
+	/* 186 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -84599,15 +84520,15 @@
 		
 		var _radium2 = _interopRequireDefault(_radium);
 		
-		var _Method = __webpack_require__(188);
+		var _Method = __webpack_require__(187);
 		
 		var _Method2 = _interopRequireDefault(_Method);
 		
-		var _Utf8Char = __webpack_require__(185);
+		var _Utf8Char = __webpack_require__(184);
 		
 		var _Utf8Char2 = _interopRequireDefault(_Utf8Char);
 		
-		var _styles = __webpack_require__(186);
+		var _styles = __webpack_require__(185);
 		
 		var _styles2 = _interopRequireDefault(_styles);
 		
@@ -84811,7 +84732,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 188 */
+	/* 187 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -84838,11 +84759,11 @@
 		
 		var _immutable2 = _interopRequireDefault(_immutable);
 		
-		var _Utf8Char = __webpack_require__(185);
+		var _Utf8Char = __webpack_require__(184);
 		
 		var _Utf8Char2 = _interopRequireDefault(_Utf8Char);
 		
-		var _styles = __webpack_require__(186);
+		var _styles = __webpack_require__(185);
 		
 		var _styles2 = _interopRequireDefault(_styles);
 		
@@ -85278,7 +85199,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 189 */
+	/* 188 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -85301,7 +85222,7 @@
 		
 		var _root2 = _interopRequireDefault(_root);
 		
-		var _Button = __webpack_require__(190);
+		var _Button = __webpack_require__(189);
 		
 		var _Button2 = _interopRequireDefault(_Button);
 		
@@ -85387,7 +85308,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 190 */
+	/* 189 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -85511,7 +85432,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 191 */
+	/* 190 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -85610,7 +85531,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 192 */
+	/* 191 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -85895,7 +85816,7 @@
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 193 */
+	/* 192 */
 	/***/ function(module, exports) {
 	
 		'use strict';

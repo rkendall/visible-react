@@ -4,16 +4,13 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import shallowEqual from 'shallowequal';
 
-import TableCell from './TableCell';
 import Utf8Char from './Utf8Char';
 import styles from '../styles/styles';
 
 class DataIconCell extends Component {
 
 	static propTypes = {
-		isChanged: PropTypes.object.isRequired,
-		style: PropTypes.object.isRequired,
-		childStyle: PropTypes.object.isRequired
+		isChanged: PropTypes.object.isRequired
 	};
 
 	styles = {
