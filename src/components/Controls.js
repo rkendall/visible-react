@@ -13,6 +13,7 @@ class Controls extends Component {
 			display: 'flex',
 			marginBottom: '10px',
 			padding: '10px',
+			background: 'white',
 			boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
 		},
 		checkbox: {

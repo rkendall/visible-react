@@ -26,6 +26,7 @@ class Console extends Component {
 			justifyContent: 'space-between',
 			height: '100%',
 			overflow: 'hidden',
+			background: '#f2fcff',
 			...styles.base
 		},
 		leftPanel: {

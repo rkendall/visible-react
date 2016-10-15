@@ -54059,7 +54059,8 @@
 						display: 'flex',
 						justifyContent: 'space-between',
 						height: '100%',
-						overflow: 'hidden'
+						overflow: 'hidden',
+						background: '#f2fcff'
 					}, _styles2.default.base),
 					leftPanel: {
 						position: 'relative',
@@ -59302,13 +59303,14 @@
 				var _this = _possibleConstructorReturn(this, (ComponentList.__proto__ || Object.getPrototypeOf(ComponentList)).call(this, props));
 		
 				_this.rowHeight = 28;
-				_this.headerHeight = 32;
+				_this.headerHeight = 28;
 				_this.styles = {
 					container: {
 						position: 'relative',
 						maxHeight: 'calc(100% - 60px)',
 						boxSizing: 'border-box',
 						padding: '10px',
+						background: 'white',
 						boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
 					},
 					heading: {
@@ -59324,8 +59326,11 @@
 						},
 						'.data-table-header': {
 							fontSize: '12px',
-							height: _this.headerHeight + 'px',
-							textAlign: 'left !important'
+							textAlign: 'left !important',
+							background: 'linear-gradient(to bottom, ' + (0, _color2.default)('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
+						},
+						'.react-bs-container-header, .react-bs-container-header .table': {
+							height: _this.headerHeight + 'px'
 						},
 						'.react-bs-table-tool-bar': {
 							width: '200px',
@@ -59475,7 +59480,8 @@
 							dataField: 'changed',
 							dataFormat: _this.getChangedCell,
 							width: String(_this.state.columnWidths.changed),
-							dataAlign: 'center'
+							dataAlign: 'center',
+							className: 'data-table-header'
 						}),
 						_react2.default.createElement(
 							_reactBootstrapTable.TableHeaderColumn,
@@ -84886,19 +84892,13 @@
 						fontWeight: 'bold',
 						wordBreak: 'break-word'
 					},
-					methodNameWithIcon: {
-						marginLeft: '21px'
-					},
-					methodIcon: {
-						position: 'absolute',
-						width: '16px',
-						height: '16px',
-						alignSelf: 'flex-start',
-						marginRight: '5px',
-						borderRadius: '50%',
-						cursor: 'default',
-						boxShadow: 'rgba(0, 0, 0, 0.2) -1px -1px 1px inset, rgba(255, 255, 255, 0.5) 1px 1px 1px inset',
-						background: 'linear-gradient(to bottom, lightblue 0%, ' + (0, _color2.default)('lightblue').darken(0.5).hexString() + ' 100%)'
+					overriddenName: {
+						display: 'flex',
+						alignItems: 'center',
+						margin: '-5px',
+						padding: '5px',
+						background: '#fdfdb8',
+						boxShadow: '1px 1px 3px 1px rgba(0,0,0,.3)'
 					},
 					propsAndState: {
 						display: 'flex',
@@ -84934,7 +84934,7 @@
 					times: {
 						display: 'flex',
 						justifyContent: 'space-between',
-						marginTop: '5px'
+						marginTop: '10px'
 					},
 					warning: {
 						color: 'red'
@@ -84973,23 +84973,21 @@
 				_this.getMethodName = function (methodObj) {
 					var args = _this.getArgNames(methodObj).str;
 					var name = methodObj.name === 'constructorMethod' ? 'constructor(' + args + ') or getInitialState()' : methodObj.name + '(' + args + ')';
-					var methodIcon = '';
-					var nameStyle = {};
+					var message = '';
+					var nameStyle = [_this.styles.methodName];
 					if (methodObj.isMethodOverridden) {
-						var iconMessage = 'This method exists in the wrapped component';
-						methodIcon = _react2.default.createElement('div', { style: _this.styles.methodIcon, title: iconMessage });
-						nameStyle = _this.styles.methodNameWithIcon;
+						message = 'This method exists in the wrapped component';
+						nameStyle.push(_this.styles.overriddenName);
 					}
 					return _react2.default.createElement(
 						'div',
-						{ id: name + '-name-icon' },
+						{ id: name + '-name' },
 						_react2.default.createElement(
 							'div',
-							{ style: _this.styles.methodName },
-							methodIcon,
+							{ title: message, style: nameStyle },
 							_react2.default.createElement(
 								'div',
-								{ style: nameStyle },
+								null,
 								name
 							)
 						)
@@ -85328,6 +85326,7 @@
 						display: 'flex',
 						marginBottom: '10px',
 						padding: '10px',
+						background: 'white',
 						boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
 					},
 					checkbox: {

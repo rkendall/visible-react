@@ -21,7 +21,7 @@ class ComponentList extends Component {
 	};
 
 	rowHeight = 28;
-	headerHeight = 32;
+	headerHeight = 28;
 
 	styles = {
 		container: {
@@ -29,6 +29,7 @@ class ComponentList extends Component {
 			maxHeight: 'calc(100% - 60px)',
 			boxSizing: 'border-box',
 			padding: '10px',
+			background: 'white',
 			boxShadow: '2px 2px 5px 1px rgba(0, 0, 0, 0.5)'
 		},
 		heading: {
@@ -44,8 +45,11 @@ class ComponentList extends Component {
 			},
 			'.data-table-header': {
 				fontSize: '12px',
-				height: this.headerHeight + 'px',
-				textAlign: 'left !important'
+				textAlign: 'left !important',
+				background: 'linear-gradient(to bottom, ' + color('#e6e6e6').lighten(0.7).hexString() + ' 0%, #e6e6e6 100%)'
+			},
+			'.react-bs-container-header, .react-bs-container-header .table': {
+				height: this.headerHeight + 'px'
 			},
 			'.react-bs-table-tool-bar': {
 				width: '200px',
@@ -241,6 +245,7 @@ class ComponentList extends Component {
 					dataFormat={this.getChangedCell}
 					width={String(this.state.columnWidths.changed)}
 					dataAlign='center'
+					className='data-table-header'
 				>
 				</TableHeaderColumn>
 				<TableHeaderColumn
