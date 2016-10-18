@@ -115,7 +115,11 @@ class Method extends Component {
 			alignItems: 'center',
 			margin: '5px -5px 0 -5px',
 			padding: '5px',
-			backgroundColor: 'rgba(76, 175, 80, .5)'
+			backgroundColor: 'rgba(0, 0, 0, .1)'
+		},
+		setStateCalled: {
+			backgroundColor: 'rgba(76, 175, 80, .5)',
+			boxShadow: '1px 1px 3px 1px rgba(0,0,0,.4)'
 		},
 		setStateValue: {
 			marginTop: '5px'
@@ -153,6 +157,7 @@ class Method extends Component {
 
 	getMethodName = (methodObj) => {
 		const args = this.getArgNames(methodObj).str;
+		const key = this.makeKey([methodObj.name, 'name']);
 		const name = methodObj.name === 'constructorMethod'
 			? `constructor(${args}) or getInitialState()`
 			: `${methodObj.name}(${args})`;
@@ -163,7 +168,7 @@ class Method extends Component {
 			nameStyle.push(this.styles.overriddenName);
 		}
 		return (
-			<div id={name + '-name'}>
+			<div id={key}>
 				<div title={message} style={nameStyle}>
 					<div>{name}</div>
 				</div>
@@ -189,12 +194,14 @@ class Method extends Component {
 	};
 
 	getTimesCalled = (methodObj) => {
+		const key = this.makeKey([methodObj.name, 'times', 'called']);
 		const loop = methodObj.isInfiniteLoop ? (
 			<div style={this.styles.warning}>(infinite loop terminated)</div>) : false;
 		return (
-			<div style={this.styles.times}>
+			<div key={key} id={key} style={this.styles.times}>
 				<div>Times called: {methodObj.count}</div>
-				{loop}</div>
+				{loop}
+			</div>
 		);
 	};
 
@@ -215,7 +222,7 @@ class Method extends Component {
 					? values.slice(0, 1)
 					: values;
 				valueComponents = valuesToDisplay.map((item, ind) => {
-					return this.getPropAndStateValues(valuesToDisplay, ind, type, propsOrState.isChanged);
+					return this.getPropAndStateValues(valuesToDisplay, ind, type, methodObj.name, propsOrState.isChanged);
 				});
 			}
 
@@ -231,25 +238,28 @@ class Method extends Component {
 	getPropAndStateName = (name, type, ind) => {
 		const isSecond = ind > 0;
 		const arrow = isSecond ? (<Utf8Char char='rightArrow' />) : '';
+		const key = this.makeKey([name, type, 'name', ind]);
 		return (
-			<div key={`${name}-${ind}`} style={this.styles.line}>
+			<div key={key} id={key} style={this.styles.line}>
 				<div>{arrow}{name}:</div>
 			</div>
 		);
 	};
 
-	getPropAndStateValues = (valuesToDisplay, ind, type, isChanged) => {
+	getPropAndStateValues = (valuesToDisplay, ind, type, name, isChanged) => {
 		const value = valuesToDisplay[ind];
+		const key = this.makeKey([name, type, 'value', ind]);
 		const isChangedStyle = isChanged && ((valuesToDisplay.length === 1 && ind === 0) || ind === 1)
 			? this.styles.propsAndStateChanged
 			: this.styles.propsAndStateUnchanged;
 		return (
 			<div
-				key={'value-' + ind}
+				key={key}
+				id={key}
 				onClick={this.handleShowFullText.bind(this, valuesToDisplay)}
 				style={[this.styles.value, styles[type], isChangedStyle]}
 			>
-				{value ? JSON.stringify(value).substr(0, 300) : ''}
+				{value ? JSON.stringify(value).substr(0, 300) : 'null'}
 			</div>
 		);
 	};
@@ -284,23 +294,35 @@ class Method extends Component {
 			'componentWillReceiveProps',
 			'componentDidUpdate'
 		];
+		const methodsWhereStateShouldNotBeSet = [
+			'componentDidMount',
+			'componentDidUpdate'
+		];
 		const name = methodObj.name;
+		const key = this.makeKey([name, 'set', 'state']);
 		if (validMethods.indexOf(name) === -1) {
 			return false;
 		}
-		const label = methodObj.name === 'constructorMethod' ? 'this.state = x' : 'this.setState(x)';
+		let label = methodObj.name === 'constructorMethod' ? 'this.state can be set here' : 'this.setState';
 		let stateToDisplay = false;
 		let description = false;
+		let setStateStyles = [this.styles.setState];
 		if (methodObj.isSetStateCalled) {
-			stateToDisplay = this.getSetStateNameAndValues(methodObj);
-			description = this.getDescription(methodObj);
+			setStateStyles.push(this.styles.setStateCalled);
+			label += ' called';
+			if (methodsWhereStateShouldNotBeSet.includes(name)) {
+				stateToDisplay = this.getSetStateNameAndValues(methodObj);
+				description = this.getDescription(methodObj);
+			}
+		} else if (methodObj.name !== 'constructorMethod') {
+			label += ' can be called here';
 		}
 		return (
-			<div key={label}>
-				<div style={this.styles.setState}>
+			<div key={key}>
+				<div className='set-state-label' style={setStateStyles}>
 					{label}
 				</div>
-				<div style={this.styles.setStateValue}>
+				<div className='set-state-value' style={this.styles.setStateValue}>
 					{stateToDisplay}
 					{description}
 				</div>
@@ -309,11 +331,11 @@ class Method extends Component {
 	};
 
 	getSetStateNameAndValues = (methodObj) => {
-		const name = methodObj.setState.names[0]
+		const name = methodObj.setState.names[0];
 		const ind = 0;
 		const nameComponents = this.getPropAndStateName(name, 'state', ind);
 		const valueToDisplay = methodObj.setState.values;
-		const valueComponents =  this.getPropAndStateValues(valueToDisplay, ind, 'state', methodObj.setState.isChanged);
+		const valueComponents =  this.getPropAndStateValues(valueToDisplay, ind, 'state', name, methodObj.setState.isChanged);
 		return this.getPropAndStateComponents({
 			name,
 			type: 'state',
@@ -324,7 +346,7 @@ class Method extends Component {
 
 	getPropAndStateComponents = (dataObj) => {
 
-		const baseKey = `${dataObj.name}-${dataObj.type}`;
+		const baseKey = this.makeKey([dataObj.name, dataObj.type]);
 		return (
 			<div key={baseKey} style={this.styles.propsAndState}>
 				<div key={baseKey + '-label'} style={this.styles.label}>{dataObj.nameComponents}</div>
@@ -336,20 +358,32 @@ class Method extends Component {
 
 	getArrow = (methodObj) => {
 		const arrow = (<Utf8Char char='downArrow' />);
+		const key = this.makeKey([methodObj.name, 'arrows']);
 		if (this.props.isCompactView) {
 			return (<div style={this.styles.arrow}></div>);
 		} else if (methodObj.name === 'render') {
 			return (
-				<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>
+				<div key={key} id={key} style={this.styles.arrow}>
 					<div>{arrow}</div>
 					<div>{arrow}</div>
 				</div>
 			)
 		} else if (!methodObj.terminal) {
-			return (<div key={methodObj.name + '-arrows'} style={this.styles.arrow}>{arrow}</div>);
+			return (<div key={key} id={key} style={this.styles.arrow}>{arrow}</div>);
 		} else {
-			return (<div key={methodObj.name + '-arrows'} style={[this.styles.arrow, this.styles.hidden]}>{arrow}</div>);
+			return (<div key={key} id={key} style={[this.styles.arrow, this.styles.hidden]}>{arrow}</div>);
 		}
+	};
+
+	makeKey = (names) => {
+	    return names.map((name) => {
+	    	if (typeof name !== 'string') {
+	    		return name;
+			}
+	        return name.replace(/[A-Z]/g, function(uppercaseLetter) {
+	        	return '-' + uppercaseLetter.toLowerCase();
+			});
+	    }).join('-');
 	};
 
 	handleInputChange = (event) => {

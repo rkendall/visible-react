@@ -69,7 +69,8 @@ const lifecycleConfig = {
 
 		});
 
-		return entry.set('methods', newMethods).set('isChanged', Immutable.fromJS(isChanged));
+		const newEntry = entry.set('methods', newMethods).set('isChanged', Immutable.fromJS(isChanged));
+		return newEntry;
 
 	},
 

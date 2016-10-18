@@ -128,9 +128,9 @@ class Console extends Component {
 
 	openDraggableWindow = (values) => {
 		let fullText = '';
-		const value1 = values[0];
-		const value2 = values.length === 2 ? values[1] : null;
-		if (value1 !== null && value2 !== null) {
+		const value1 = values[0] || null;
+		if (values.length === 2) {
+			const value2 = values[1] || null;
 			fullText = this.diffText(
 				JSON.stringify(value1, null, 2),
 				JSON.stringify(value2, null, 2)

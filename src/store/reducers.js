@@ -26,7 +26,9 @@ const entries = (state, action) => {
 			const newEntry = entry.set('methods', initMethods());
 			return state.setIn(['entries', id], newEntry);
 		case 'UPDATE_METHOD':
-			return state.setIn(['entries', action.entryId, 'methods', action.methodName], action.value);
+			return state.updateIn(['entries', action.entryId, 'methods', action.methodName], (method) => {
+			    return method.merge(action.value);
+			});
 		case 'UPDATE_VALUE':
 			return state.setIn(['entries', ...action.keyPath], action.value);
 		case 'INCREMENT_VALUE':
@@ -35,9 +37,10 @@ const entries = (state, action) => {
 			});
 		case 'UPDATE_METHODS':
 			// TODO Convert this to Immutable data
-			return state.updateIn(['entries', action.key, 'methods'], (methods) => {
+			const newState = state.updateIn(['entries', action.key, 'methods'], (methods) => {
 				return methods.mergeDeep(Immutable.fromJS(action.value));
 			});
+			return newState;
 		default:
 			return state;
 	}

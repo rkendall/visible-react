@@ -85,7 +85,6 @@ const root = {
 		}
 		this.isTimerOn = true;
 		setTimeout(() => {
-			console.log('timer called');
 			const entries = this.addCalculatedValues();
 			const container = consoleWindow.document.getElementById('visible-react');
 			if (!this.isWindowInitialized) {

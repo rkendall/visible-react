@@ -36,7 +36,6 @@ class Controls extends Component {
 			autoRefresh: value
 		});
 		root.autoRefresh = value;
-		console.log('status', value);
 	};
 
 	refresh = () => {

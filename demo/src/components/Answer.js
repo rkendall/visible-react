@@ -27,6 +27,12 @@ class Answer extends Component {
 		}
 	};
 
+	componentWillReceiveProps() {
+		this.setState({
+			value: 'State is set here just for fun'
+		});
+	}
+
 	render() {
 		return (
 			<div style={styles.answer} className='answer'>

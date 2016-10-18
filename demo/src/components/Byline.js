@@ -39,12 +39,18 @@ const Byline = React.createClass({
 		};
 	},
 
-	componentWillMount() {
+	componentWillReceiveProps() {
+		this.setState({
+			propsReceived: true
+		});
+	},
 
+	componentWillMount() {
+		console.log('Byline will mount');
 	},
 
 	componentWillUnmount() {
-
+		console.log('Byline mounted');
 	},
 
 	getAnswerCount: function() {

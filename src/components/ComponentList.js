@@ -5,10 +5,10 @@ import {findDOMNode} from 'react-dom';
 import Radium, {Style} from 'radium';
 import color from 'color';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-import tableStyles from 'radium!css!../vendor/react-bootstrap-table-all.min.css';
-import bootstrapStyles from 'radium!css!../vendor/bootstrap.css';
-// import tableStyles from '../vendor/bootstrapTableStyles';
-// import bootstrapStyles from '../vendor/bootstrapStyles';
+// import tableStyles from 'radium!css!../vendor/react-bootstrap-table-all.min.css';
+// import bootstrapStyles from 'radium!css!../vendor/bootstrap.css';
+import tableStyles from '../vendor/bootstrapTableStyles';
+import bootstrapStyles from '../vendor/bootstrapStyles';
 import shallowEqual from 'shallowequal';
 import Immutable from 'immutable';
 
@@ -95,10 +95,10 @@ class ComponentList extends Component {
 		this.setState({
 			tableOffsetTop: tableElement.offsetParent.offsetTop
 		});
-		console.log('to top of parent', tableElement.offsetTop, tableElement.offsetParent.offsetTop, tableElement.offsetParent.offsetParent.offsetTop);
 	}
 
 	componentWillReceiveProps(nextProps) {
+		const componentTableData = this.getComponentTableData(nextProps.entries);
 		const tableHeight = this.getTableHeight(componentTableData);
 		this.setState({
 			componentTableData,
@@ -200,7 +200,6 @@ class ComponentList extends Component {
 				condensed={true}
 				search={true}
 				searchPlaceholder='Filter'
-				clearSearch={true}
 				selectRow={selectRowSettings}
 				trClassName='data-table-row'
 			>
@@ -344,8 +343,11 @@ class ComponentList extends Component {
 		}];
 
 		return (
-			<div style={containerStyle}>
-				<Style rules={stylesheets}/>
+			<div className='component-list' style={containerStyle}>
+				<Style
+					scopeSelector='.component-list'
+					rules={stylesheets}
+				/>
 				<div style={this.styles.heading}>Available Components</div>
 				{this.makeTable()}
 			</div>

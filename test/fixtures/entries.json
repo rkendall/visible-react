@@ -1,12 +1,12 @@
 {
-  "App": {
+  "Component1": {
     "unnecessaryUpdatesPrevented": 0,
     "isChanged": {
       "props": true,
       "state": true
     },
-    "name": "App",
-    "displayName": "App",
+    "name": "Component1",
+    "displayName": "Component1",
     "isMounted": true,
     "methods": {
       "componentWillMount": {
@@ -19,135 +19,7 @@
           ],
           "values": [
             {
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              },
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "childRoutes": [
-                  {
-                    "path": "/"
-                  },
-                  {
-                    "path": "question/:id"
-                  },
-                  {
-                    "path": "new-question"
-                  },
-                  {
-                    "path": "*"
-                  }
-                ]
-              },
-              "routeParams": {},
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "actions": {}
+              "propValueForComponent1": "Component1 props"
             }
           ]
         },
@@ -157,7 +29,7 @@
           ],
           "values": [
             {
-              "_radiumStyleState": {}
+              "stateValueForComponent1": "Component1 state"
             }
           ],
           "isChanged": true
@@ -257,135 +129,7 @@
           ],
           "values": [
             {
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              },
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "childRoutes": [
-                  {
-                    "path": "/"
-                  },
-                  {
-                    "path": "question/:id"
-                  },
-                  {
-                    "path": "new-question"
-                  },
-                  {
-                    "path": "*"
-                  }
-                ]
-              },
-              "routeParams": {},
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "actions": {}
+              "propValueForComponent1": "Component1 props"
             }
           ]
         },
@@ -395,7 +139,7 @@
           ],
           "values": [
             {
-              "_radiumStyleState": {}
+              "stateValueForComponent1": "Component1 state"
             }
           ],
           "isChanged": false
@@ -416,135 +160,7 @@
           ],
           "values": [
             {
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              },
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "childRoutes": [
-                  {
-                    "path": "/"
-                  },
-                  {
-                    "path": "question/:id"
-                  },
-                  {
-                    "path": "new-question"
-                  },
-                  {
-                    "path": "*"
-                  }
-                ]
-              },
-              "routeParams": {},
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "actions": {}
+              "stateValueForComponent1": "Component1 state"
             }
           ]
         },
@@ -554,7 +170,7 @@
           ],
           "values": [
             {
-              "_radiumStyleState": {}
+              "stateValueForComponent1": "Component1 state"
             }
           ]
         },
@@ -591,7 +207,7 @@
           "nextState"
         ],
         "called": false,
-        "isMethodOverridden": false
+        "isMethodOverridden": true
       },
       "constructorMethod": {
         "isInfiniteLoop": false,
@@ -603,135 +219,7 @@
           ],
           "values": [
             {
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              },
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "childRoutes": [
-                  {
-                    "path": "/"
-                  },
-                  {
-                    "path": "question/:id"
-                  },
-                  {
-                    "path": "new-question"
-                  },
-                  {
-                    "path": "*"
-                  }
-                ]
-              },
-              "routeParams": {},
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "actions": {}
+              "propValueForComponent1": "Component1 props"
             }
           ],
           "isChanged": true
@@ -776,17 +264,17 @@
       }
     },
     "renderCount": 1,
-    "id": "App",
+    "id": "Component1",
     "lifecycleLocation": ""
   },
-  "QuestionDetail": {
+  "Component3": {
     "unnecessaryUpdatesPrevented": 0,
     "isChanged": {
-      "props": true,
-      "state": false
+      "props": false,
+      "state": true
     },
-    "name": "QuestionDetail",
-    "displayName": "QuestionDetail",
+    "name": "Component3",
+    "displayName": "Component3",
     "isMounted": true,
     "methods": {
       "componentWillMount": {
@@ -799,126 +287,7 @@
           ],
           "values": [
             {
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "path": "question/:id"
-              },
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "user": {
-                "name": "me"
-              },
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "routeParams": {
-                "id": "2"
-              },
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              }
+              "propValueForComponent3": "Component3 props"
             }
           ]
         },
@@ -927,15 +296,17 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent3": "Component3 state"
+            }
           ],
-          "isChanged": false
+          "isChanged": true
         },
         "terminal": false,
         "args": [],
         "called": true,
         "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
+        "isMethodOverridden": false
       },
       "componentDidUpdate": {
         "isInfiniteLoop": false,
@@ -1026,126 +397,7 @@
           ],
           "values": [
             {
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "path": "question/:id"
-              },
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "user": {
-                "name": "me"
-              },
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "routeParams": {
-                "id": "2"
-              },
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              }
+              "propValueForComponent3": "Component3 props"
             }
           ]
         },
@@ -1154,7 +406,9 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent3": "Component3 state"
+            }
           ],
           "isChanged": false
         },
@@ -1174,126 +428,7 @@
           ],
           "values": [
             {
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "path": "question/:id"
-              },
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "user": {
-                "name": "me"
-              },
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "routeParams": {
-                "id": "2"
-              },
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              }
+              "stateValueForComponent3": "Component3 state"
             }
           ]
         },
@@ -1302,7 +437,9 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent3": "Component3 state"
+            }
           ]
         },
         "terminal": true,
@@ -1350,126 +487,7 @@
           ],
           "values": [
             {
-              "params": {
-                "id": "2"
-              },
-              "route": {
-                "path": "question/:id"
-              },
-              "routes": [
-                {
-                  "childRoutes": [
-                    {
-                      "path": "/"
-                    },
-                    {
-                      "path": "question/:id"
-                    },
-                    {
-                      "path": "new-question"
-                    },
-                    {
-                      "path": "*"
-                    }
-                  ]
-                },
-                {
-                  "path": "question/:id"
-                }
-              ],
-              "user": {
-                "name": "me"
-              },
-              "questions": [
-                {
-                  "id": "1",
-                  "title": "What is the quickest way to double my money?",
-                  "description": "I need expert financial advice on this matter.",
-                  "user": "Jane Doe",
-                  "date": 1450016214776,
-                  "keywords": [
-                    "money",
-                    "finance",
-                    "investment"
-                  ],
-                  "answers": [
-                    {
-                      "text": "The experts are all in agreement: Just fold it in half.",
-                      "user": "Joe Blow",
-                      "date": 1470716314876
-                    }
-                  ]
-                },
-                {
-                  "id": "2",
-                  "title": "What language do they speak in Cuba?",
-                  "description": "I am planning a vacation there and want to learn some of the vocabulary in preparation.",
-                  "user": "John Smith",
-                  "date": 1470716315776,
-                  "keywords": [
-                    "language",
-                    "Cuba",
-                    "travel"
-                  ],
-                  "answers": [
-                    {
-                      "text": "Everyone knows that they speak Cubic in Cuba.",
-                      "user": "Juan",
-                      "date": 1470716316776
-                    }
-                  ]
-                },
-                {
-                  "id": "3",
-                  "title": "What's black and white and red all over?",
-                  "description": "I've searched the forum and couldn't find an answer.",
-                  "user": "May Brown",
-                  "date": 1470716319776,
-                  "keywords": [
-                    "colors",
-                    "riddles"
-                  ],
-                  "answers": [
-                    {
-                      "text": "A newspaper.",
-                      "user": "Rupert Murdoch",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "What's a newspaper?",
-                      "user": "Mark Zuckerberg",
-                      "date": 1472742254565
-                    },
-                    {
-                      "text": "A sunburned zebra.",
-                      "user": "May",
-                      "date": 1472771242555
-                    },
-                    {
-                      "text": "An old picture of Lenin.",
-                      "user": "Vladimir",
-                      "date": 1472772252565
-                    }
-                  ]
-                }
-              ],
-              "routeParams": {
-                "id": "2"
-              },
-              "history": {},
-              "location": {
-                "pathname": "/question/2",
-                "search": "",
-                "hash": "",
-                "state": null,
-                "action": "POP",
-                "key": "txnfwp",
-                "query": {},
-                "$searchBase": {
-                  "search": "",
-                  "searchBase": ""
-                }
-              }
+              "propValueForComponent3": "Component3 props"
             }
           ],
           "isChanged": true
@@ -1510,21 +528,21 @@
           "nextProps"
         ],
         "called": false,
-        "isMethodOverridden": true
+        "isMethodOverridden": false
       }
     },
     "renderCount": 1,
-    "id": "QuestionDetail",
+    "id": "Component3",
     "lifecycleLocation": ""
   },
-  "Keywords-question-details": {
-    "unnecessaryUpdatesPrevented": 0,
+  "Component2": {
+    "unnecessaryUpdatesPrevented": 2,
     "isChanged": {
       "props": true,
       "state": false
     },
-    "name": "Keywords",
-    "displayName": "Keywords (question-details)",
+    "name": "Component2",
+    "displayName": "Component2",
     "isMounted": true,
     "methods": {
       "componentWillMount": {
@@ -1537,12 +555,7 @@
           ],
           "values": [
             {
-              "id": "question-details",
-              "keywords": [
-                "language",
-                "Cuba",
-                "travel"
-              ]
+              "propValueForComponent2": "Component2 props"
             }
           ]
         },
@@ -1551,7 +564,9 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent2": "Component2 state"
+            }
           ],
           "isChanged": false
         },
@@ -1650,12 +665,7 @@
           ],
           "values": [
             {
-              "id": "question-details",
-              "keywords": [
-                "language",
-                "Cuba",
-                "travel"
-              ]
+              "propValueForComponent2": "Component2 props"
             }
           ]
         },
@@ -1664,7 +674,9 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent2": "Component2 state"
+            }
           ],
           "isChanged": false
         },
@@ -1684,12 +696,7 @@
           ],
           "values": [
             {
-              "id": "question-details",
-              "keywords": [
-                "language",
-                "Cuba",
-                "travel"
-              ]
+              "stateValueForComponent2": "Component2 state"
             }
           ]
         },
@@ -1698,7 +705,9 @@
             "this.state"
           ],
           "values": [
-            null
+            {
+              "stateValueForComponent2": "Component2 state"
+            }
           ]
         },
         "terminal": true,
@@ -1746,12 +755,7 @@
           ],
           "values": [
             {
-              "id": "question-details",
-              "keywords": [
-                "language",
-                "Cuba",
-                "travel"
-              ]
+              "propValueForComponent2": "Component2 props"
             }
           ],
           "isChanged": true
@@ -1796,18 +800,17 @@
       }
     },
     "renderCount": 1,
-    "id": "Keywords-question-details",
-    "lifecycleLocation": "",
-    "key": "question-details"
+    "id": "Component2",
+    "lifecycleLocation": ""
   },
-  "Byline-question-details": {
+  "Component4": {
     "unnecessaryUpdatesPrevented": 0,
     "isChanged": {
       "props": true,
       "state": true
     },
-    "name": "Byline",
-    "displayName": "Byline (question-details)",
+    "name": "Component4",
+    "displayName": "Component4",
     "isMounted": true,
     "methods": {
       "componentWillMount": {
@@ -1820,10 +823,7 @@
           ],
           "values": [
             {
-              "id": "question-details",
-              "user": "John Smith",
-              "date": 1470716315776,
-              "answerCount": null
+              "propValueForComponent4": "Component4 props"
             }
           ]
         },
@@ -1833,289 +833,10 @@
           ],
           "values": [
             {
-              "user": "John Smith"
+              "stateValueForComponent4": "Component4 state"
             }
           ],
           "isChanged": true
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentDidUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentDidUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "prevProps",
-            "this.props"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "prevState",
-            "this.state"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [
-          "prevProps",
-          "prevState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "componentWillUnmount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUnmount",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": []
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": true,
-        "args": [],
-        "called": false,
-        "isMethodOverridden": true
-      },
-      "shouldComponentUpdate": {
-        "isInfiniteLoop": false,
-        "name": "shouldComponentUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "isChanged": false,
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "render": {
-        "isInfiniteLoop": false,
-        "name": "render",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "id": "question-details",
-              "user": "John Smith",
-              "date": 1470716315776,
-              "answerCount": null
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "user": "John Smith"
-            }
-          ],
-          "isChanged": false
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentDidMount": {
-        "isInfiniteLoop": false,
-        "name": "componentDidMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "id": "question-details",
-              "user": "John Smith",
-              "date": 1470716315776,
-              "answerCount": null
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "user": "John Smith"
-            }
-          ]
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": false
-      },
-      "componentWillUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "constructorMethod": {
-        "isInfiniteLoop": false,
-        "name": "constructorMethod",
-        "count": 1,
-        "props": {
-          "names": [
-            "props"
-          ],
-          "values": [
-            {
-              "id": "question-details",
-              "user": "John Smith",
-              "date": 1470716315776,
-              "answerCount": null
-            }
-          ],
-          "isChanged": true
-        },
-        "state": {
-          "names": [],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "props"
-        ],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentWillReceiveProps": {
-        "isInfiniteLoop": false,
-        "name": "componentWillReceiveProps",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false,
-          "isChanged": false
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "nextProps"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      }
-    },
-    "renderCount": 1,
-    "id": "Byline-question-details",
-    "lifecycleLocation": "",
-    "key": "question-details"
-  },
-  "Answer-answer-0": {
-    "unnecessaryUpdatesPrevented": 0,
-    "isChanged": {
-      "props": true,
-      "state": false
-    },
-    "name": "Answer",
-    "displayName": "Answer (answer-0)",
-    "isMounted": true,
-    "methods": {
-      "componentWillMount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "text": "Everyone knows that they speak Cubic in Cuba.",
-              "user": "Juan",
-              "date": 1470716316776,
-              "id": "answer-0"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            null
-          ],
-          "isChanged": false
         },
         "terminal": false,
         "args": [],
@@ -2212,174 +933,7 @@
           ],
           "values": [
             {
-              "text": "Everyone knows that they speak Cubic in Cuba.",
-              "user": "Juan",
-              "date": 1470716316776,
-              "id": "answer-0"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            null
-          ],
-          "isChanged": false
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentDidMount": {
-        "isInfiniteLoop": false,
-        "name": "componentDidMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "text": "Everyone knows that they speak Cubic in Cuba.",
-              "user": "Juan",
-              "date": 1470716316776,
-              "id": "answer-0"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            null
-          ]
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": false
-      },
-      "componentWillUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "constructorMethod": {
-        "isInfiniteLoop": false,
-        "name": "constructorMethod",
-        "count": 1,
-        "props": {
-          "names": [
-            "props"
-          ],
-          "values": [
-            {
-              "text": "Everyone knows that they speak Cubic in Cuba.",
-              "user": "Juan",
-              "date": 1470716316776,
-              "id": "answer-0"
-            }
-          ],
-          "isChanged": true
-        },
-        "state": {
-          "names": [],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "props"
-        ],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentWillReceiveProps": {
-        "isInfiniteLoop": false,
-        "name": "componentWillReceiveProps",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false,
-          "isChanged": false
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "nextProps"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      }
-    },
-    "renderCount": 1,
-    "id": "Answer-answer-0",
-    "lifecycleLocation": "",
-    "key": "answer-0"
-  },
-  "Byline-answer-answer-0": {
-    "unnecessaryUpdatesPrevented": 0,
-    "isChanged": {
-      "props": true,
-      "state": true
-    },
-    "name": "Byline",
-    "displayName": "Byline (answer-answer-0)",
-    "isMounted": true,
-    "methods": {
-      "componentWillMount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "id": "answer-answer-0",
-              "user": "Juan",
-              "date": 1470716316776,
-              "answerCount": null
+              "propValueForComponent4": "Component4 props"
             }
           ]
         },
@@ -2389,120 +943,7 @@
           ],
           "values": [
             {
-              "user": "Juan"
-            }
-          ],
-          "isChanged": true
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentDidUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentDidUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "prevProps",
-            "this.props"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "prevState",
-            "this.state"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [
-          "prevProps",
-          "prevState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "componentWillUnmount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUnmount",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": []
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": true,
-        "args": [],
-        "called": false,
-        "isMethodOverridden": true
-      },
-      "shouldComponentUpdate": {
-        "isInfiniteLoop": false,
-        "name": "shouldComponentUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "isChanged": false,
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "render": {
-        "isInfiniteLoop": false,
-        "name": "render",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "id": "answer-answer-0",
-              "user": "Juan",
-              "date": 1470716316776,
-              "answerCount": null
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "user": "Juan"
+              "stateValueForComponent4": "Component4 state"
             }
           ],
           "isChanged": false
@@ -2523,10 +964,7 @@
           ],
           "values": [
             {
-              "id": "answer-answer-0",
-              "user": "Juan",
-              "date": 1470716316776,
-              "answerCount": null
+              "stateValueForComponent4": "Component4 state"
             }
           ]
         },
@@ -2536,7 +974,7 @@
           ],
           "values": [
             {
-              "user": "Juan"
+              "stateValueForComponent4": "Component4 state"
             }
           ]
         },
@@ -2585,10 +1023,7 @@
           ],
           "values": [
             {
-              "id": "answer-answer-0",
-              "user": "Juan",
-              "date": 1470716316776,
-              "answerCount": null
+              "propValueForComponent4": "Component4 props"
             }
           ],
           "isChanged": true
@@ -2633,276 +1068,7 @@
       }
     },
     "renderCount": 1,
-    "id": "Byline-answer-answer-0",
-    "lifecycleLocation": "",
-    "key": "answer-answer-0"
-  },
-  "SubmitAnswer": {
-    "unnecessaryUpdatesPrevented": 0,
-    "isChanged": {
-      "props": true,
-      "state": true
-    },
-    "name": "SubmitAnswer",
-    "displayName": "SubmitAnswer",
-    "isMounted": true,
-    "methods": {
-      "componentWillMount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "questionId": "2"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "answerText": ""
-            }
-          ],
-          "isChanged": true
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": false
-      },
-      "componentDidUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentDidUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "prevProps",
-            "this.props"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "prevState",
-            "this.state"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [
-          "prevProps",
-          "prevState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "componentWillUnmount": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUnmount",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": []
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": true,
-        "args": [],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "shouldComponentUpdate": {
-        "isInfiniteLoop": false,
-        "name": "shouldComponentUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "isChanged": false,
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": true
-      },
-      "render": {
-        "isInfiniteLoop": false,
-        "name": "render",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "questionId": "2"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "answerText": ""
-            }
-          ],
-          "isChanged": false
-        },
-        "terminal": false,
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentDidMount": {
-        "isInfiniteLoop": false,
-        "name": "componentDidMount",
-        "count": 1,
-        "props": {
-          "names": [
-            "this.props"
-          ],
-          "values": [
-            {
-              "questionId": "2"
-            }
-          ]
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": [
-            {
-              "answerText": ""
-            }
-          ]
-        },
-        "terminal": true,
-        "description": "Avoid calling setState here because it will trigger an extra render.",
-        "args": [],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": false
-      },
-      "componentWillUpdate": {
-        "isInfiniteLoop": false,
-        "name": "componentWillUpdate",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "state": {
-          "names": [
-            "this.state",
-            "nextState"
-          ],
-          "values": [],
-          "arePartnersDifferent": false
-        },
-        "terminal": false,
-        "args": [
-          "nextProps",
-          "nextState"
-        ],
-        "called": false,
-        "isMethodOverridden": false
-      },
-      "constructorMethod": {
-        "isInfiniteLoop": false,
-        "name": "constructorMethod",
-        "count": 1,
-        "props": {
-          "names": [
-            "props"
-          ],
-          "values": [
-            {
-              "questionId": "2"
-            }
-          ],
-          "isChanged": true
-        },
-        "state": {
-          "names": [],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "props"
-        ],
-        "called": true,
-        "lifecycleLocation": "mounting",
-        "isMethodOverridden": true
-      },
-      "componentWillReceiveProps": {
-        "isInfiniteLoop": false,
-        "name": "componentWillReceiveProps",
-        "count": 0,
-        "props": {
-          "names": [
-            "this.props",
-            "nextProps"
-          ],
-          "values": [],
-          "arePartnersDifferent": false,
-          "isChanged": false
-        },
-        "state": {
-          "names": [
-            "this.state"
-          ],
-          "values": []
-        },
-        "terminal": false,
-        "args": [
-          "nextProps"
-        ],
-        "called": false,
-        "isMethodOverridden": true
-      }
-    },
-    "renderCount": 1,
-    "id": "SubmitAnswer",
+    "id": "Component4",
     "lifecycleLocation": ""
   }
 }

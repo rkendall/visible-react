@@ -63,8 +63,6 @@ const visibleSettings = {
 	monitor: true
 };
 
-App = Radium(Visible(visibleSettings)(App));
-
 export default connect(
 	mapStateToProps
-)(App);
+)(Radium(Visible(visibleSettings)(App)));

@@ -21,8 +21,8 @@ function Visible(wrapperParams) {
 		if (!settings.enabled || (!settings.monitor && !settings.logging && settings.compare === 'none')) {
 
 			// Do nothing
-			return class ComponentWrapper extends WrappedComponent {
-
+			return class DisabledComponentWrapper extends WrappedComponent {
+				static displayName = getComponentName(WrappedComponent);
 			}
 
 		}
@@ -31,7 +31,9 @@ function Visible(wrapperParams) {
 
 
 			// Only prevent unnecessary rerenders
-			return class ComponentWrapper extends WrappedComponent {
+			return class MinimalComponentWrapper extends WrappedComponent {
+
+				static displayName = getComponentName(WrappedComponent);
 
 				shouldComponentUpdate(nextProps, nextState) {
 
@@ -58,9 +60,9 @@ function Visible(wrapperParams) {
 		}
 
 		// Full set of features
-		return class DevComponentWrapper extends WrappedComponent {
+		return class FullComponentWrapper extends WrappedComponent {
 
-			static displayName = `Insure(${getComponentName(WrappedComponent)})`;
+			static displayName = getComponentName(WrappedComponent);
 
 			logEntryId = null;
 			autoRenderCount = 0;
@@ -110,13 +112,17 @@ function Visible(wrapperParams) {
 			}
 
 			componentWillMount() {
+				let isSetStateCalled = false;
+				let setStateValue = null;
 				if (super.componentWillMount) {
-					super.componentWillMount();
+					({isSetStateCalled, setStateValue} = this.getSetState(super.componentWillMount.bind(this)));
 				}
 				this.handleLifecycleEvent({
 					name: 'componentWillMount',
 					props: [this.props],
-					state: [this.state]
+					state: [this.state],
+					setState: [setStateValue],
+					isSetStateCalled
 				});
 			}
 
@@ -146,15 +152,19 @@ function Visible(wrapperParams) {
 			}
 
 			componentWillReceiveProps(nextProps) {
+				let isSetStateCalled = false;
+				let setStateValue = null;
 				if (super.componentWillReceiveProps) {
-					super.componentWillReceiveProps(nextProps);
+					({isSetStateCalled, setStateValue} = this.getSetState(super.componentWillReceiveProps.bind(this, nextProps)));
 				}
 				this.lifecycleLocation = 'updating';
 				this.clearCalled();
 				this.handleLifecycleEvent({
 					name: 'componentWillReceiveProps',
 					props: [this.props, nextProps],
-					state: [this.state]
+					state: [this.state],
+					setState: [setStateValue],
+					isSetStateCalled
 				});
 				this.isRenderingComplete = false;
 			}

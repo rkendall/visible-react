@@ -10,8 +10,9 @@
   "scripts": {
     "build": "./build.sh",
     "gulp": "gulp default",
+    "test": "mocha --compilers js:babel-register --recursive",
     "test-config": "mocha test/ConfigureSpec.js --compilers js:babel-register --recursive",
-    "test": "mocha test/ConfigureSpec.js --compilers js:babel-register --recursive && mocha-webpack --webpack-config webpack.config-test.js \"test/MonitorSpec.js\""
+    "test-all": "mocha test/ConfigureSpec.js --compilers js:babel-register --recursive && mocha-webpack --webpack-config webpack.config-test.js \"test/MonitorSpec.js\""
   },
   "author": "Robert Kendall <kendall@wordcircuits.com> (http://robertkendall.com)",
   "license": "MIT",

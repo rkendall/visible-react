@@ -8,7 +8,7 @@ gulpfile.js
 npm-debug.log
 node_modules/
 demo
-images
 src
 test
 scripts
+webpack.config-test.js
