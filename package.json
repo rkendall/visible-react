@@ -1,6 +1,6 @@
 {
   "name": "visible-react",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Debugging and optimization tool for React lifecycle events",
   "repository": {
     "type": "git",
